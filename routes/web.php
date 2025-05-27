@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/backend/beranda', [HomeController::class, 'index'])->name('homepage')->middleware('auth');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
