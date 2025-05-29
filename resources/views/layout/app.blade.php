@@ -9,8 +9,8 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="/yummy-red/assets/img/favicon.png" rel="icon">
-    <link href="/yummy-red/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/images/logo.webp" rel="icon">
+    <link href="/images/logo.webp" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
