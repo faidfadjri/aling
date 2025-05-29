@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     function index()
     {
-        return view('pages.index', [
+        return view('pages.client.index', [
             'active' => 'beranda'
         ]);
     }

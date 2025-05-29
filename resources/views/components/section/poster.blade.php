@@ -7,7 +7,7 @@
         <div class="row align-items-center gy-5 flex-column-reverse flex-lg-row">
             <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="position-relative">
-                    <img src="/images/poster-aling.webp" class="img-fluid rounded shadow"
+                    <img src="/assets/images/poster-aling.webp" class="img-fluid rounded shadow"
                         style="max-height: 350px; object-fit: cover; width: 100%;" alt="Ayam Potong Aling">
                 </div>
             </div>

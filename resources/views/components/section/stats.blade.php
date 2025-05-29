@@ -1,6 +1,6 @@
 <section id="stats" class="stats section dark-background">
 
-    <img src="/images/chicken.webp"
+    <img src="/assets/images/chicken.webp"
         alt="Fresh whole chicken prepared for delivery on a clean surface with a bright and welcoming atmosphere, representing Aling Ayam Potong Keliling service"
         data-aos="fade-in" style="opacity:0.9;">
 

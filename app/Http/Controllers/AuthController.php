@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     function index()
     {
-        return view('backend.auth.login');
+        return view('pages.auth.login');
+    }
+
+    function register()
+    {
+        return view('pages.auth.register');
     }
 
     function authorizeUser(Request $request)

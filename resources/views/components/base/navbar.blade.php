@@ -2,7 +2,7 @@
      <div class="container position-relative d-flex align-items-center justify-content-between">
 
          <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
-             <img src="/images/logo.webp" alt="">
+             <img src="/assets/images/logo.webp" alt="">
          </a>
          <nav id="navmenu" class="navmenu">
              <ul>
@@ -15,6 +15,6 @@
              <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
          </nav>
 
-         <a class="btn-getstarted" href="index.html#book-a-table">Daftar / Masuk</a>
+         <a class="btn-getstarted" href="{{ route('login') }}">Daftar / Masuk</a>
      </div>
  </header>

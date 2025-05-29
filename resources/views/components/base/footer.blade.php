@@ -42,7 +42,7 @@
                         <a href="{{ env('WHATSAPP_LINK') }}" class="whatsapp"><i class="bi bi-whatsapp"></i></a>
                     </div>
                     <div class="mt-2">
-                        <img src="/images/logo.webp" alt="Aling Logo" style="max-width: 80px;">
+                        <img src="/assets/images/logo.webp" alt="Aling Logo" style="max-width: 80px;">
                     </div>
                 </div>
             </div>

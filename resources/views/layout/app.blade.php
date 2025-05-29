@@ -26,8 +26,8 @@
     <meta name="twitter:image" content="/images/logo.webp">
 
     <!-- Favicons -->
-    <link href="/images/logo.webp" rel="icon">
-    <link href="/images/logo.webp" rel="apple-touch-icon">
+    <link href="/assets/images/logo.webp" rel="icon">
+    <link href="/assets/images/logo.webp" rel="apple-touch-icon">
 
     <!-- Canonical -->
     <link rel="canonical" href="{{ url()->current() }}">

@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
-                <img src="/images/raw-whole-chicken.webp" class="img-fluid animated" alt="">
+                <img src="/assets/images/raw-whole-chicken.webp" class="img-fluid animated" alt="">
             </div>
         </div>
     </div>
