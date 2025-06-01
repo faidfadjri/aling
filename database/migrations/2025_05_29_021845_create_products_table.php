@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->text('description');
             $table->foreignId('category_id')->constrained('product_categories')->onDelete('cascade');
             $table->decimal('price', 10, 2);
-            $table->enum('status', ['active', 'inactive']);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
