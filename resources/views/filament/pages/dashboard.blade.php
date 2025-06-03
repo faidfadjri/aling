@@ -6,7 +6,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
-            /* Light gray background */
         }
 
         .chart-canvas {
@@ -14,18 +13,21 @@
             height: auto;
         }
     </style>
+
     <div class="w-full max-w-7xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <section class="bg-white rounded-xl p-6 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl">
                 <h2 class="text-2xl font-bold text-gray-800 pb-3 mb-4 border-b-2 border-blue-500">Orders Summary</h2>
                 <ul class="list-none p-0 m-0">
-                    <li class="text-lg mb-2 text-gray-700">Total Orders: <span class="font-bold">120</span></li>
-                    <li class="text-lg mb-2 text-gray-700">Pending: <span class="font-bold text-amber-500">30</span></li>
-                    <li class="text-lg mb-2 text-gray-700">Confirmed: <span class="font-bold text-blue-600">60</span>
-                    </li>
-                    <li class="text-lg mb-2 text-gray-700">Delivered: <span class="font-bold text-emerald-500">30</span>
-                    </li>
+                    <li class="text-lg mb-2 text-gray-700">Total Orders: <span
+                            class="font-bold">{{ $totalOrders }}</span></li>
+                    <li class="text-lg mb-2 text-gray-700">Pending: <span
+                            class="font-bold text-amber-500">{{ $pendingOrders }}</span></li>
+                    <li class="text-lg mb-2 text-gray-700">Confirmed: <span
+                            class="font-bold text-blue-600">{{ $confirmedOrders }}</span></li>
+                    <li class="text-lg mb-2 text-gray-700">Delivered: <span
+                            class="font-bold text-emerald-500">{{ $deliveredOrders }}</span></li>
                 </ul>
             </section>
 
@@ -40,17 +42,18 @@
 
             <section class="bg-white rounded-xl p-6 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl">
                 <h2 class="text-2xl font-bold text-gray-800 pb-3 mb-4 border-b-2 border-blue-500">Products</h2>
-                <p class="text-5xl font-extrabold text-gray-800 text-center mt-4">500</p>
+                <p class="text-5xl font-extrabold text-gray-800 text-center mt-4">{{ $totalProducts }}</p>
             </section>
 
             <section class="bg-white rounded-xl p-6 shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl">
                 <h2 class="text-2xl font-bold text-gray-800 pb-3 mb-4 border-b-2 border-blue-500">Product Categories
                 </h2>
-                <p class="text-5xl font-extrabold text-gray-800 text-center mt-4">15</p>
+                <p class="text-5xl font-extrabold text-gray-800 text-center mt-4">{{ $totalCategories }}</p>
             </section>
 
         </div>
     </div>
+
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -64,9 +67,9 @@
                 datasets: [{
                     label: 'Orders Status',
                     data: [
-                        {{ $pendingOrders ?? 0 }},
-                        {{ $confirmedOrders ?? 0 }},
-                        {{ $deliveredOrders ?? 0 }}
+                        {{ $pendingOrders }},
+                        {{ $confirmedOrders }},
+                        {{ $deliveredOrders }}
                     ],
                     backgroundColor: [
                         'rgba(251, 191, 36, 0.8)', // kuning (pending)
