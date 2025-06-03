@@ -23,3 +23,4 @@ Route::get('/daftar', [AuthController::class, 'register'])->name('register');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/login', [AuthController::class, 'authorizeUser'])->name('login.post');
+Route::redirect('/admin', '/admin/dashboard');
