@@ -18,11 +18,11 @@
     <link href="/assets/images/logo.webp" rel="apple-touch-icon">
 
     <!-- Vendor CSS Files -->
-    <link href="/yummy-red/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/yummy-red/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-    <link href="/yummy-red/assets/vendor/aos/aos.css" rel="stylesheet" />
-    <link href="/yummy-red/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
-    <link href="/yummy-red/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="/templates/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/templates/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/templates/assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link href="/templates/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+    <link href="/templates/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -58,13 +58,13 @@
     </div>
 
     <!-- Vendor JS Files -->
-    <script src="/yummy-red/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/yummy-red/assets/vendor/php-email-form/validate.js"></script>
-    <script src="/yummy-red/assets/vendor/aos/aos.js"></script>
-    <script src="/yummy-red/assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="/yummy-red/assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="/yummy-red/assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="/yummy-red/assets/js/main.js"></script>
+    <script src="/templates/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/templates/assets/vendor/php-email-form/validate.js"></script>
+    <script src="/templates/assets/vendor/aos/aos.js"></script>
+    <script src="/templates/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/templates/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="/templates/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/templates/assets/js/main.js"></script>
     <script>
         AOS.init();
     </script>
