@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/backend/beranda', [HomeController::class, 'index'])->name('homepage')->middleware('auth');
 Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::get('/daftar', [AuthController::class, 'register'])->name('register');
+Route::get('/daftar', [AuthController::class, 'register']);
+Route::post('/pendaftaran', [AuthController::class, 'registerStore'])->name('register');
 
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
