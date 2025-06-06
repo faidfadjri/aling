@@ -74,7 +74,7 @@ class ProductResource extends Resource
                 TextColumn::make('name')->sortable()->searchable(),
                 ImageColumn::make('image')->label('Photo')->circular(),
                 TextColumn::make('category.name')->label('Category')->sortable(),
-                TextColumn::make('price')->money('usd', true),
+                TextColumn::make('price')->money('idr', true),
                 IconColumn::make('status')
                     ->label('Aktif')
                     ->boolean(),
