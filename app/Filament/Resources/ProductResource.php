@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -13,6 +14,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -32,6 +34,15 @@ class ProductResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+
+                FileUpload::make('image')
+                    ->label('Product Image')
+                    ->image()
+                    ->directory('products')
+                    ->imagePreviewHeight('200')
+                    ->maxSize(2048) // 2MB
+                    ->required(),
+
 
                 Forms\Components\RichEditor::make('description')
                     ->required(),
@@ -61,6 +72,7 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->sortable()->searchable(),
+                ImageColumn::make('image')->label('Photo')->circular(),
                 TextColumn::make('category.name')->label('Category')->sortable(),
                 TextColumn::make('price')->money('usd', true),
                 IconColumn::make('status')
