@@ -2,7 +2,7 @@
     <div class="container p-5">
         <div class="row gy-4 justify-content-center justify-content-lg-between">
             <div class="col-lg-5 order-2 order-lg-1 d-flex flex-column justify-content-center">
-                <h1 data-aos="fade-up">Aling<br>Ayam Keliling</h1>
+                <h1 data-aos="fade-up">Ayam Keliling 88 (Aling)</h1>
                 <p data-aos="fade-up" data-aos-delay="100">Nikmati kelezatan ayam segar, langsung diantar ke depan pintu
                     Anda!</p>
                 <div class="d-flex" data-aos="fade-up" data-aos-delay="200">

@@ -40,14 +40,14 @@
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="/templates/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/templates/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="/templates/assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="/templates/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="/templates/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/templates/yummy-red/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/templates/yummy-red/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/templates/yummy-red/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="/templates/yummy-red/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/templates/yummy-red/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS File -->
-    <link href="/templates/assets/css/main.css" rel="stylesheet">
+    <link href="/templates/yummy-red/assets/css/main.css" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -73,16 +73,16 @@
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
-    <div id="preloader"></div>
+    {{-- <div id="preloader"></div> --}}
 
-    <script src="/templates/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/templates/assets/vendor/php-email-form/validate.js"></script>
-    <script src="/templates/assets/vendor/aos/aos.js"></script>
-    <script src="/templates/assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="/templates/assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="/templates/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/templates/yummy-red/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/templates/yummy-red/assets/vendor/php-email-form/validate.js"></script>
+    <script src="/templates/yummy-red/assets/vendor/aos/aos.js"></script>
+    <script src="/templates/yummy-red/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/templates/yummy-red/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="/templates/yummy-red/assets/vendor/swiper/swiper-bundle.min.js"></script>
 
-    <script src="/templates/assets/js/main.js"></script>
+    <script src="/templates/yummy-red/assets/js/main.js"></script>
 
 </body>
 
