@@ -26,7 +26,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="stylesheet" href="/assets/css/login.css">
+    <link rel="stylesheet" href="/assets/css/auth.css">
 </head>
 
 <body>
@@ -36,24 +36,35 @@
             <i class="bi bi-arrow-left"></i> Kembali
         </a>
         <img src="/assets/images/logo.webp" alt="E-Commerce Logo" class="login-logo">
-        <h2>Aling (Ayam Keliling)</h2>
-        <div class="subtitle">Silahkan login sebelum melakukan pemesanan</div>
-        <form>
+        <div class="d-flex flex-column gap-2">
+            <h1>Aling (Ayam Keliling)</h1>
+            <div class="subtitle">Silahkan login sebelum melakukan pemesanan</div>
+        </div>
+
+        @if (session('error'))
+            <div class="alert alert-danger text-center">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('login.store') }}">
+            @csrf
             <div class="form-group input-wrapper">
                 <i class="bi bi-person icon-input"></i>
-                <input type="text" class="form-control" id="username" placeholder="Email atau username" required
-                    autocomplete="username" />
+                <input type="text" class="form-control" id="email" placeholder="Masukan Email" required
+                    autocomplete="email" name="email" />
             </div>
             <div class="form-group input-wrapper">
                 <i class="bi bi-lock icon-input"></i>
-                <input type="password" class="form-control" id="password" placeholder="Password" required
-                    autocomplete="current-password" />
+                <input type="password" class="form-control" id="password" placeholder="Masukan Kata Sandi" required
+                    autocomplete="current-password" name="password" />
             </div>
-            <a href="#" class="forgot-link">Lupa kata sandi?</a>
-            <button type="submit" class="btn btn-submit w-100 mb-2">Masuk</button>
-            <a href="{{ route('register') }}" class="btn btn-register w-100" onclick="location.href='register.html'">
-                Daftar
-            </a>
+            <div class="d-flex flex-column gap-2">
+                <button type="submit" class="btn btn-primary w-100 mb-2">Masuk</button>
+                <a href="{{ route('register') }}" class="btn btn-primary-outline w-100">
+                    Daftar
+                </a>
+            </div>
         </form>
     </div>
 

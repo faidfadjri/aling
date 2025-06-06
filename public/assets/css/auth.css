@@ -1,0 +1,269 @@
+/* Reset dasar */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    background: linear-gradient(135deg, #fff 60%, #ffeaea 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #111;
+    margin: 0;
+}
+
+/* Container login dan register - styling sama */
+.login-container,
+.register-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    padding: 48px 36px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    font-family: "Roboto", sans-serif;
+    color: #111;
+}
+
+/* Logo */
+.login-logo,
+.register-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin: 0 auto 20px;
+}
+
+/* Judul */
+.login-container h1,
+.register-container h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0;
+    color: #2c3e50;
+}
+
+/* Subtitle */
+.subtitle,
+.register-container .subtitle {
+    font-size: 1rem;
+    color: black;
+    opacity: 0.5;
+    margin-bottom: 24px;
+}
+
+/* Flash message styling */
+.alert {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
+    text-align: left;
+}
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+}
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+/* Validation errors list */
+.alert ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+/* Form styling (login & register) */
+form,
+.register-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Input wrapper & icon */
+.input-wrapper {
+    position: relative;
+}
+.icon-input {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    color: #999;
+}
+
+/* Input style minimalis */
+input.form-control,
+.register-container input.form-control {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    padding: 12px 12px 12px 40px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    transition: border-color 0.3s ease;
+    background-color: transparent;
+}
+
+input.form-control:focus,
+.register-container input.form-control:focus {
+    outline: none;
+    border-bottom-color: var(--accent-color);
+    color: #111;
+}
+
+/* Teks kecil (upload photo note) */
+.register-container p {
+    font-size: 12px;
+    opacity: 0.6;
+    text-align: left;
+    margin: 0 0 6px 0;
+}
+
+/* Tombol link kembali */
+.btn-link-back,
+.btn.btn-link {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    font-size: 1em;
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-link-back:hover,
+.btn.btn-link:hover {
+    text-decoration: underline;
+}
+
+/* Link lupa password */
+.forgot-link {
+    font-size: 0.95rem;
+    text-align: right;
+    color: var(--accent-color);
+    text-decoration: none;
+    margin-bottom: 16px;
+    display: block;
+    transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Photo upload input wrapper */
+.input-wrapper.photo-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+    font-size: 12px;
+    opacity: 0.7;
+    position: relative;
+    width: 100%;
+}
+
+/* Photo upload box */
+.photo-upload-box {
+    width: 50px;
+    height: 50px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: border-color 0.3s ease, background-color 0.2s ease;
+    position: relative;
+    background-color: #fafafa;
+}
+
+.photo-upload-box:hover {
+    border-color: #3498db;
+    background-color: #f0f8ff;
+}
+
+/* Sembunyikan input file asli */
+.photo-upload-box input[type="file"] {
+    display: none;
+}
+
+/* Icon upload */
+.photo-upload-box .icon-upload {
+    font-size: 32px;
+    color: #bbb;
+    user-select: none;
+}
+
+/* Preview gambar */
+.photo-preview {
+    margin-top: 12px;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: none;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+.photo-preview:hover {
+    box-shadow: 0 0 15px 3px #3498dbaa;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.icon-input {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #aaa;
+  font-size: 1rem;
+}
+
+
+/* Responsive kecil */
+@media (max-width: 480px) {
+    .login-container,
+    .register-container {
+        padding: 30px 20px;
+        max-width: 100%;
+        margin: 20px;
+    }
+
+    .login-container h1,
+    .register-container h2 {
+        font-size: 1.5rem;
+    }
+
+    input.form-control,
+    .register-container input.form-control {
+        font-size: 0.95rem;
+        padding: 10px 10px 10px 36px;
+    }
+}

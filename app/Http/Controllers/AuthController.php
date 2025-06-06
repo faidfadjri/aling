@@ -22,12 +22,13 @@ class AuthController extends Controller
     public function registerStore(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'hp' => 'required|string|max:20',
-            'password' => 'required|string|min:6',
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|email|unique:users,email',
+            'hp'        => 'required|string|max:20',
+            'password'  => 'required|string|min:6|confirmed',
+            'photo'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
 
         try {
             $photoPath = null;
