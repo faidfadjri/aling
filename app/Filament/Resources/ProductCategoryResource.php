@@ -20,6 +20,8 @@ class ProductCategoryResource extends Resource
     protected static ?string $model = ProductCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Product Category';
+    protected static ?string $navigationGroup = 'Product';
 
     public static function form(Form $form): Form
     {
@@ -30,20 +32,20 @@ class ProductCategoryResource extends Resource
     }
 
     public static function table(Table $table): Table
-{
-    return $table
-        ->columns([
-            TextColumn::make('name')->sortable()->searchable(),
-            TextColumn::make('created_at')->dateTime()->label('Created'),
-        ])
-        ->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
-        ->bulkActions([
-            Tables\Actions\DeleteBulkAction::make(),
-        ]);
-}
+    {
+        return $table
+            ->columns([
+                TextColumn::make('name')->sortable()->searchable(),
+                TextColumn::make('created_at')->dateTime()->label('Created'),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]);
+    }
 
     public static function getRelations(): array
     {
