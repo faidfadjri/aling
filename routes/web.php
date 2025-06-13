@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
-Route::get('/', [HomeController::class, 'index'])->name('homepage')->middleware('auth');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'authorizeUser'])->name('login.store');
