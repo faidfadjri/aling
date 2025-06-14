@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
                 'photo' => null,
             ],
         ]);
+        (new ProductCategorySeeder())->run();
+        (new ProductSeeder())->run();
     }
 }

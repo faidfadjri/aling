@@ -1,1 +1,96 @@
 @import "tailwindcss";
+
+/* === Colors === */
+.text-orange {
+    color: #fe9430;
+}
+
+.bg-orange {
+    background-color: #fe9430;
+}
+
+.bg-orange-opacity {
+    background-color: #fe94303b;
+}
+
+.text-smooth-orange {
+    color: #fffeef;
+}
+.bg-smooth-orange {
+    background-color: #fffeef;
+}
+
+.text-red {
+    color: #c80000;
+}
+.bg-red {
+    background-color: #c80000;
+}
+
+.text-yellow {
+    color: #fdd835;
+}
+.bg-yellow {
+    background-color: #fdd835;
+}
+
+.text-primary {
+    color: #0f4fce;
+}
+.bg-primary {
+    background-color: #0f4fce;
+}
+
+.text-border {
+    color: #f1f1f1;
+}
+.bg-border {
+    background-color: #f1f1f1;
+}
+
+.text-smooth-border {
+    color: #eff8ff;
+}
+.bg-smooth-border {
+    background-color: #eff8ff;
+}
+
+.text-background {
+    color: #fffefa;
+}
+.bg-background {
+    background-color: #fffefa;
+}
+
+/* === Font Sizes === */
+.font-extra-small {
+    font-size: 8px;
+}
+.font-extra-small-2 {
+    font-size: 11px;
+} /* Optional alias */
+.font-small {
+    font-size: 13.33px;
+}
+.font-regular {
+    font-size: 16px;
+}
+
+.font-head-6 {
+    font-size: 19.2px;
+}
+.font-head-5 {
+    font-size: 23.04px;
+}
+.font-head-4 {
+    font-size: 27.65px;
+}
+.font-head-3 {
+    font-size: 33.18px;
+}
+.font-head-2 {
+    font-size: 39.81px;
+}
+.font-head-1 {
+    font-size: 47.78px;
+}

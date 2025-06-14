@@ -44,9 +44,10 @@
 </head>
 
 <body class="index-page">
-    <main class="main h-screen overflow-x-hidden overflow-y-auto bg-yellow-50">
-        @include('components.base.app')
+    <main class="main h-screen overflow-x-hidden overflow-y-auto bg-white pb-25">
+        @include('components.base.appbar')
         @yield('content')
+        @include('components.base.bottom-navigation')
     </main>
 </body>
 
