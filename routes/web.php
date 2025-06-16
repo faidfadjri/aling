@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('homepage');
+Route::get('/', [PageController::class, 'index'])->name('homepage');
+Route::get('search', [PageController::class, 'search'])->name('search');
+Route::get('product', [PageController::class, 'product'])->name('product');
+
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'authorizeUser'])->name('login.store');
@@ -24,7 +27,6 @@ Route::get('/daftar', [AuthController::class, 'register'])->name('register');
 Route::post('/pendaftaran', [AuthController::class, 'registerStore'])->name('register.store');
 
 
-Route::get('search', [HomeController::class, 'search'])->name('search');
 
 
 

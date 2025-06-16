@@ -35,7 +35,6 @@
         const maxHistory = 5;
         const historyKey = 'search_history';
 
-        // Ambil elemen container tombol history
         const historyContainer = document.querySelector('#history-container');
 
         function loadHistory() {
@@ -54,30 +53,26 @@
 
             let history = JSON.parse(localStorage.getItem(historyKey)) || [];
 
-            // Hapus jika sudah ada
             history = history.filter(item => item.toLowerCase() !== term.toLowerCase());
-
-            // Tambahkan di awal
             history.unshift(term);
-
-            // Batasi hanya 5
             history = history.slice(0, maxHistory);
 
             localStorage.setItem(historyKey, JSON.stringify(history));
         }
 
-        // Saat tekan Enter
         document.getElementById('searchbar').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 const value = e.target.value;
                 saveToHistory(value);
                 loadHistory();
-                e.target.value = ''; // kosongkan input setelah disimpan
+                e.target.value = '';
             }
         });
 
-        // Load saat pertama
-        document.addEventListener('DOMContentLoaded', loadHistory);
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHistory();
+            document.getElementById('searchbar')?.focus(); // Fokus saat halaman dimuat
+        });
     </script>
 @endpush

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class PageController extends Controller
 {
     function index()
     {
@@ -16,5 +16,12 @@ class HomeController extends Controller
     function search()
     {
         return view('pages.client.search');
+    }
+
+    function product()
+    {
+        return view('pages.client.product', [
+            'active' => 'product'
+        ]);
     }
 }
