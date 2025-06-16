@@ -39,6 +39,8 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap"
         rel="stylesheet">
 
+
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
@@ -46,8 +48,11 @@
 <body class="index-page">
     <main class="main h-screen overflow-x-hidden overflow-y-auto bg-white pb-25">
         @yield('content')
-        @include('components.base.bottom-navigation')
     </main>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    @stack('scripts')
 </body>
 
 </html>

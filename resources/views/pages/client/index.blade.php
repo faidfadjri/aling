@@ -30,4 +30,13 @@
 
     @include('components.sections.discount')
     @include('components.sections.product-category')
+    @include('components.base.bottom-navigation')
 @endsection
+
+@push('scripts')
+    <script>
+        $("#searchbar").on("click", function() {
+            location.href = "{{ route('search') }}";
+        });
+    </script>
+@endpush

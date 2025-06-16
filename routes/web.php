@@ -24,5 +24,9 @@ Route::get('/daftar', [AuthController::class, 'register'])->name('register');
 Route::post('/pendaftaran', [AuthController::class, 'registerStore'])->name('register.store');
 
 
+Route::get('search', [HomeController::class, 'search'])->name('search');
+
+
+
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::redirect('/admin', '/admin/dashboard');

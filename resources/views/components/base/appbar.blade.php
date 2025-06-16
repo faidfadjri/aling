@@ -1,6 +1,6 @@
 <div class="bg-[#F5FBFF] shadow-lg p-4 sticky top-0 z-50 flex items-center">
     <div class="flex items-center justify-between gap-2 w-full">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-5">
             @if (isset($backButton) && $backButton)
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
@@ -20,8 +20,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18.5a7.5 7.5 0 006.15-3.85z" />
                 </svg>
-                <input type="text" placeholder="Cari di Aling"
-                    class="bg-transparent outline-none w-full text-sm text-gray-700 placeholder-gray-400" />
+                <input type="text" placeholder="Cari di Aling" id="searchbar"
+                    class="bg-transparent outline-none w-full text-sm text-gray-700 placeholder-gray-400"
+                    autocomplete="off" />
             </div>
         @endif
 
@@ -37,6 +38,9 @@
                     2
                 </span>
             </div>
+        @else
+            <a href="/" class="font-semibold ml-2">Batal</a>
         @endif
+
     </div>
 </div>

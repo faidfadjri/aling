@@ -12,4 +12,9 @@ class HomeController extends Controller
             'active' => 'home'
         ]);
     }
+
+    function search()
+    {
+        return view('pages.client.search');
+    }
 }

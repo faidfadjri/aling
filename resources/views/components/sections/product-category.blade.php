@@ -16,11 +16,6 @@
                  </button>
              @endforeach
          </div>
-         <button class="w-6 h-6 mb-2 bg-black text-white rounded-full flex items-center justify-center">
-             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-             </svg>
-         </button>
      </div>
 
      <div id="product-lists">
