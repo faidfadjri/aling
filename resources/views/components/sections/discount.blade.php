@@ -1,6 +1,6 @@
- <section class="px-4 py-6 my-3 bg-orange-opacity">
+ <section class="px-4 py-4 my-3 bg-[linear-gradient(to_right,_#0F4FCE,_#0FCEC4)] w-full">
      <div class="flex items-center justify-between mb-4">
-         <h2 class="text-lg font-bold text-gray-800 flex items-center gap-1">
+         <h2 class="text-xl font-bold text-white flex items-center gap-1">
              🔥 <span>Diskon Spesial</span>
          </h2>
          <button class="w-8 h-8 text-black border border-gray-500 rounded-full flex items-center justify-center">

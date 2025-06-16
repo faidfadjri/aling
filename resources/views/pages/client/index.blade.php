@@ -1,11 +1,14 @@
 @extends('layout.app')
 
 @section('content')
+    @include('components.base.appbar', [
+        'cart' => true,
+    ])
     <section class="relative w-full">
         <div id="banner-carousel" class="relative overflow-hidden p-2">
             <div class="flex transition-transform duration-700 ease-in-out" style="transform: translateX(0%);">
                 <div class="w-full flex-shrink-0">
-                    <img src="/assets/images/banner.jpg" alt="banner" class="w-full h-50 rounded-xl object-cover">
+                    <img src="/assets/images/banner.png" alt="banner" class="w-full h-50 rounded-xl object-cover">
                 </div>
             </div>
             <button type="button"
