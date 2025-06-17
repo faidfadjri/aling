@@ -40,8 +40,9 @@
         rel="stylesheet">
 
 
-
+    @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 
 </head>
 
@@ -52,7 +53,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     @stack('scripts')
+    @livewireScripts
 </body>
 
 </html>

@@ -13,11 +13,6 @@ class PageController extends Controller
         ]);
     }
 
-    function search()
-    {
-        return view('pages.client.search');
-    }
-
     function product()
     {
         return view('pages.client.product', [

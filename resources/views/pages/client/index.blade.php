@@ -1,9 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    @include('components.base.appbar', [
-        'cart' => true,
-    ])
+    <livewire:components.appbar />
     <section class="relative w-full">
         <div id="banner-carousel" class="relative overflow-hidden p-2">
             <div class="flex transition-transform duration-700 ease-in-out" style="transform: translateX(0%);">
@@ -32,11 +30,3 @@
     @include('components.sections.product-category')
     @include('components.base.bottom-navigation')
 @endsection
-
-@push('scripts')
-    <script>
-        $("#searchbar").on("click", function() {
-            location.href = "{{ route('search') }}";
-        });
-    </script>
-@endpush

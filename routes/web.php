@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class, 'index'])->name('homepage');
-Route::get('search', [PageController::class, 'search'])->name('search');
 Route::get('product', [PageController::class, 'product'])->name('product');
 
 

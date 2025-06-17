@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    @include('components.base.appbar', ['cart' => true])
+    <livewire:components.appbar />
 
     <div class="bg-blue-50 min-h-screen p-4">
         <div class="relative mb-4">
