@@ -47,7 +47,7 @@
 </head>
 
 <body class="index-page">
-    <main class="main h-screen overflow-x-hidden overflow-y-auto bg-white pb-25">
+    <main class="main h-screen overflow-x-hidden overflow-y-auto bg-[#F5FBFF] pb-25">
         @yield('content')
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"

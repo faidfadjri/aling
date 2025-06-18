@@ -7,6 +7,7 @@ use Livewire\Component;
 class ProductCard extends Component
 {
     public string $image;
+    public int $productId;
     public string $title;
     public int $price;
     public float $rating;

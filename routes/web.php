@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class, 'index'])->name('homepage');
-Route::get('product', [PageController::class, 'product'])->name('product');
+
+Route::prefix('product')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('product');
+    Route::get('/detail/{productID}', [ProductController::class, 'detail'])->name('product.detail');
+
+    Route::get('checkout', [ProductController::class, 'checkout'])->name('product.checkout');
+    Route::get('checkout/{productID}', [ProductController::class, 'checkout'])->name('product.checkout');
+});
+
+
 
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');

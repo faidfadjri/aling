@@ -11,6 +11,9 @@ class Appbar extends Component
     public string $search = '';
     public array $results = [];
 
+    public string $back;
+    public string $title;
+
     public bool $isFocused = false;
 
     public function updatedSearch()

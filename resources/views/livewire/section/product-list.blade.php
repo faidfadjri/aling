@@ -45,8 +45,8 @@
             @endfor
         @else
             @for ($i = 0; $i < 10; $i++)
-                <livewire:components.product-card :image="'https://www.sinarpahalautama.com/image-product/img61-1581762923.jpg'" :title="'Ayam Potong 5KG'" :price='50000'
-                    :rating='4.6' :sold='500' :outlet="'Outlet Purwokerto'" :wire:key="$i" />
+                <livewire:components.product-card :productId="$i" :image="'https://www.sinarpahalautama.com/image-product/img61-1581762923.jpg'" :title="'Ayam Potong 5KG'"
+                    :price='50000' :rating='4.6' :sold='500' :outlet="'Outlet Purwokerto'" :wire:key="$i" />
             @endfor
         @endif
     </div>

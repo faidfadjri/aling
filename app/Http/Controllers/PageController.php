@@ -12,11 +12,4 @@ class PageController extends Controller
             'active' => 'home'
         ]);
     }
-
-    function product()
-    {
-        return view('pages.client.product', [
-            'active' => 'product'
-        ]);
-    }
 }
