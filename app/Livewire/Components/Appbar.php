@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components;
 
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -21,6 +22,14 @@ class Appbar extends Component
             'search_term' => $this->search,
         ]);
         $this->doSearch();
+    }
+
+    public function disableFocus()
+    {
+        $this->isFocused = false;
+        $this->search = '';
+        $this->results = [];
+        Log::alert('Search focus disabled');
     }
 
     public function doSearch()
@@ -44,13 +53,25 @@ class Appbar extends Component
             $this->results = array_filter($allPossibleResults, function ($item) {
                 return stripos($item, $this->search) !== false;
             });
+
+            $history = json_decode(Cookie::get('search_history', '[]'), true);
+            $history = array_filter($history, fn($item) => $item !== $this->search);
+            array_unshift($history, $this->search);
+            $history = array_slice($history, 0, 5);
+
+            Cookie::queue('search_history', json_encode($history), 60 * 24 * 7);
         } else {
             $this->results = [];
         }
     }
 
+
     public function render()
     {
-        return view('livewire.components.appbar');
+        $searchHistory = json_decode(Cookie::get('search_history', '[]'), true);
+
+        return view('livewire.components.appbar', [
+            'searchHistory' => $searchHistory,
+        ]);
     }
 }

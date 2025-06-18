@@ -42,7 +42,7 @@
             @endif
 
             @if ($isFocused)
-                <a href="/" class="font-semibold ml-2">Batal</a>
+                <button class="font-semibold ml-2 cursor-pointer" wire:click="disableFocus">Batal</button>
             @endif
 
         </div>
@@ -56,19 +56,16 @@
                 style="width: 35px; height: 35px; display: flex; margin: auto;" loop autoplay></dotlottie-player>
         </div>
         @if ($isFocused)
-            <div class="p-4 bg-white shadow-xl rounded-xl mx-5 mb-4">
+            <div class="p-4 bg-white shadow-xl rounded-b-md mb-4">
                 <div class="mb-6">
                     <h2 class="font-semibold text-gray-800 mb-3">Pencarian Terakhir</h2>
                     <div id="history-container" class="flex flex-wrap gap-2">
-                        <button
-                            class="px-4 py-2 border border-gray-400 bg-black/1 text-gray-700 rounded-full text-sm">Ayam
-                            5KG</button>
-                        <button
-                            class="px-4 py-2 border border-gray-400 bg-black/1 text-gray-700 rounded-full text-sm">Ayam
-                            Kampung</button>
-                        <button
-                            class="px-4 py-2 border border-gray-400 bg-black/1 text-gray-700 rounded-full text-sm">Ayam
-                            Boiler</button>
+                        @foreach ($searchHistory as $history)
+                            <button wire:click="$set('search', '{{ $history }}')"
+                                class="px-4 py-2 border border-gray-400 bg-black/1 text-gray-700 rounded-full text-sm">
+                                {{ $history }}
+                            </button>
+                        @endforeach
                     </div>
                 </div>
 
