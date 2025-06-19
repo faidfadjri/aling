@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::insert([
             [
                 'name' => 'Administrator',
+                'username' => 'admin',
                 'email' => 'admin@gmail.com',
                 'role' => 'admin',
                 'status' => true,
