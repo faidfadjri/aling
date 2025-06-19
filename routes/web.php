@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,10 @@ Route::prefix('product')->group(function () {
 
     Route::get('checkout', [ProductController::class, 'checkout'])->name('product.checkout');
     Route::get('checkout/{productID}', [ProductController::class, 'checkout'])->name('product.checkout');
+});
+
+Route::prefix('order')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('order');
 });
 
 

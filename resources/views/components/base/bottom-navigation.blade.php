@@ -22,8 +22,8 @@
             <span class="text-sm">Produk</span>
         </a>
 
-        <a href="#"
-            class="flex flex-col items-center {{ ($active ?? '') === 'cart' ? 'text-primary' : 'text-gray-500 hover:text-sky-800' }}">
+        <a href="{{ route('order') }}"
+            class="flex flex-col items-center {{ ($active ?? '') === 'order' ? 'text-primary' : 'text-gray-500 hover:text-sky-800' }}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
