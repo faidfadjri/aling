@@ -53,15 +53,21 @@ class AuthController extends Controller
         }
     }
 
-    function authorizeUser(Request $request)
+    public function authorizeUser(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
         if (auth()->attempt($credentials)) {
-            return redirect()->route('homepage')->with('success', 'Login successful');
+            return response()->json([
+                'success' => true,
+                'redirect' => route('homepage')
+            ]);
         }
 
-        return redirect()->back()->with('error', 'Invalid credentials');
+        return response()->json([
+            'success' => false,
+            'message' => 'Email atau password salah.'
+        ], 401);
     }
 
     function logout()

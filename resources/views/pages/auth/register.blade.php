@@ -1,165 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.app')
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Daftar - E-Commerce</title>
-
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@400;700&display=swap"
-        rel="stylesheet" />
-    <link href="/assets/images/logo.webp" rel="icon">
-    <link href="/assets/images/logo.webp" rel="apple-touch-icon">
-
-    <!-- Vendor CSS -->
-    <link href="/templates/yummy-red/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/templates/yummy-red/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-    <link href="/templates/yummy-red/assets/vendor/aos/aos.css" rel="stylesheet" />
-
-    <!-- Custom Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="/assets/css/auth.css">
-</head>
-
-<body>
-    <div class="register-container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <a href="{{ route('login') }}" class="btn-link-back">
-            <i class="bi bi-arrow-left"></i> Kembali
-        </a>
-        <img src="/assets/images/logo.webp" alt="E-Commerce Logo" class="register-logo">
-        <div class="d-flex flex-column gap-1">
-            <h2>Daftar Akun</h2>
-            <div class="subtitle">Silahkan isi data untuk membuat akun</div>
+@section('content')
+    <div class="h-full flex flex-col lg:flex-row items-center justify-center px-0 lg:px-20">
+        <div class="hidden lg:block flex-2 flex flex-col items-center justify-center">
+            <div class="-ml-30 mb-4">
+                <img src="/assets/images/vector-courier.webp" alt="courier" class="mx-auto">
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-1 text-center mb-3">
+                Ayam Segar Sampai Rumah
+            </h1>
+            <h2 class="text-xl font-semibold bg-primary px-5 py-2 rounded-md italic text-white">Aling yang Antar!</h2>
         </div>
-
-        <!-- Flash Messages -->
-        @if (Session::has('error'))
-            <div class="alert alert-danger">{{ Session::get('error') }}</div>
-        @elseif (Session::has('success'))
-            <div class="alert alert-success">{{ Session::get('success') }}</div>
-        @endif
-
-        <!-- Validation Errors -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <!-- Form -->
-        <form action="{{ route('register.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            <!-- Nama -->
-            <div class="form-group input-wrapper">
-                <i class="bi bi-person icon-input"></i>
-                <input type="text" class="form-control" name="name" placeholder="Nama Lengkap"
-                    value="{{ old('name') }}" required>
+        <div class="flex-1 w-full rounded-xl pt-20 px-5 lg:px-0 lg:pt-0">
+            <div class="flex flex-col items-center mb-6">
+                <img src="/assets/images/logo.webp" alt="Logo Aling" class="w-28 mb-8" />
+                <h3 class="text-2xl font-bold text-gray-900 mb-1 text-center">
+                    ✨ Selamat Datang di Aling!
+                </h3>
+                <p class="text-md text-black/50 text-center">
+                    Silahkan daftar untuk nikmati kemudahanya
+                </p>
             </div>
 
-            <!-- Email -->
-            <div class="form-group input-wrapper">
-                <i class="bi bi-envelope icon-input"></i>
-                <input type="email" class="form-control" name="email" placeholder="Email"
-                    value="{{ old('email') }}" required>
-            </div>
+            <div id="error-message" class="text-sm text-red-600 bg-red-100 p-2 rounded-md text-center hidden mb-4"></div>
+            <form id="register-form" method="POST" action="{{ route('register.store') }}" class="space-y-4">
+                @csrf
 
-            <!-- No HP -->
-            <div class="form-group input-wrapper">
-                <i class="bi bi-telephone icon-input"></i>
-                <input type="tel" class="form-control" name="hp" placeholder="No HP / WhatsApp"
-                    value="{{ old('hp') }}" required>
-            </div>
-
-            <!-- PASSWORD -->
-            <div class="form-group position-relative">
-                <div class="position-relative">
-                    <i class="bi bi-lock icon-input"></i>
-                    <input type="password" class="form-control ps-5" name="password" id="password"
-                        placeholder="Password" required>
+                <div class="flex flex-col gap-3 mb-5">
+                    <div class="relative">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M21.75 6.75v10.5A2.25 2.25 0 0119.5 19.5H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0L12 13.5 2.25 6.75m19.5 0L12 13.5m0 0L2.25 6.75" />
+                        </svg>
+                        <input type="email" name="email" placeholder="Masukan Email"
+                            class="shadow-md pl-10 pr-3 py-3 w-full bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            required autocomplete="email" />
+                    </div>
+                    <div class="relative">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0ZM4.5 20.118a7.5 7.5 0 0115 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.5-1.632z" />
+                        </svg>
+                        <input type="text" name="name" placeholder="Masukan Nama"
+                            class="shadow-md pl-10 pr-3 py-3 w-full bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            required />
+                    </div>
+                    <div class="relative">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M2.25 4.5l19.5 0M12 2.25v19.5" />
+                        </svg>
+                        <input type="text" name="phone" placeholder="Masukan No Telp"
+                            class="shadow-md pl-10 pr-3 py-3 w-full bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            required />
+                    </div>
+                    <div class="relative">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M16.5 10.5V6.75a4.5 4.5 0 00-9 0v3.75M6.75 21h10.5a2.25 2.25 0 002.25-2.25V12a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 12v6.75A2.25 2.25 0 006.75 21z" />
+                        </svg>
+                        <input type="password" name="password" placeholder="Masukan Kata Sandi"
+                            class="shadow-md pl-10 pr-3 py-3 w-full bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            required autocomplete="new-password" />
+                    </div>
+                    <div class="relative">
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M16.5 10.5V6.75a4.5 4.5 0 00-9 0v3.75M6.75 21h10.5a2.25 2.25 0 002.25-2.25V12a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 12v6.75A2.25 2.25 0 006.75 21z" />
+                        </svg>
+                        <input type="password" name="password_confirmation" placeholder="Konfirmasi Kata Sandi"
+                            class="shadow-md pl-10 pr-3 py-3 w-full bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                            required autocomplete="new-password" />
+                    </div>
                 </div>
-                <div id="password-error" class="text-danger small mt-2"></div>
-            </div>
-
-            <!-- KONFIRMASI PASSWORD -->
-            <div class="form-group position-relative">
-                <div class="position-relative">
-                    <i class="bi bi-lock-fill icon-input"></i>
-                    <input type="password" class="form-control ps-5" name="password_confirmation"
-                        id="password_confirmation" placeholder="Konfirmasi Password" required>
+                <div class="flex flex-col gap-2">
+                    <button type="submit" id="register-button"
+                        class="w-full py-2 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-800 transition">
+                        Daftar Sekarang
+                    </button>
+                    <a href="{{ route('login') }}"
+                        class="w-full text-center block py-2 border border-blue-600 text-blue-700 font-semibold rounded-md hover:bg-blue-50 transition">
+                        Masuk
+                    </a>
                 </div>
-                <div id="confirm-password-error" class="text-danger small mt-2"></div>
-            </div>
+            </form>
 
-
-            <!-- Foto Profil -->
-            <div class="form-group photo-upload">
-                <p>Tambahkan Foto Profile (opsional)</p>
-                <label for="photo-upload-input" class="photo-upload-box" tabindex="0"
-                    aria-label="Upload Foto Profile">
-                    <span class="icon-upload fst-normal">+</span>
-                    <input type="file" id="photo-upload-input" name="photo" accept="image/*" />
-                </label>
-                <img id="photo-preview" class="photo-preview" alt="Preview Foto Profile" style="display: none;" />
-            </div>
-
-            <!-- Submit -->
-            <button type="submit" class="btn btn-primary w-100">Daftar Sekarang</button>
-        </form>
+        </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="/templates/yummy-red/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/templates/yummy-red/assets/vendor/aos/aos.js"></script>
     <script>
-        AOS.init();
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('register-form');
+            const button = document.getElementById('register-button');
+            const spinner = document.getElementById('loading-spinner');
+            const label = document.getElementById('submit-label');
+            const errorMessage = document.getElementById('error-message');
 
-        // Foto preview
-        const photoInput = document.getElementById('photo-upload-input');
-        const photoPreview = document.getElementById('photo-preview');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
 
-        photoInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    photoPreview.src = e.target.result;
-                    photoPreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                photoPreview.src = '';
-                photoPreview.style.display = 'none';
-            }
+                errorMessage.classList.add('hidden');
+                errorMessage.textContent = '';
+                button.setAttribute('disabled', true);
+                spinner.classList.remove('hidden');
+                label.classList.add('hidden');
+
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch("{{ route('login.store') }}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        window.location.href = result.redirect || '/';
+                    } else {
+                        throw new Error(result.message || 'Login gagal');
+                    }
+                } catch (err) {
+                    errorMessage.textContent = err.message;
+                    errorMessage.classList.remove('hidden');
+                    button.removeAttribute('disabled');
+                    spinner.classList.add('hidden');
+                    label.classList.remove('hidden');
+                }
+            });
         });
-
-        photoPreview.addEventListener('click', () => photoInput.click());
-
-        // Password validation
-        const password = document.getElementById('password');
-        const confirmPassword = document.getElementById('password_confirmation');
-        const passwordError = document.getElementById('password-error');
-        const confirmPasswordError = document.getElementById('confirm-password-error');
-
-        function validatePassword() {
-            const value = password.value;
-            const isValid = /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(value);
-            passwordError.textContent = isValid ? '' : 'Minimal 8 karakter. Harus ada huruf besar. Harus ada angka.';
-        }
-
-        function validateConfirmPassword() {
-            confirmPasswordError.textContent =
-                confirmPassword.value === password.value ? '' : 'Konfirmasi password tidak cocok.';
-        }
-
-        password.addEventListener('input', validatePassword);
-        confirmPassword.addEventListener('input', validateConfirmPassword);
     </script>
-</body>
-
-</html>
+@endsection
