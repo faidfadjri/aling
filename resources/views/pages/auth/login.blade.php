@@ -1,84 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Login - E-Commerce</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Amatic+SC:wght@400;700&display=swap"
-        rel="stylesheet" />
-
-    <link href="/assets/images/logo.webp" rel="icon">
-    <link href="/assets/images/logo.webp" rel="apple-touch-icon">
-
-    <!-- Vendor CSS Files -->
-    <link href="/templates/yummy-red/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/templates/yummy-red/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-    <link href="/templates/yummy-red/assets/vendor/aos/aos.css" rel="stylesheet" />
-    <link href="/templates/yummy-red/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
-    <link href="/templates/yummy-red/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Aling</title>
+    <link rel="icon" href="/assets/images/logo.webp" type="image/webp" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <link rel="stylesheet" href="/assets/css/auth.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="login-container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-        <a href="/" class="btn btn-link mb-2"
-            style="position: absolute; left: 18px; top: 18px; font-size: 1em;color: black;text-decoration: none">
-            <i class="bi bi-arrow-left"></i> Kembali
-        </a>
-        <img src="/assets/images/logo.webp" alt="E-Commerce Logo" class="login-logo">
-        <div class="d-flex flex-column gap-2">
-            <h1>Aling (Ayam Keliling)</h1>
-            <div class="subtitle">Silahkan login sebelum melakukan pemesanan</div>
+<body class="bg-[#F0F8FF] min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-sm p-6 rounded-xl">
+        <div class="flex flex-col items-center mb-6">
+            <img src="/assets/images/logo.webp" alt="Logo Aling" class="w-28 mb-4" />
+            <h2 class="text-lg font-bold text-gray-900 text-center">
+                ✨ Selamat Datang di Aling!
+            </h2>
+            <p class="text-sm text-gray-600 text-center">
+                Pusat Ayam Segar & Layanan Antar Keliling
+            </p>
         </div>
 
         @if (session('error'))
-            <div class="alert alert-danger text-center">
+            <div class="mb-4 text-sm text-red-600 bg-red-100 p-2 rounded-md text-center">
                 {{ session('error') }}
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login.store') }}">
+        <form method="POST" action="{{ route('login.store') }}" class="space-y-4">
             @csrf
-            <div class="form-group input-wrapper">
-                <i class="bi bi-person icon-input"></i>
-                <input type="text" class="form-control" id="email" placeholder="Masukan Email" required
-                    autocomplete="email" name="email" />
+            <div class="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+                <input type="text" name="email" placeholder="Masukan Username"
+                    class="pl-10 pr-3 py-3 w-full bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    required autocomplete="email" />
             </div>
-            <div class="form-group input-wrapper">
-                <i class="bi bi-lock icon-input"></i>
-                <input type="password" class="form-control" id="password" placeholder="Masukan Kata Sandi" required
-                    autocomplete="current-password" name="password" />
+            <div class="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+                <input type="password" name="password" placeholder="Masukan Password"
+                    class="pl-10 pr-3 py-3 w-full bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    required autocomplete="current-password" />
             </div>
-            <div class="d-flex flex-column gap-2">
-                <button type="submit" class="btn btn-primary w-100 mb-2">Masuk</button>
-                <a href="{{ route('register') }}" class="btn btn-primary-outline w-100">
-                    Daftar
-                </a>
-            </div>
+
+
+            <button type="submit"
+                class="w-full py-2 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-800 transition">
+                Masuk
+            </button>
+            <a href="{{ route('register') }}"
+                class="w-full text-center block py-2 border border-blue-600 text-blue-700 font-semibold rounded-md hover:bg-blue-50 transition">
+                Daftar Sekarang
+            </a>
         </form>
     </div>
-
-    <!-- Vendor JS Files -->
-    <script src="/templates/yummy-red/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/templates/yummy-red/assets/vendor/php-email-form/validate.js"></script>
-    <script src="/templates/yummy-red/assets/vendor/aos/aos.js"></script>
-    <script src="/templates/yummy-red/assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="/templates/yummy-red/assets/vendor/purecounter/purecounter_vanilla.js"></script>
-    <script src="/templates/yummy-red/assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="/templates/yummy-red/assets/js/main.js"></script>
-    <script>
-        AOS.init();
-    </script>
 </body>
 
 </html>
