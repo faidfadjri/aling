@@ -29,7 +29,7 @@
 
     {{-- Grid Container --}}
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        @for ($i = 0; $i < 6; $i++)
+        @for ($i = 0; $i < 8; $i++)
             <div wire:loading class="bg-white rounded-xl shadow-sm overflow-hidden animate-pulse">
                 <div class="w-full h-28 bg-gray-200"></div>
                 <div class="p-3 space-y-2">

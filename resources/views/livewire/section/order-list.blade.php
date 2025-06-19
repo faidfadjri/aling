@@ -63,9 +63,9 @@
             </button>
         </div>
 
-        <div wire:loading class="w-full space-y-4">
+        <div class="flex flex-col gap-3">
             @for ($i = 0; $i < 3; $i++)
-                <div class="bg-white rounded-xl p-4 shadow-sm animate-pulse space-y-3"
+                <div wire:loading class="bg-white rounded-xl p-4 shadow-sm animate-pulse space-y-3 w-full"
                     wire:key="skeleton-{{ $i }}">
                     <div class="flex justify-between items-center">
                         <div class="h-4 bg-gray-200 rounded w-32"></div>
@@ -83,13 +83,13 @@
                     <div class="h-9 bg-gray-200 rounded w-32 ml-auto"></div>
                 </div>
             @endfor
-        </div>
 
 
-        <div class="flex flex-col gap-2" wire:loading.remove>
-            @for ($i = 0; $i < 3; $i++)
-                <livewire:components.order-card :order="$order" :wire:key="'order-' . $i" />
-            @endfor
+            @foreach ($orders as $index => $order)
+                <div wire:loading.remove>
+                    <livewire:components.order-card :order="$order" :wire:key="'order-' . $index" />
+                </div>
+            @endforeach
         </div>
     </div>
 </div>
