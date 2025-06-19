@@ -5,24 +5,27 @@
     <section class="relative w-full">
         <div id="banner-carousel" class="relative overflow-hidden p-2">
             <div class="flex transition-transform duration-700 ease-in-out" style="transform: translateX(0%);">
-                <div class="w-full flex-shrink-0">
-                    <img src="/assets/images/banner.png" alt="banner" class="w-full h-50 rounded-xl object-cover">
+                <div class="w-full px-4">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="/assets/images/banner/banner-1.webp" alt="banner"
+                                    class="rounded-xl object-cover w-full h-40 md:h-64" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="/assets/images/banner/banner-2.webp" alt="banner"
+                                    class="rounded-xl object-cover w-full h-40 md:h-64" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="/assets/images/banner/banner-3.webp" alt="banner"
+                                    class="rounded-xl object-cover w-full h-40 md:h-64" />
+                            </div>
+                        </div>
+
+                        <div class="swiper-pagination mt-4"></div>
+                    </div>
                 </div>
             </div>
-            <button type="button"
-                class="absolute top-1/2 left-4 -translate-y-1/2 opacity-50 bg-white bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 focus:outline-none"
-                aria-label="Previous">
-                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
-            <button type="button"
-                class="absolute top-1/2 right-4 -translate-y-1/2 opacity-50 bg-white bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 focus:outline-none"
-                aria-label="Next">
-                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
         </div>
     </section>
 
@@ -30,3 +33,25 @@
     @include('components.sections.product-category')
     @include('components.base.bottom-navigation')
 @endsection
+
+@push('scripts')
+    <script>
+        const swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            spaceBetween: 16,
+            loop: true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 1.5,
+                },
+                1024: {
+                    slidesPerView: 2.1,
+                },
+            },
+        });
+    </script>
+@endpush
