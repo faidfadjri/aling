@@ -1,4 +1,4 @@
-<div class="bg-blue-50 min-h-screen p-4" wire:init="loadProducts">
+<div class="bg-blue-50 min-h-screen p-4">
     <div class="relative mb-4">
         <div class="flex gap-2 overflow-x-auto w-full pr-10">
             @foreach (['Purwokerto', 'Temanggung', 'Purbalingga', 'Solo', 'Temanggung', 'Magelang', 'Semarang'] as $city)
@@ -42,9 +42,9 @@
         @endfor
         @foreach ($products as $product)
             <div class="bg-white p-2 rounded-sm shadow-md hover:bg-gray-100 duration-200" wire:loading.remove>
-                <livewire:components.product-card :productId="$product->id" :image="$product->image" :title="$product->title"
-                    :price="$product->price" :rating="$product->rating" :sold="$product->sold" :outlet="$product->outlet" :wire:key="$product->id" />
+                @include('components.cards.product-card', ['product' => $product])
             </div>
         @endforeach
     </div>
+    @include('components.base.pagination', ['pagination' => $products])
 </div>

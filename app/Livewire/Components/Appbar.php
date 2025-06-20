@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Components;
 
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -9,12 +11,22 @@ use Livewire\Component;
 class Appbar extends Component
 {
     public string $search = '';
-    public array $results = [];
+    public string|null $keyword = '';
+    public Collection|array $results;
 
     public string $back;
     public string $title;
 
     public bool $isFocused = false;
+
+    public function mount()
+    {
+        if ($this->keyword) {
+            $this->search = $this->keyword;
+            $this->doSearch();
+            $this->isFocused = false;
+        }
+    }
 
     public function updatedSearch()
     {
@@ -37,34 +49,22 @@ class Appbar extends Component
 
     public function doSearch()
     {
-        usleep(500000);
-
-        $allPossibleResults = [
-            'Ayam Potong 5KG',
-            'Ayam Kampung 10KG',
-            'Ayam Organik',
-            'Daging Sapi Lokal',
-            'Ikan Segar',
-            'Telur Ayam',
-            'Beras 10KG',
-            'Gula Pasir',
-            'Minyak Goreng',
-            'Susu Segar 1L',
-        ];
 
         if (!empty($this->search)) {
-            $this->results = array_filter($allPossibleResults, function ($item) {
-                return stripos($item, $this->search) !== false;
-            });
+
+            $keyword = $this->search;
+            $result  = Product::where("name", "like", "%$keyword%")->limit(6)->get();
+            $this->results = $result;
+
 
             $history = json_decode(Cookie::get('search_history', '[]'), true);
             $history = array_filter($history, fn($item) => $item !== $this->search);
             array_unshift($history, $this->search);
             $history = array_slice($history, 0, 5);
-
             Cookie::queue('search_history', json_encode($history), 60 * 24 * 7);
         } else {
             $this->results = [];
+            $this->isFocused = false;
         }
     }
 

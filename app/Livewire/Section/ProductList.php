@@ -2,41 +2,40 @@
 
 namespace App\Livewire\Section;
 
+use App\Models\Product;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ProductList extends Component
 {
+    use WithPagination;
+
+    public string|null $search;
     public string $selectedCity = '';
-    public array $products = [];
-
-    public function mount()
-    {
-        $this->loadProducts();
-    }
-
-    public function loadProducts()
-    {
-        $this->products = collect(range(1, 10))->map(function ($i) {
-            return (object)[
-                'id' => $i,
-                'title' => 'Ayam Potong 5KG',
-                'price' => 50000,
-                'rating' => 4.6,
-                'sold' => 500,
-                'outlet' => 'Outlet Purwokerto',
-                'image' => 'https://www.sinarpahalautama.com/image-product/img61-1581762923.jpg',
-            ];
-        })->toArray();
-    }
+    public int $perPage = 12;
 
     public function selectCity(string $city)
     {
         $this->selectedCity = $city;
-        $this->loadProducts();
+        $this->resetPage();
     }
 
     public function render()
     {
-        return view('livewire.section.product-list');
+        $query = Product::query();
+
+        if ($this->selectedCity) {
+            $query->whereHas('outlet', function ($q) {
+                $q->where('name', $this->selectedCity);
+            });
+        }
+
+        if ($this->search && $this->search != '') {
+            $query->where('name', 'like', "%$this->search%");
+        }
+
+        return view('livewire.section.product-list', [
+            'products' => $query->paginate($this->perPage),
+        ]);
     }
 }

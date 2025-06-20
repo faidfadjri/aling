@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    function index()
+    function index(Request $request)
     {
+        $keyword = $request->input('search');
+
         return view('pages.client.product.product', [
-            'active' => 'product'
+            'active'  => 'product',
+            'keyword' => $keyword
         ]);
     }
 

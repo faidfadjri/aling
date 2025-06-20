@@ -34,7 +34,7 @@
                                 d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18.5a7.5 7.5 0 006.15-3.85z" />
                         </svg>
                         <input type="text" placeholder="Cari di Aling" id="searchbar"
-                            class="bg-transparent outline-none w-full text-sm text-gray-700 placeholder-gray-400"
+                            class="bg-transparent outline-none w-full text-sm lg:text-md text-black placeholder-gray-400"
                             autocomplete="off" wire:model.live="search" />
                     </div>
 
@@ -47,6 +47,23 @@
 
                         @if ($isFocused)
                             <div class="p-4">
+
+                                <div class="mb-10">
+                                    @foreach ($results as $result)
+                                        <a href="{{ route('product', ['search' => $result->name]) }}"
+                                            class="flex items-center space-x-2 text-gray-700 py-2 px-3 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+                                            </svg>
+
+                                            <span class="text-sm text-gray-600">{{ $result->name }}</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+
+
                                 <div class="mb-6">
                                     <h2 class="font-semibold text-gray-800 mb-3">Pencarian Terakhir</h2>
                                     <div id="history-container" class="flex flex-wrap gap-2">
@@ -183,5 +200,19 @@
                 menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
             }
         });
+
+        document.getElementById('searchbar').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                mySearchFunction();
+            }
+        });
+
+        function mySearchFunction() {
+            const searchValue = document.getElementById('searchbar').value;
+            if (searchValue.trim() !== '') {
+                window.location.href = `/product?search=${encodeURIComponent(searchValue)}`;
+            }
+        }
     </script>
 @endpush
