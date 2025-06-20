@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -16,19 +17,9 @@ class ProductController extends Controller
         ]);
     }
 
-    public function detail()
+    public function detail($productID)
     {
-        $product = (object) [
-            'id' => 1,
-            'title' => 'Ayam Potong 5KG',
-            'price' => 40000,
-            'original_price' => 50000,
-            'discount_percent' => 20,
-            'rating' => 4.6,
-            'sold' => 500,
-            'description' => 'Ayam potong segar 5KG, diproses higienis dan siap olah. Daging tebal, empuk, tanpa suntikan. Cocok untuk rumah tangga, usaha kuliner, dan acara besar. Simpan beku agar tetap segar.',
-            'image' => 'https://cdn.rri.co.id/berita/Palangkaraya/o/1727136526950-WhatsApp_Image_2024-09-24_at_07.05.34/dju4f310k9l3wam.jpeg',
-        ];
+        $product = Product::find($productID);
 
         $reviews = [
             (object) [

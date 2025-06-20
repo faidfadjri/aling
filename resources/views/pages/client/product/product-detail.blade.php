@@ -6,7 +6,7 @@
 
         <div class="mx-auto px-5 rounded-lg flex flex-col lg:flex-row items-center shadow-sm overflow-hidden lg:mt-10">
             <div class="relative flex-shrink-0 w-full lg:w-1/2">
-                <img src="{{ $product->image }}" alt="{{ $product->title }}"
+                <img src="{{ $product->image }}" alt="{{ $product->name }}"
                     class="w-full h-60 lg:h-80 object-cover rounded-lg">
                 <button class="absolute top-2 right-2 text-blue-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current" viewBox="0 0 24 24">
@@ -16,15 +16,17 @@
                 </button>
             </div>
 
-            <div class="p-4">
+            <div class="flex-1 p-4">
                 <div class="flex items-center space-x-2">
-                    <span class="text-lg font-bold text-gray-800">{{ $product->title }}</span>
+                    <span class="text-lg font-bold text-gray-800">{{ $product->name }}</span>
 
                 </div>
                 <h2 class="text-xl lg:text-2xl font-semibold mt-1">Rp{{ number_format($product->price, 0, ',', '.') }}
                     <span
-                        class="line-through text-gray-400">Rp{{ number_format($product->original_price, 0, ',', '.') }}</span>
-                    <span class="text-red-600 text-sm font-semibold">{{ $product->discount_percent }}%</span>
+                        class="line-through text-gray-400">Rp{{ number_format($product->price + $product->price * ($product->discount / 100), 0, ',', '.') }}</span>
+                    @if ($product->discount != 0)
+                        <span class="text-red-600 text-sm font-semibold">{{ $product->discount }}%</span>
+                    @endif
                 </h2>
                 <p class="text-sm mt-1 text-black"><span class="text-yellow-400">★</span> {{ $product->rating }} ·
                     {{ $product->sold }} terjual</p>
@@ -33,7 +35,7 @@
             </div>
 
             <div
-                class="z-90 w-full flex p-4 gap-2 mt-2 fixed lg:relative lg:flex-col lg:items-center bottom-0 bg-white lg:rounded-lg shadow-xl">
+                class="z-90 w-full flex p-4 gap-2 mt-2 fixed lg:relative lg:flex-1 lg:flex-col lg:items-center bottom-0 bg-white lg:rounded-lg shadow-xl">
                 <button
                     class="lg:hidden py-2 flex items-center justify-center gap-2 h-10 w-10 lg:w-full lg:px-4 rounded-lg text-sm bg-green-600 text-white font-semibold cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
