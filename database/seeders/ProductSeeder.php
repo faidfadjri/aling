@@ -9,100 +9,49 @@ class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        $imageUrl = 'https://static.vecteezy.com/system/resources/previews/036/094/276/non_2x/ai-generated-whole-raw-chicken-on-a-transparent-background-free-png.png';
+        $imageUrl = 'https://cdn.rri.co.id/berita/Palangkaraya/o/1727136526950-WhatsApp_Image_2024-09-24_at_07.05.34/dju4f310k9l3wam.jpeg';
 
-        Product::insert([
-            [
-                'name' => 'Ayam Potong Segar',
+        $names = [
+            'Ayam Potong Segar',
+            'Ayam Kampung Hidup',
+            'Paha Ayam Potong',
+            'Telur Ayam Kampung',
+            'Sate Ayam Bumbu Kacang',
+            'Fillet Dada Ayam',
+            'Nugget Ayam Homemade',
+            'Kulit Ayam Krispi',
+            'Ceker Ayam Segar',
+            'Sayap Ayam BBQ',
+            'Daging Ayam Giling',
+            'Sosis Ayam Homemade',
+            'Ayam Ungkep Bumbu Kuning',
+            'Ayam Fillet Pedas Manis',
+            'Ayam Crispy Frozen',
+            'Tulang Ayam Sup',
+            'Ayam Potong Organik',
+            'Telur Ayam Negeri',
+            'Kepala Ayam Segar',
+            'Ayam Bumbu Rujak'
+        ];
+
+        $products = [];
+
+        foreach ($names as $name) {
+            $products[] = [
+                'name' => $name,
                 'image' => $imageUrl,
-                'description' => 'Ayam potong segar siap masak, berat sekitar 1kg.',
-                'category_id' => 1,
-                'stock' => 50,
-                'discount' => 10,
-                'price' => 38000,
+                'description' => $name . ' berkualitas dan siap konsumsi.',
+                'category_id' => rand(1, 5),
+                'stock' => rand(20, 100),
+                'discount' => rand(0, 20),
+                'price' => rand(18000, 80000),
                 'status' => true,
                 'outlet_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-            [
-                'name' => 'Ayam Kampung Hidup',
-                'image' => $imageUrl,
-                'description' => 'Ayam kampung asli, cocok untuk gulai dan sop.',
-                'category_id' => 2,
-                'stock' => 30,
-                'discount' => 0,
-                'price' => 70000,
-                'status' => true,
-                'outlet_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Paha Ayam Potong',
-                'image' => $imageUrl,
-                'description' => 'Paha ayam potong segar, cocok untuk digoreng.',
-                'category_id' => 3,
-                'stock' => 100,
-                'discount' => 5,
-                'price' => 20000,
-                'status' => true,
-                'outlet_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Telur Ayam Kampung',
-                'image' => $imageUrl,
-                'description' => 'Telur ayam kampung segar, isi 10 butir.',
-                'category_id' => 4,
-                'stock' => 80,
-                'discount' => 0,
-                'price' => 25000,
-                'status' => true,
-                'outlet_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Sate Ayam Bumbu Kacang',
-                'image' => $imageUrl,
-                'description' => 'Sate ayam siap santap dengan bumbu kacang khas.',
-                'category_id' => 5,
-                'stock' => 40,
-                'discount' => 15,
-                'price' => 20000,
-                'status' => true,
-                'outlet_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Fillet Dada Ayam',
-                'image' => $imageUrl,
-                'description' => 'Dada ayam fillet tanpa tulang, cocok untuk steak.',
-                'category_id' => 3,
-                'stock' => 70,
-                'discount' => 7,
-                'price' => 32000,
-                'status' => true,
-                'outlet_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Nugget Ayam Homemade',
-                'image' => $imageUrl,
-                'description' => 'Nugget ayam buatan rumah tanpa pengawet.',
-                'category_id' => 5,
-                'stock' => 90,
-                'discount' => 12,
-                'price' => 30000,
-                'status' => true,
-                'outlet_id' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+            ];
+        }
+
+        Product::insert($products);
     }
 }

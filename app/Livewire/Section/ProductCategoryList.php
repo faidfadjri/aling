@@ -3,6 +3,7 @@
 namespace App\Livewire\Section;
 
 use App\Models\ProductCategory;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ProductCategoryList extends Component
@@ -12,17 +13,21 @@ class ProductCategoryList extends Component
 
     public function mount()
     {
-        $this->categories = ProductCategory::with('products')->orderBy('name')->get();
+        $this->categories = ProductCategory::with('products.outlet')->limit(2)->orderBy('name')->get();
         $this->activeCategoryId = $this->categories->first()->id ?? null;
     }
 
     public function setActiveCategory($categoryId)
     {
         $this->activeCategoryId = $categoryId;
+        $this->dispatch('reinit-swiper');
     }
 
     public function render()
     {
+
+        Log::debug($this->categories);
+
         $activeCategory = $this->categories->firstWhere('id', $this->activeCategoryId);
         return view('livewire.section.product-category-list', [
             'activeCategory' => $activeCategory,
