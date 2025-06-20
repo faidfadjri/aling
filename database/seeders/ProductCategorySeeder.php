@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ProductCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ class ProductCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('product_categories')->insert([
+        ProductCategory::insert([
             ['name' => 'Ayam Potong', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'Ayam Kampung', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'Bagian Ayam', 'created_at' => now(), 'updated_at' => now()],

@@ -30,7 +30,7 @@
     </section>
 
     @include('components.sections.discount')
-    @include('components.sections.product-category')
+    <livewire:section.product-category-list />
     @include('components.base.bottom-navigation')
 @endsection
 

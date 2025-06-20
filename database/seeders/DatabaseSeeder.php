@@ -7,24 +7,13 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        \App\Models\User::insert([
-            [
-                'name' => 'Administrator',
-                'username' => 'admin',
-                'email' => 'admin@gmail.com',
-                'role' => 'admin',
-                'status' => true,
-                'password' => bcrypt('123'),
-                'hp' => '08123456789',
-                'photo' => null,
-            ],
+        $this->call([
+            UserSeeder::class,
+            OutletSeeder::class,
+            ProductCategorySeeder::class,
+            ProductSeeder::class,
         ]);
-        (new ProductCategorySeeder())->run();
-        (new ProductSeeder())->run();
     }
 }

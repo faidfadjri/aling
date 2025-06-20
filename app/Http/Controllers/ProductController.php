@@ -46,6 +46,30 @@ class ProductController extends Controller
                 'role' => 'Koki Catering',
                 'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
             ],
+            (object) [
+                'rating' => 5,
+                'name' => 'Sinta R.',
+                'role' => 'Koki Catering',
+                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
+            ],
+            (object) [
+                'rating' => 5,
+                'name' => 'Sinta R.',
+                'role' => 'Koki Catering',
+                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
+            ],
+            (object) [
+                'rating' => 5,
+                'name' => 'Sinta R.',
+                'role' => 'Koki Catering',
+                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
+            ],
+            (object) [
+                'rating' => 5,
+                'name' => 'Sinta R.',
+                'role' => 'Koki Catering',
+                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
+            ],
         ];
 
         return view('pages.client.product.product-detail', [

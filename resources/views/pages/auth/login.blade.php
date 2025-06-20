@@ -2,14 +2,14 @@
 
 @section('content')
     <div class="h-full flex flex-col lg:flex-row items-center justify-center px-0 lg:px-20">
-        <div class="hidden lg:block flex-2 flex flex-col items-center justify-center">
+        <div class="hidden lg:flex flex-2 flex-col items-center justify-center">
             <div class="-ml-30 mb-4">
                 <img src="/assets/images/vector-courier.webp" alt="courier" class="mx-auto">
             </div>
             <h1 class="text-3xl font-bold text-gray-900 mb-1 text-center mb-3">
                 Ayam Segar Sampai Rumah
             </h1>
-            <h2 class="text-xl font-semibold bg-primary px-5 py-2 rounded-md italic text-white">Aling yang Antar!</h2>
+            <h2 class="text-xl font-semibold bg-primary px-5 py-2 rounded-md italic text-white w-fit">Aling yang Antar!</h2>
         </div>
         <div class="flex-1 w-full rounded-xl pt-20 px-5 lg:px-0 lg:pt-0">
             <div class="flex flex-col items-center mb-6">

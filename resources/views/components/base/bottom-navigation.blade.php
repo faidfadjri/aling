@@ -1,4 +1,4 @@
-<nav class="fixed bottom-0 left-0 right-0 bg-white shadow-md border-t border-gray-200 select-none">
+<nav class="fixed bottom-0 left-0 right-0 bg-white shadow-md border-t border-gray-200 select-none lg:hidden">
     <div class="flex justify-around items-center py-2">
 
         <a href="/"
