@@ -1,7 +1,8 @@
 <div class="swiper-slide w-auto">
     <div
         class="shadow-md rounded-lg p-4 bg-white hover:bg-gray-100 transition-colors cursor-pointer
-    flex flex-col items-start justify-between gap-3 w-[160px] sm:w-[200px] md:w-[220px] lg:w-[220px] min-h-[300px]">
+    flex flex-col items-start justify-between w-[160px] sm:w-[200px] md:w-[220px] lg:w-[220px] h-70">
+
         <div class="flex items-center justify-center w-full relative">
             <img src="{{ $promo->image }}" alt="{{ $promo->name }}"
                 class="w-full h-24 md:h-28 lg:w-full lg:h-35 object-cover mb-1 rounded-sm" />

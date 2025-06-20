@@ -19,12 +19,12 @@
             @endif
 
             @if (!isset($title) || !$title)
-                <div class="hidden lg:flex items-center gap-3">
+                <a href="/" class="hidden lg:flex items-center gap-3">
                     <img src="/assets/images/logo.png" alt="logo-brand" class="h-10">
                     <h1 class="text-xl text-blue-900 font-semibold" style="font-family: 'Audiowide', sans-serif">
                         Ayam Keliling
                     </h1>
-                </div>
+                </a>
 
                 <div class="relative flex-1">
                     <div class="flex items-center bg-white border border-gray-500 rounded-md px-3 py-2">

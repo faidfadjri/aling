@@ -3,7 +3,6 @@
 namespace App\Livewire\Section;
 
 use App\Models\ProductCategory;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ProductCategoryList extends Component
@@ -25,9 +24,6 @@ class ProductCategoryList extends Component
 
     public function render()
     {
-
-        Log::debug($this->categories);
-
         $activeCategory = $this->categories->firstWhere('id', $this->activeCategoryId);
         return view('livewire.section.product-category-list', [
             'activeCategory' => $activeCategory,

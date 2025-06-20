@@ -2,8 +2,8 @@
 
 @section('content')
     <livewire:components.appbar />
-    <section class="relative w-full">
-        <div id="banner-carousel" class="relative overflow-hidden p-2">
+    <section class="relative w-full px-0 lg:px-16">
+        <div id="banner-carousel" class="relative">
             <div class="flex transition-transform duration-700 ease-in-out" style="transform: translateX(0%);">
                 <div class="w-full px-4">
                     <div class="swiper mySwiper">
@@ -29,8 +29,10 @@
         </div>
     </section>
 
-    @include('components.sections.discount')
-    <livewire:section.product-category-list />
+    <div class="lg:px-20">
+        @include('components.sections.discount')
+        <livewire:section.product-category-list />
+    </div>
     @include('components.base.bottom-navigation')
 @endsection
 
