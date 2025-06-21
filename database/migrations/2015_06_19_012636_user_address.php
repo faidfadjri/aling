@@ -11,7 +11,8 @@ return new class extends Migration
         Schema::create('user_address', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->foreignId('village_id')->nullable()->constrained('region_villages')->nullOnDelete();
+            $table->char('village_id', 6)->nullable();
+            $table->foreign('village_id')->references('id')->on('reg_villages')->nullOnDelete();
             $table->enum('type', ['kantor', 'rumah', 'lainya']);
             $table->text('description');
             $table->timestamps();

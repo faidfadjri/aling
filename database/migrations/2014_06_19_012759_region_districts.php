@@ -8,16 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('region_districts', function (Blueprint $table) {
-            $table->id();
+        Schema::create('reg_districts', function (Blueprint $table) {
+            $table->char('id', 6)->primary();
             $table->string('name');
-            $table->foreignId('regency_id')->nullable()->constrained('region_regencies')->nullOnDelete();
+            $table->char('regency_id', 4)->nullable();
+            $table->foreign('regency_id')->references('id')->on('reg_regencies')->nullOnDelete();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('region_districts');
+        Schema::dropIfExists('reg_districts');
     }
 };

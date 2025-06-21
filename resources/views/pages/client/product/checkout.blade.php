@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="min-h-screen bg-[#F5FBFF] relative">
-        <livewire:components.appbar back="{{ route('product.detail', $productID) }}" title="Checkout" />
+        <livewire:components.appbar back="{{ route('product.detail', $productID) }}" />
 
         <div class="p-3 pb-0">
             <div class="bg-white p-3 rounded-xl shadow-sm">

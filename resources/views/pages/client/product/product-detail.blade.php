@@ -109,7 +109,7 @@
             <div id="review-container" class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-1">
                 @if ($product->reviews->count() > 1)
                     <div class="swiper review-container px-4">
-                        <div class="swiper-wrapper">
+                        <div class="swiper-wrapper flex items-center gap-3">
                             @foreach ($product->reviews as $review)
                                 <div class="swiper-slide bg-white w-full lg:max-w-1/3 rounded-lg p-3 text-sm shadow-md">
                                     <div class="mb-1 text-yellow-400 text-base">
@@ -144,7 +144,17 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const reviewCount = {{ $product->reviews->count() }};
-            if (reviewCount > 1) {
+
+            function shouldInitSwiper() {
+                const width = window.innerWidth;
+                if (width < 640) {
+                    return reviewCount > 1;
+                } else {
+                    return reviewCount > 3;
+                }
+            }
+
+            if (shouldInitSwiper()) {
                 new Swiper('.review-container', {
                     slidesPerView: 1.2,
                     breakpoints: {

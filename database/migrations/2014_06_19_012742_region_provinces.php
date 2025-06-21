@@ -8,8 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('region_provinces', function (Blueprint $table) {
-            $table->id();
+        Schema::create('reg_provinces', function (Blueprint $table) {
+            $table->char('id', 2)->primary();
             $table->string('name');
             $table->timestamps();
         });
@@ -17,6 +17,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('region_provinces');
+        Schema::dropIfExists('reg_provinces');
     }
 };
