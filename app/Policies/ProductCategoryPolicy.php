@@ -4,7 +4,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\ProductCategory;
+use App\Models\Product\ProductCategory;
 
 class ProductCategoryPolicy
 {

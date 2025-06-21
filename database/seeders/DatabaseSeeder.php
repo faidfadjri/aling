@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             OutletSeeder::class,
             ProductCategorySeeder::class,
             ProductSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

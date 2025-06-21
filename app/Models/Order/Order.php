@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Order;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductCategory extends Model
+class Order extends Model
 {
     use HasFactory;
 
+    protected $table = 'orders';
     protected $guarded = ['id'];
 
-    public function products()
+    public function items()
     {
-        return $this->hasMany(Product::class, 'category_id', 'id');
+        return $this->hasMany(OrderItem::class);
     }
 }

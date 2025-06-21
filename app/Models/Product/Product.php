@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Product;
 
+use App\Models\Order\Order;
+use App\Models\Outlet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +26,10 @@ class Product extends Model
     public function orders()
     {
         return $this->hasMany(Order::class, 'id', 'product_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
     }
 }

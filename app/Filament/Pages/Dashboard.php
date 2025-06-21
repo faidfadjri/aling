@@ -3,8 +3,8 @@
 namespace App\Filament\Pages;
 
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\ProductCategory;
+use App\Models\Product\Product;
+use App\Models\Product\ProductCategory;
 use Filament\Pages\Page;
 
 class Dashboard extends Page

@@ -13,8 +13,10 @@
         </p>
 
         <div class="flex items-center text-xs text-gray-600 gap-1">
-            <span>⭐ {{ number_format($product->rating ?? 4.5, 1) }}</span>
-            <span>•</span>
+            @if ($product->reviews->isNotEmpty())
+                <span>⭐ {{ number_format($product->reviews->average('rating'), 1) }}</span>
+                <span>•</span>
+            @endif
             <span>{{ $product->orders->count() ?? 0 }} terjual</span>
         </div>
 

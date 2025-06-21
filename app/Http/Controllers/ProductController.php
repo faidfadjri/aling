@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -21,55 +21,9 @@ class ProductController extends Controller
     {
         $product = Product::find($productID);
 
-        $reviews = [
-            (object) [
-                'rating' => 5,
-                'name' => 'Rina S.',
-                'role' => 'Ibu Rumah Tangga',
-                'comment' => 'Saya sudah beberapa kali beli ayam potong di sini, dan selalu puas. Dagingnya segar, bersih, dan tidak berbau. Potongannya juga rapi, jadi tinggal masak saja. Anak-anak di rumah jadi lahap makannya!',
-            ],
-            (object) [
-                'rating' => 5,
-                'name' => 'Budi P.',
-                'role' => 'Pemilik Warung',
-                'comment' => 'Daging ayam sangat membantu usaha saya. Selalu segar dan tepat waktu pengirimannya. Harga bersaing juga.',
-            ],
-            (object) [
-                'rating' => 5,
-                'name' => 'Sinta R.',
-                'role' => 'Koki Catering',
-                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
-            ],
-            (object) [
-                'rating' => 5,
-                'name' => 'Sinta R.',
-                'role' => 'Koki Catering',
-                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
-            ],
-            (object) [
-                'rating' => 5,
-                'name' => 'Sinta R.',
-                'role' => 'Koki Catering',
-                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
-            ],
-            (object) [
-                'rating' => 5,
-                'name' => 'Sinta R.',
-                'role' => 'Koki Catering',
-                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
-            ],
-            (object) [
-                'rating' => 5,
-                'name' => 'Sinta R.',
-                'role' => 'Koki Catering',
-                'comment' => 'Kualitas terjaga. Daging tebal dan bersih, sangat cocok untuk kebutuhan catering besar.',
-            ],
-        ];
-
         return view('pages.client.product.product-detail', [
             'active' => 'product',
             'product' => $product,
-            'reviews' => $reviews,
         ]);
     }
 

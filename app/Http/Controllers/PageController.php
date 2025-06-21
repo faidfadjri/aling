@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\ProductCategory;
-use Illuminate\Http\Request;
+use App\Models\Product\Product;
 
 class PageController extends Controller
 {

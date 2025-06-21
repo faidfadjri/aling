@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Section;
 
-use App\Models\ProductCategory;
+use App\Models\Product\ProductCategory;
 use Livewire\Component;
 
 class ProductCategoryList extends Component
