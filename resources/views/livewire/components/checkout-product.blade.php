@@ -27,7 +27,8 @@
 
     <div class="bg-white p-4 rounded-xl shadow-sm">
         <label class="block font-semibold mb-2">CATATAN</label>
-        <textarea class="w-full border border-gray-300 rounded-lg p-2 text-sm" rows="3" placeholder="Ketik disini"></textarea>
+        <textarea class="w-full border border-gray-300 rounded-lg p-2 text-sm" rows="3" placeholder="Ketik disini"
+            wire:model.defer="note"></textarea>
     </div>
 
     <div class="bg-white p-4 rounded-xl shadow-sm space-y-2">
@@ -62,7 +63,8 @@
                 Rp. {{ number_format($totalTagihan, 0, ',', '.') }}
             </span>
         </span>
-        <button class="bg-primary text-white px-6 py-2 rounded-lg font-semibold" wire:loading.attr="disabled">
+        <button class="bg-primary text-white px-6 py-2 rounded-lg font-semibold" wire:click="proceedOrder"
+            wire:loading.attr="disabled">
             Proses Order
         </button>
     </div>

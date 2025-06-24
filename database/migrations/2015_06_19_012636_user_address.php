@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->char('village_id', 6)->nullable();
-            $table->foreign('village_id')->references('id')->on('reg_villages')->nullOnDelete();
             $table->enum('type', ['kantor', 'rumah', 'lainya']);
             $table->text('description');
             $table->timestamps();

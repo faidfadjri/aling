@@ -1,29 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Transactions;
 
-use App\Models\Product\Product;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class OrderController extends Controller
 {
-    function index(Request $request)
+    public function index()
     {
-        $keyword = $request->input('search');
-
-        return view('pages.client.product.product', [
-            'active'  => 'product',
-            'keyword' => $keyword
-        ]);
-    }
-
-    public function detail($productID)
-    {
-        $product = Product::find($productID);
-
-        return view('pages.client.product.product-detail', [
-            'active' => 'product',
-            'product' => $product,
+        return view('pages.client.order.order', [
+            'active' => 'order'
         ]);
     }
 

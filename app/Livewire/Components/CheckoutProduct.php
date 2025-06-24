@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Components;
 
+use App\Models\Order\Order;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class CheckoutProduct extends Component
 {
@@ -10,6 +12,7 @@ class CheckoutProduct extends Component
     public $quantity = 1;
     public $biayaAdmin = 5000;
     public $isEditing = false;
+    public $note;
 
     public function mount($product)
     {
@@ -40,6 +43,34 @@ class CheckoutProduct extends Component
     {
         $this->quantity = max(1, (int) $this->quantity);
         $this->isEditing = false;
+    }
+
+    public function proceedOrder()
+    {
+        $this->validate([
+            'quantity' => 'required|integer|min:1',
+            'note' => 'nullable|string|max:1000',
+        ]);
+        $addressId = auth()->user()?->default_address_id ?? 1;
+
+        $totalHarga = $this->product->price * $this->quantity;
+        $totalTagihan = $totalHarga + $this->biayaAdmin;
+
+        $order = Order::create([
+            'order_number' => 'ORD-' . strtoupper(Str::random(8)),
+            'address_id' => $addressId,
+            'total_price' => $totalTagihan,
+            'note' => $this->note,
+        ]);
+
+        $order->items()->create([
+            'product_id' => $this->product->id,
+            'quantity' => $this->quantity,
+            'subtotal' => $totalHarga,
+        ]);
+
+        session()->flash('success', 'Order berhasil diproses!');
+        return redirect()->route('/');
     }
 
     public function render()

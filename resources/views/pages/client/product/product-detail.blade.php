@@ -54,7 +54,7 @@
                             d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z" />
                     </svg>
 
-                    <span class="hidden lg:flex">Chat CS Outlet</span>
+                    <span class="hidden lg:flex">CS Outlet</span>
                 </button>
                 <div class="flex-1 w-auto lg:w-full flex lg:justify-end gap-2">
                     <a class="lg:flex-1 py-2 px-4 w-full lg:w-auto rounded-lg text-sm border border-blue-600 text-blue-600 font-semibold hover:bg-blue-600 hover:text-white duration-300 cursor-pointer lg:min-w-[120px] text-center"
@@ -77,19 +77,6 @@
                         </svg>
                         <span>CS Outlet</span>
                     </button>
-                    <div class="w-px h-5 bg-gray-300"></div>
-                    <button class="flex items-center space-x-2 hover:text-blue-600"
-                        onclick="alert('Lokasi Outlet: Jl. Dummy No. 123, Jakarta')" type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                        </svg>
-                        <span>Lokasi Outlet</span>
-                    </button>
-
                     <div class="w-px h-5 bg-gray-300"></div>
 
                     <button class="flex items-center space-x-1 hover:text-green-600" onclick="shareLink()" type="button">
@@ -172,5 +159,23 @@
                 });
             }
         });
+    </script>
+    <script>
+        function shareLink() {
+            const url = window.location.href;
+            const title = document.title;
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    url: url
+                });
+            } else {
+                navigator.clipboard.writeText(url).then(function() {
+                    alert('Link berhasil disalin!');
+                }, function() {
+                    alert('Gagal menyalin link.');
+                });
+            }
+        }
     </script>
 @endpush
