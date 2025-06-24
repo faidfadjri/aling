@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Transactions;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\Order;
 use App\Models\Product\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        $addresses = $user->addresses;
+        $orders = Order::whereIn('address_id', $addresses->pluck('id'))->get();
         return view('pages.client.order.order', [
-            'active' => 'order'
+            'active' => 'order',
+            'orders' => $orders
         ]);
     }
 
