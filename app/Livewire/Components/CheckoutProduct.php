@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Models\Order\Order;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use PhpParser\Node\Stmt\Echo_;
 
 class CheckoutProduct extends Component
 {
@@ -12,10 +13,12 @@ class CheckoutProduct extends Component
     public $quantity = 1;
     public $biayaAdmin = 5000;
     public $isEditing = false;
+    public $address = null;
     public $note;
 
-    public function mount($product)
+    public function mount($product, $address)
     {
+        $this->address = $address;
         $this->product = (object) $product;
         $this->quantity = $this->product->quantity ?? 1;
     }
@@ -51,14 +54,13 @@ class CheckoutProduct extends Component
             'quantity' => 'required|integer|min:1',
             'note' => 'nullable|string|max:1000',
         ]);
-        $addressId = auth()->user()?->default_address_id ?? 1;
 
         $totalHarga = $this->product->price * $this->quantity;
         $totalTagihan = $totalHarga + $this->biayaAdmin;
 
         $order = Order::create([
             'order_number' => 'ORD-' . strtoupper(Str::random(8)),
-            'address_id' => $addressId,
+            'address_id' => $this->address->id,
             'total_price' => $totalTagihan,
             'note' => $this->note,
         ]);
@@ -69,8 +71,12 @@ class CheckoutProduct extends Component
             'subtotal' => $totalHarga,
         ]);
 
-        session()->flash('success', 'Order berhasil diproses!');
-        return redirect()->route('/');
+        $this->dispatch('orderProcessed', [
+            'order_id' => $order->id,
+            'message' => 'Order berhasil diproses!',
+        ]);
+
+        return redirect()->route('order');
     }
 
     public function render()

@@ -20,7 +20,9 @@
                             {{ $address->description ?? '-' }} </p>
                         </p>
                     @else
-                        <p class="italic">Alamat belum tersedia, tekan untuk tambahkan alamat</p>
+                        <p class="italic">Alamat belum tersedia, <span class="font-semibold text-sky-800 underline">tekan
+                                untuk tambahkan
+                                alamat</span></p>
                     @endif
                 </div>
                 <div>
@@ -30,7 +32,9 @@
                     </svg>
                 </div>
             </a>
-            <livewire:components.checkout-product :product="$product" />
+            @if ($address)
+                <livewire:components.checkout-product :product="$product" :address="$address" />
+            @endif
         </div>
     </div>
 @endsection
