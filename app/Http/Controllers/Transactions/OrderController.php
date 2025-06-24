@@ -27,11 +27,14 @@ class OrderController extends Controller
         $selectedAddress = request()->cookie('selected-address');
 
         $address = null;
-        if (!empty($user->addresses)) {
-            if ($selectedAddress) {
-                $address = collect($user->addresses)->firstWhere('id', $selectedAddress) ?? $user->addresses[0];
-            } else {
-                $address = $user->addresses[0];
+        if (!empty($user->addresses) && is_iterable($user->addresses)) {
+            $addresses = is_array($user->addresses) ? $user->addresses : $user->addresses->all();
+            if (!empty($addresses)) {
+                if ($selectedAddress) {
+                    $address = collect($addresses)->firstWhere('id', $selectedAddress) ?? $addresses[0];
+                } else {
+                    $address = $addresses[0];
+                }
             }
         }
 
