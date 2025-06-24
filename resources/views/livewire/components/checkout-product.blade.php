@@ -1,14 +1,13 @@
 <div class="space-y-2 pb-28 bg-[#F5FBFF]">
     <div class="bg-white p-4 rounded-xl shadow-sm flex gap-4">
-        <img src="{{ $product->image }}" alt="{{ $product->title }}" class="w-20 h-20 object-cover rounded-lg">
+        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-20 h-20 object-cover rounded-lg">
         <div class="flex-1">
-            <h4 class="font-semibold">{{ $product->title }}</h4>
+            <h4 class="font-semibold">{{ $product->name }}</h4>
             <p class="text-primary font-semibold mt-1">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
 
             <div class="flex items-center justify-end">
                 <div class="flex items-center mt-2 border border-gray-300 w-fit rounded-md">
                     <button wire:click="decrement" class="px-2 py-1 bg-gray-100 text-gray-500 rounded-md">-</button>
-
                     @if ($isEditing)
                         <input type="number" wire:model="quantity" wire:keydown.enter="stopEditing"
                             class="w-12 text-center px-2 py-1 border-l border-r border-gray-300 focus:outline-none"

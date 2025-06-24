@@ -1,6 +1,6 @@
 @extends('layout.app')
 
 @section('content')
-    <livewire:components.appbar back="{{ url()->previous() }}" />
-    <livewire:section.user-address-form />
+    <livewire:components.appbar back="{{ route('profile.address') }}" />
+    <livewire:section.user-address-form :addressID='$addressID' />
 @endsection

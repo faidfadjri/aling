@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Transactions;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -16,28 +18,31 @@ class OrderController extends Controller
 
     public function checkout($productID = null)
     {
-        $product = (object) [
-            'id' => $productID,
-            'title' => 'Ayam Potong 5KG',
-            'price' => 40000,
-            'image' => 'https://cdn.rri.co.id/berita/Palangkaraya/o/1727136526950-WhatsApp_Image_2024-09-24_at_07.05.34/dju4f310k9l3wam.jpeg',
-            'quantity' => 1,
-        ];
+        $product    = Product::find($productID);
+        $adminfee   = 5000;
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $user = Auth::user();
+        $selectedAddress = request()->cookie('selected-address');
 
-        $alamat = 'Jl. Raya Kby. Lama, Kec. Kby. Lama, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta, 11540 (PT Akastra Toyota)';
-        $biayaAdmin = 5000;
+        $address = null;
+        if (!empty($user->addresses)) {
+            if ($selectedAddress) {
+                $address = collect($user->addresses)->firstWhere('id', $selectedAddress) ?? $user->addresses[0];
+            } else {
+                $address = $user->addresses[0];
+            }
+        }
 
-        $totalHarga = $product->price * $product->quantity;
-        $totalTagihan = $totalHarga + $biayaAdmin;
 
-        return view('pages.client.product.checkout', [
-            'active' => 'product',
-            'productID' => $productID,
-            'product' => $product,
-            'alamat' => $alamat,
-            'biayaAdmin' => $biayaAdmin,
-            'totalHarga' => $totalHarga,
-            'totalTagihan' => $totalTagihan,
-        ]);
+        return response()
+            ->view('pages.client.product.checkout', [
+                'active'    => 'product',
+                'product'   => $product,
+                'fee'       => $adminfee,
+                'address'   => $address
+            ])
+            ->cookie('last-visited-product', json_encode(['id' => $productID]), 60 * 24 * 30);
     }
 }

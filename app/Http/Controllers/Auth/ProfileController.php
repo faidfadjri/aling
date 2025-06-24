@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
@@ -12,8 +11,10 @@ class ProfileController extends Controller
         return view('pages.client.profile.address');
     }
 
-    public function addAddress()
+    public function addAddress($addressID = null)
     {
-        return view('pages.client.profile.add-address');
+        return view('pages.client.profile.add-address', [
+            'addressID' => $addressID
+        ]);
     }
 }

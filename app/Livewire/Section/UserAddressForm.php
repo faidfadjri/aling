@@ -14,6 +14,7 @@ class UserAddressForm extends Component
 {
     public $type = 'rumah';
     public $description;
+    public $addressID;
 
     public $province_id;
     public $regency_id;
@@ -25,8 +26,25 @@ class UserAddressForm extends Component
     public $districts = [];
     public $villages = [];
 
-    public function mount()
+    public function mount($addressID = null)
     {
+        $this->addressID = $addressID;
+
+        if ($addressID !== null) {
+            $address = UserAddress::find($addressID);
+            if ($address) {
+                $this->type = $address->type;
+                $this->description = $address->description;
+                $this->province_id = $address->village->district->regency->province_id ?? null;
+                $this->regency_id = $address->village->district->regency_id ?? null;
+                $this->district_id = $address->village->district_id ?? null;
+                $this->village_id = $address->village_id ?? null;
+
+                $this->regencies = Regency::where('province_id', $this->province_id)->orderBy('name', 'asc')->get();
+                $this->districts = District::where('regency_id', $this->regency_id)->orderBy('name', 'asc')->get();
+                $this->villages = Village::where('district_id', $this->district_id)->orderBy('name', 'asc')->get();
+            }
+        }
         $this->provinces = Province::orderBy('name', 'asc')->get();
     }
 
@@ -66,12 +84,23 @@ class UserAddressForm extends Component
             return;
         }
 
-        UserAddress::create([
-            'user_id'       => Auth::id(),
-            'village_id'    => $this->village_id,
-            'type'          => $this->type,
-            'description'   => $this->description,
-        ]);
+        if ($this->addressID !== null) {
+            $address = UserAddress::find($this->addressID);
+            if ($address) {
+                $address->update([
+                    'village_id'    => $this->village_id,
+                    'type'          => $this->type,
+                    'description'   => $this->description,
+                ]);
+            }
+        } else {
+            UserAddress::create([
+                'user_id'       => Auth::id(),
+                'village_id'    => $this->village_id,
+                'type'          => $this->type,
+                'description'   => $this->description,
+            ]);
+        }
 
         $this->dispatch("success", "berhasil menambahkan alamat");
 

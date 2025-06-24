@@ -35,4 +35,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // has many user address
+    public function addresses()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
 }
