@@ -40,6 +40,7 @@ Route::post('/pendaftaran', [AuthController::class, 'registerStore'])->name('reg
 
 Route::prefix('profile')->group(function () {
     Route::get('address', [ProfileController::class, 'address'])->name('profile.address');
+    Route::get('add-address', [ProfileController::class, 'addAddress'])->name('profile.address.add');
 });
 
 

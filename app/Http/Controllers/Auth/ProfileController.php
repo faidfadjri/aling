@@ -11,4 +11,9 @@ class ProfileController extends Controller
     {
         return view('pages.client.profile.address');
     }
+
+    public function addAddress()
+    {
+        return view('pages.client.profile.add-address');
+    }
 }
