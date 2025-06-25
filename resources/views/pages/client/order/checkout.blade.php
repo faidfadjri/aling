@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="min-h-screen bg-[#F5FBFF] relative">
-        <livewire:components.appbar back="{{ route('product.detail', $product->id) }}" />
+        <livewire:components.appbar
+            back="{{ isset($productID) ? route('product.detail', $productID) : route('product') }}" />
 
         <div class="p-3 pb-0">
             <a class="flex justify-between items-center bg-white px-3 py-5 rounded-xl shadow-sm mb-3"
@@ -33,7 +34,7 @@
                 </div>
             </a>
             @if ($address)
-                <livewire:components.checkout-product :product="$product" :address="$address" />
+                <livewire:components.checkout-product :productID="$productID" :productIDs="$productIDs" :address="$address" />
             @endif
         </div>
     </div>

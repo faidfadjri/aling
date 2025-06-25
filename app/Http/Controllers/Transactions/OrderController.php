@@ -25,8 +25,7 @@ class OrderController extends Controller
 
     public function checkout($productID = null)
     {
-        $product    = Product::find($productID);
-        $adminfee   = 5000;
+        $adminfee = 5000;
         if (!Auth::check()) {
             return redirect()->route('login');
         }
@@ -45,15 +44,25 @@ class OrderController extends Controller
             }
         }
 
+        $productIDs = [];
+        if ($productID !== null) {
+            $productIDs = session('checkout_cart_item_ids', []);
+        }
 
         return response()
-            ->view('pages.client.product.checkout', [
-                'active'    => 'product',
-                'product'   => $product,
-                'fee'       => $adminfee,
-                'address'   => $address
+            ->view('pages.client.order.checkout', [
+                'active'     => 'product',
+                'productID'  => $productID,
+                'fee'        => $adminfee,
+                'address'    => $address,
+                'productIDs' => $productIDs
             ])
             ->cookie('last-visited-product', json_encode(['id' => $productID]), 60 * 24 * 30);
+    }
+
+    public function cart()
+    {
+        return view('pages.client.order.cart');
     }
 
     public function addToCart(Request $request)
@@ -73,15 +82,18 @@ class OrderController extends Controller
                 'user_id' => $user->id
             ]);
         }
-
         $existingCartItem = CartItem::where('cart_id', $cart->id)
             ->where('product_id', $productID)
             ->first();
 
-        if (!$existingCartItem) {
+        if ($existingCartItem) {
+            $existingCartItem->quantity += 1;
+            $existingCartItem->save();
+        } else {
             $cartItem = CartItem::create([
                 'cart_id'    => $cart->id,
-                'product_id' => $productID
+                'product_id' => $productID,
+                'quantity'   => 1
             ]);
             if (!$cartItem) {
                 return redirect()->back()->with('error', 'Gagal menambahkan produk');

@@ -3,59 +3,64 @@
 namespace App\Livewire\Components;
 
 use App\Models\Order\Order;
-use Livewire\Component;
+use App\Models\Product\Product;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use PhpParser\Node\Stmt\Echo_;
+use Livewire\Component;
 
 class CheckoutProduct extends Component
 {
-    public $product;
-    public $quantity = 1;
-    public $biayaAdmin = 5000;
-    public $isEditing = false;
-    public $address = null;
-    public $note;
+    public $productID;
+    public $productIDs = [];
+    public Collection $products;
 
-    public function mount($product, $address)
+    public $mode = 'single';
+    public $quantities = [];
+    public $biayaAdmin = 5000;
+    public $note;
+    public $address = null;
+
+    public function mount($productID = null, $productIDs = [], $address)
     {
         $this->address = $address;
-        $this->product = (object) $product;
-        $this->quantity = $this->product->quantity ?? 1;
-    }
 
-    public function increment()
-    {
-        $this->quantity++;
-        $this->isEditing = false;
-    }
 
-    public function decrement()
-    {
-        $this->isEditing = false;
-        if ($this->quantity > 1) {
-            $this->quantity--;
+        if ($productID) {
+            $this->mode = 'single';
+            $this->productID = $productID;
+            $product = Product::findOrFail($productID);
+            $this->products = collect([$product]);
+            $this->quantities[$product->id] = $product->quantity ?? 1;
+        } else {
+            $this->mode = 'multiple';
+            $this->productIDs = $productIDs;
+            $this->products = Product::whereIn('id', $productIDs)->get();
+            foreach ($this->products as $product) {
+                $this->quantities[$product->id] = $product->quantity ?? 1;
+            }
         }
     }
 
-    public function startEditing()
+    public function increment($id)
     {
-        $this->isEditing = true;
+        $this->quantities[$id]++;
     }
 
-    public function stopEditing()
+    public function decrement($id)
     {
-        $this->quantity = max(1, (int) $this->quantity);
-        $this->isEditing = false;
+        if ($this->quantities[$id] > 1) {
+            $this->quantities[$id]--;
+        }
     }
 
     public function proceedOrder()
     {
         $this->validate([
-            'quantity' => 'required|integer|min:1',
+            'quantities' => 'required|array',
             'note' => 'nullable|string|max:1000',
         ]);
 
-        $totalHarga = $this->product->price * $this->quantity;
+        $totalHarga = $this->calculateTotalHarga();
         $totalTagihan = $totalHarga + $this->biayaAdmin;
 
         $order = Order::create([
@@ -65,23 +70,29 @@ class CheckoutProduct extends Component
             'note' => $this->note,
         ]);
 
-        $order->items()->create([
-            'product_id' => $this->product->id,
-            'quantity' => $this->quantity,
-            'subtotal' => $totalHarga,
-        ]);
+        foreach ($this->products as $product) {
+            $order->items()->create([
+                'product_id' => $product->id,
+                'quantity' => $this->quantities[$product->id],
+                'subtotal' => $product->price * $this->quantities[$product->id],
+            ]);
+        }
 
-        $this->dispatch('orderProcessed', [
-            'order_id' => $order->id,
-            'message' => 'Order berhasil diproses!',
-        ]);
+        session()->forget('checkout_cart_item_ids');
 
         return redirect()->route('order');
     }
 
+    public function calculateTotalHarga()
+    {
+        return $this->products->sum(function ($product) {
+            return $product->price * $this->quantities[$product->id];
+        });
+    }
+
     public function render()
     {
-        $totalHarga = $this->product->price * $this->quantity;
+        $totalHarga = $this->calculateTotalHarga();
         $totalTagihan = $totalHarga + $this->biayaAdmin;
 
         return view('livewire.components.checkout-product', [

@@ -26,10 +26,11 @@ Route::prefix('product')->group(function () {
 });
 
 Route::middleware('auth')->prefix('order')->group(function () {
-    Route::get('checkout', [ProductController::class, 'checkout'])->name('order.checkout');
-    Route::get('checkout/{productID}', [OrderController::class, 'checkout'])->name('order.checkout');
+    Route::get('checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+    Route::get('checkout/{productID}', [OrderController::class, 'checkout'])->name('order.checkout.detail');
 
     Route::get('/', [OrderController::class, 'index'])->name('order');
+    Route::get('cart', [OrderController::class, 'cart'])->name('order.cart');
     Route::post('cart', [OrderController::class, 'addToCart'])->name('order.cart.save');
 });
 

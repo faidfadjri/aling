@@ -68,7 +68,7 @@
                 </button>
                 <div class="flex-1 w-auto lg:w-full flex lg:justify-end gap-2">
                     <a class="lg:flex-1 py-2 px-4 w-full lg:w-auto rounded-lg text-sm border border-blue-600 text-blue-600 font-semibold hover:bg-blue-600 hover:text-white duration-300 cursor-pointer lg:min-w-[120px] text-center"
-                        href="{{ route('order.checkout', $product->id) }}">
+                        href="{{ route('order.checkout.detail', $product->id) }}">
                         Beli Langsung
                     </a>
                     <form method="POST" action="{{ route('order.cart.save') }}" onsubmit="handleCartLoading(this)">

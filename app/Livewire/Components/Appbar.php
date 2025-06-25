@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Components;
 
+use App\Models\Order\Cart;
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -16,11 +18,20 @@ class Appbar extends Component
 
     public string $back;
     public string $title;
+    public int $cartCount;
 
     public bool $isFocused = false;
 
     public function mount()
     {
+
+        $user = Auth::user();
+        if ($user) {
+            $cart = Cart::where("user_id", $user->id)->first();
+            $cartCount = $cart ? $cart->items->count() : 0;
+            $this->cartCount = $cartCount;
+        }
+
         if ($this->keyword) {
             $this->search = $this->keyword;
             $this->doSearch();
@@ -32,10 +43,6 @@ class Appbar extends Component
     {
         $this->results = [];
         $this->isFocused = true;
-
-        Log::alert('Search initiated', [
-            'search_term' => $this->search,
-        ]);
         $this->doSearch();
     }
 
@@ -44,12 +51,10 @@ class Appbar extends Component
         $this->isFocused = false;
         $this->search = '';
         $this->results = [];
-        Log::alert('Search focus disabled');
     }
 
     public function doSearch()
     {
-
         if (!empty($this->search)) {
 
             $keyword = $this->search;
