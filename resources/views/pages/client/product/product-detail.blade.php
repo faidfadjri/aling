@@ -71,11 +71,12 @@
                         href="{{ route('order.checkout.detail', $product->id) }}">
                         Beli Langsung
                     </a>
-                    <form method="POST" action="{{ route('order.cart.save') }}" onsubmit="handleCartLoading(this)">
+                    <form class="lg:flex-1 w-full h-full lg:w-auto" method="POST" action="{{ route('order.cart.save') }}"
+                        onsubmit="handleCartLoading(this)">
                         @csrf
                         <input type="hidden" id="productID" name="productID" value="{{ $product->id }}">
                         <button type="submit"
-                            class="lg:flex-1 py-2 px-4 w-full lg:w-auto rounded-lg text-sm border border-blue-600 bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 cursor-pointer lg:min-w-[120px]"
+                            class="py-2 px-4 w-full rounded-lg text-sm border border-blue-600 bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 cursor-pointer lg:min-w-[120px]"
                             id="add-to-cart-btn">
                             <span class="inline" id="add-to-cart-text">+ Keranjang</span>
                             <span class="hidden" id="add-to-cart-loading">
@@ -147,7 +148,6 @@
                 @endif
             </div>
         </div>
-
     </div>
 @endsection
 
@@ -209,7 +209,7 @@
             const text = form.querySelector('#add-to-cart-text');
             const loading = form.querySelector('#add-to-cart-loading');
             btn.disabled = true;
-            text.textContent = ''; // Remove "+ Keranjang" while loading
+            text.textContent = '';
             loading.classList.remove('hidden');
         }
     </script>
