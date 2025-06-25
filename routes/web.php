@@ -23,13 +23,14 @@ Route::get('/', [PageController::class, 'index'])->name('homepage');
 Route::prefix('product')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('product');
     Route::get('/detail/{productID}', [ProductController::class, 'detail'])->name('product.detail');
-
-    Route::get('checkout', [ProductController::class, 'checkout'])->name('product.checkout');
-    Route::get('checkout/{productID}', [OrderController::class, 'checkout'])->name('product.checkout');
 });
 
-Route::prefix('order')->group(function () {
+Route::middleware('auth')->prefix('order')->group(function () {
+    Route::get('checkout', [ProductController::class, 'checkout'])->name('order.checkout');
+    Route::get('checkout/{productID}', [OrderController::class, 'checkout'])->name('order.checkout');
+
     Route::get('/', [OrderController::class, 'index'])->name('order');
+    Route::post('cart', [OrderController::class, 'addToCart'])->name('order.cart.save');
 });
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');

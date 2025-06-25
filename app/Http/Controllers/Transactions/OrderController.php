@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Transactions;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\Cart;
+use App\Models\Order\CartItem;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -51,5 +54,40 @@ class OrderController extends Controller
                 'address'   => $address
             ])
             ->cookie('last-visited-product', json_encode(['id' => $productID]), 60 * 24 * 30);
+    }
+
+    public function addToCart(Request $request)
+    {
+        $key       = 'productID';
+        if (!$request->has($key)) {
+            return redirect()->back()->with('error', 'Gagal menambahkan produk');
+        }
+
+        $productID = $request->input($key, null);
+
+
+        $user        = Auth::user();
+        $cart        = Cart::where('user_id', $user->id)->first();
+        if (!$cart) {
+            $cart = Cart::create([
+                'user_id' => $user->id
+            ]);
+        }
+
+        $existingCartItem = CartItem::where('cart_id', $cart->id)
+            ->where('product_id', $productID)
+            ->first();
+
+        if (!$existingCartItem) {
+            $cartItem = CartItem::create([
+                'cart_id'    => $cart->id,
+                'product_id' => $productID
+            ]);
+            if (!$cartItem) {
+                return redirect()->back()->with('error', 'Gagal menambahkan produk');
+            }
+        }
+
+        return redirect()->back()->with('success', 'Berhasil menambahkan keranjang');
     }
 }

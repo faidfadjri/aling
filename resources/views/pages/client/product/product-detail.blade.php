@@ -4,6 +4,16 @@
     <div class="min-h-screen bg-[#F5FBFF] relative">
         <livewire:components.appbar back="{{ route('product') }}" />
 
+        @if (session('success'))
+            <div class="mb-4 px-4 py-3 rounded bg-green-100 text-green-800 text-sm">
+                {{ session('success') }}
+            </div>
+        @elseif (session('error'))
+            <div class="mb-4 px-4 py-3 rounded bg-red-100 text-red-800 text-sm">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="mx-auto px-5 rounded-lg flex flex-col lg:flex-row items-center shadow-sm overflow-hidden lg:mt-10">
             <div class="relative flex-shrink-0 w-full lg:w-1/2">
                 <img src="{{ $product->image }}" alt="{{ $product->name }}"
@@ -58,13 +68,27 @@
                 </button>
                 <div class="flex-1 w-auto lg:w-full flex lg:justify-end gap-2">
                     <a class="lg:flex-1 py-2 px-4 w-full lg:w-auto rounded-lg text-sm border border-blue-600 text-blue-600 font-semibold hover:bg-blue-600 hover:text-white duration-300 cursor-pointer lg:min-w-[120px] text-center"
-                        href="{{ route('product.checkout', $product->id) }}">
+                        href="{{ route('order.checkout', $product->id) }}">
                         Beli Langsung
                     </a>
-                    <button
-                        class="lg:flex-1 py-2 px-4 w-full lg:w-auto rounded-lg text-sm border border-blue-600 bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 cursor-pointer lg:min-w-[120px]">
-                        + Keranjang
-                    </button>
+                    <form method="POST" action="{{ route('order.cart.save') }}" onsubmit="handleCartLoading(this)">
+                        @csrf
+                        <input type="hidden" id="productID" name="productID" value="{{ $product->id }}">
+                        <button type="submit"
+                            class="lg:flex-1 py-2 px-4 w-full lg:w-auto rounded-lg text-sm border border-blue-600 bg-blue-600 text-white font-semibold hover:bg-blue-800 duration-300 cursor-pointer lg:min-w-[120px]"
+                            id="add-to-cart-btn">
+                            <span class="inline" id="add-to-cart-text">+ Keranjang</span>
+                            <span class="hidden" id="add-to-cart-loading">
+                                <svg class="animate-spin h-4 w-4 inline mr-1" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4" fill="none"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+                                    </path>
+                                </svg>
+                                Loading...
+                            </span>
+                        </button>
+                    </form>
                 </div>
 
                 <div class="hidden lg:flex items-center space-x-6 mt-4 text-sm text-gray-800">
@@ -176,6 +200,17 @@
                     alert('Gagal menyalin link.');
                 });
             }
+        }
+    </script>
+
+    <script>
+        function handleCartLoading(form) {
+            const btn = form.querySelector('#add-to-cart-btn');
+            const text = form.querySelector('#add-to-cart-text');
+            const loading = form.querySelector('#add-to-cart-loading');
+            btn.disabled = true;
+            text.textContent = ''; // Remove "+ Keranjang" while loading
+            loading.classList.remove('hidden');
         }
     </script>
 @endpush
