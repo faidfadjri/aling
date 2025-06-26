@@ -10,7 +10,7 @@ class ProductList extends Component
 {
     use WithPagination;
 
-    public string|null $search;
+    public ?string $search = '';
     public string $selectedCity = '';
     public int $perPage = 12;
 
