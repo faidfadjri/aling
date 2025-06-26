@@ -73,6 +73,11 @@ class Appbar extends Component
         }
     }
 
+    public function onEnter()
+    {
+        return redirect()->route('product', ['search' => $this->search]);
+    }
+
 
     public function render()
     {

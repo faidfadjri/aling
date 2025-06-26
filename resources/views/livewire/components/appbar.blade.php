@@ -32,7 +32,8 @@
                         </svg>
                         <input type="text" placeholder="Cari di Aling" id="searchbar"
                             class="bg-transparent outline-none w-full text-sm lg:text-md text-black placeholder-gray-400"
-                            autocomplete="off" wire:model.live="search" />
+                            autocomplete="off" wire:model.live="search" wire:key="search-input"
+                            wire:keydown.enter="onEnter" />
                     </div>
 
                     <div class="absolute left-0 right-0 w-full z-40 bg-white shadow-xl rounded-b-md">
@@ -64,10 +65,10 @@
                                     <h2 class="font-semibold text-gray-800 mb-3">Pencarian Terakhir</h2>
                                     <div id="history-container" class="flex flex-wrap gap-2">
                                         @foreach ($searchHistory as $history)
-                                            <button wire:click="$set('search', '{{ $history }}')"
-                                                class="px-4 py-2 border border-gray-400 bg-black/1 text-gray-800 rounded-full text-sm">
+                                            <a href="{{ route('product', ['search' => $history]) }}"
+                                                class="px-4 py-2 border border-gray-400 bg-black/1 text-gray-800 rounded-full text-sm hover:bg-gray-50 duration-200 cursor-pointer">
                                                 {{ $history }}
-                                            </button>
+                                            </a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -184,33 +185,26 @@
 
 @push('scripts')
     <script>
-        const menu = document.getElementById('dropdown-menu');
-        const button = document.querySelector('#user-menu > button');
+        if (!window.__appbarMenuInitialized) {
+            window.__appbarMenuInitialized = true;
 
-        function toggleMenu() {
-            menu.classList.toggle('opacity-0');
-            menu.classList.toggle('scale-95');
-            menu.classList.toggle('pointer-events-none');
-        }
+            document.addEventListener('click', function(e) {
+                const menu = document.getElementById('dropdown-menu');
+                const button = document.querySelector('#user-menu > button');
 
-        document.addEventListener('click', function(e) {
-            if (!button.contains(e.target) && !menu.contains(e.target)) {
-                menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-            }
-        });
+                if (menu && button && !button.contains(e.target) && !menu.contains(e.target)) {
+                    menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                }
+            });
 
-        document.getElementById('searchbar').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                mySearchFunction();
-            }
-        });
-
-        function mySearchFunction() {
-            const searchValue = document.getElementById('searchbar').value;
-            if (searchValue.trim() !== '') {
-                window.location.href = `/product?search=${encodeURIComponent(searchValue)}`;
-            }
+            window.toggleMenu = function() {
+                const menu = document.getElementById('dropdown-menu');
+                if (menu) {
+                    menu.classList.toggle('opacity-0');
+                    menu.classList.toggle('scale-95');
+                    menu.classList.toggle('pointer-events-none');
+                }
+            };
         }
     </script>
 @endpush
