@@ -4,8 +4,10 @@ namespace App\Livewire\Section;
 
 use App\Models\Order\Cart;
 use App\Models\Order\CartItem;
+use App\Models\Product\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class CartList extends Component
@@ -56,14 +58,18 @@ class CartList extends Component
 
     public function orderSelected()
     {
+        $items = CartItem::whereIn('id', $this->selectedItems)->get();
+        $products = $items->map(fn($item) => $item->product->id);
+
         Cookie::queue(Cookie::forget('checkout_cart_item_ids'));
-        Cookie::queue(Cookie::make('checkout_cart_item_ids', json_encode($this->selectedItems), 60));
+        Cookie::queue(Cookie::make('checkout_cart_item_ids', json_encode($products), 60));
         return redirect()->route('order.checkout');
     }
 
     private function refreshCart()
     {
         $this->cart = Cart::with('items.product.outlet')->where('user_id', Auth::id())->first();
+        $this->dispatch('refresh');
     }
 
     public function render()
