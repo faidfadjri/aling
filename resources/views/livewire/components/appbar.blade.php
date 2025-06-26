@@ -45,10 +45,9 @@
 
                         @if ($isFocused)
                             <div class="p-4">
-
                                 <div class="mb-10">
                                     @foreach ($results as $result)
-                                        <a href="{{ route('product', ['search' => $result->name]) }}" wire:navigate
+                                        <a href="{{ route('product', ['search' => $result->name]) }}"
                                             class="flex items-center space-x-2 text-gray-700 py-2 px-3 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
