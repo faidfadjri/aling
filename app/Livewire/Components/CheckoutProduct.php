@@ -24,7 +24,6 @@ class CheckoutProduct extends Component
     {
         $this->address = $address;
 
-
         if ($productID) {
             $this->mode = 'single';
             $this->productID = $productID;

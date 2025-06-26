@@ -3,7 +3,8 @@
         @foreach ($cart->items as $item)
             <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
                 <div class="flex items-start">
-                    <input type="checkbox" wire:click="toggleSelect({{ $item->id }})" @checked(in_array($item->id, $selectedItems))
+                    <input type="checkbox" wire:click="toggleSelect({{ $item->product->id }})"
+                        @checked(in_array($item->id, $selectedItems))
                         class="mt-1 mr-3 w-4 h-4 text-blue-600 rounded-xl border-gray-300 focus:ring-2 focus:ring-blue-500">
 
                     <div class="flex-1">

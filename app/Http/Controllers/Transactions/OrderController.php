@@ -45,8 +45,8 @@ class OrderController extends Controller
         }
 
         $productIDs = [];
-        if ($productID !== null) {
-            $productIDs = session('checkout_cart_item_ids', []);
+        if ($productIDs !== null) {
+            $productIDs = json_decode(request()->cookie('checkout_cart_item_ids'), true);
         }
 
         return response()
