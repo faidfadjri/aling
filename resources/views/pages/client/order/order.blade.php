@@ -1,6 +1,6 @@
 @extends('layout.app')
 
 @section('content')
-    <livewire:section.order-list :orders='$orders' />
+    <livewire:section.order-list />
     @include('components.base.bottom-navigation')
 @endsection

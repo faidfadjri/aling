@@ -20,7 +20,7 @@
             </div>
 
             <div class="text-sm flex flex-col">
-                <span class="text-xs md:text-sm font-bold">INV/00-12-2025-08-30</span>
+                <span class="text-xs md:text-sm font-bold">{{ $order->order_number }}</span>
                 <span class="text-black/60">{{ $order->date }}</span>
             </div>
         </div>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="flex items-center gap-4">
-        <img src="{{ $order->image }}" alt="product" class="w-16 h-16 rounded-xl object-cover" />
+        <img src="{{ $order->items[0]->product->image }}" alt="product" class="w-16 h-16 rounded-xl object-cover" />
         <div class="flex-1">
             <div class="text-md font-semibold">{{ $order->product_name }}</div>
             <div class="text-md text-black/60">Qty : {{ $order->qty }}</div>

@@ -1,4 +1,4 @@
-<a href="{{ route('product.detail', $product->id) }}"
+<a href="{{ route('product.detail', $product->id) }}" wire:navigate
     class="bg-white hover:bg-gray-100 duration-200 cursor-pointer rounded-xl overflow-hidden block">
     <img src="{{ $product->image ?? 'https://via.placeholder.com/300x200' }}" alt="{{ $product->name }}"
         class="w-full h-32 object-cover">

@@ -3,6 +3,8 @@
 namespace App\Livewire\Section;
 
 use App\Models\Order\Order;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class OrderList extends Component
@@ -11,8 +13,11 @@ class OrderList extends Component
     public $orders = [];
     public $search = '';
 
-    public function mount($orders)
+    public function mount()
     {
+        $user = Auth::user();
+        $addresses = $user->addresses;
+        $orders = Order::whereIn('address_id', $addresses->pluck('id'))->get();
         $this->orders = $orders;
     }
 
