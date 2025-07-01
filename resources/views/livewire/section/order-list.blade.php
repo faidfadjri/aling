@@ -164,9 +164,9 @@
             @endfor
 
 
-            @foreach ($orders as $index => $order)
+            @foreach ($items as $index => $item)
                 <div wire:loading.remove>
-                    <livewire:components.order-card :order="$order" :wire:key="'order-' . $index" />
+                    <livewire:components.order-card :item="$item" :wire:key="'order-' . $index" />
                 </div>
             @endforeach
         </div>

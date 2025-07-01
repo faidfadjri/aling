@@ -2,6 +2,7 @@
 
 namespace App\Models\Product;
 
+use App\Models\Order\CartItem;
 use App\Models\Order\Order;
 use App\Models\Outlet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,5 +32,10 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'product_id', 'id');
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class, 'product_id', 'id');
     }
 }

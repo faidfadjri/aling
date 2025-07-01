@@ -58,11 +58,10 @@ class CartList extends Component
 
     public function orderSelected()
     {
-        $items = CartItem::whereIn('id', $this->selectedItems)->get();
-        $products = $items->map(fn($item) => $item->product->id);
+        $items = CartItem::whereIn('id', $this->selectedItems)->pluck('id')->toArray();
 
         Cookie::queue(Cookie::forget('checkout_cart_item_ids'));
-        Cookie::queue(Cookie::make('checkout_cart_item_ids', json_encode($products), 60));
+        Cookie::queue(Cookie::make('checkout_cart_item_ids', json_encode($items), 60));
         return redirect()->route('order.checkout');
     }
 

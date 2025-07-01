@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components;
 
+use App\Models\Order\CartItem;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
 use Illuminate\Support\Collection;
@@ -11,7 +12,7 @@ use Livewire\Component;
 class CheckoutProduct extends Component
 {
     public $productID;
-    public $productIDs = [];
+    public $cartSelectedIDs = [];
     public Collection $products;
 
     public $mode = 'single';
@@ -20,7 +21,7 @@ class CheckoutProduct extends Component
     public $note;
     public $address = null;
 
-    public function mount($productID = null, $productIDs = [], $address)
+    public function mount($productID = null, $cartSelectedIDs = [], $address)
     {
         $this->address = $address;
 
@@ -29,13 +30,22 @@ class CheckoutProduct extends Component
             $this->productID = $productID;
             $product = Product::findOrFail($productID);
             $this->products = collect([$product]);
-            $this->quantities[$product->id] = $product->quantity ?? 1;
+            $this->quantities[$product->id] = 1;
         } else {
             $this->mode = 'multiple';
-            $this->productIDs = $productIDs;
-            $this->products = Product::whereIn('id', $productIDs)->get();
-            foreach ($this->products as $product) {
-                $this->quantities[$product->id] = $product->quantity ?? 1;
+
+            $cartItems = CartItem::with('product')
+                ->whereIn('id', $cartSelectedIDs)
+                ->get();
+
+            $validCartItems = $cartItems->filter(function ($item) {
+                return $item->product !== null;
+            });
+
+            $this->products = $validCartItems->pluck('product');
+
+            foreach ($validCartItems as $item) {
+                $this->quantities[$item->product_id] = $item->quantity;
             }
         }
     }
@@ -50,6 +60,13 @@ class CheckoutProduct extends Component
         if ($this->quantities[$id] > 1) {
             $this->quantities[$id]--;
         }
+    }
+
+    public function calculateTotalHarga()
+    {
+        return $this->products->sum(function ($product) {
+            return $product->price * $this->quantities[$product->id];
+        });
     }
 
     public function proceedOrder()
@@ -77,16 +94,13 @@ class CheckoutProduct extends Component
             ]);
         }
 
+        if ($this->mode === 'multiple') {
+            CartItem::whereIn('id', $this->cartSelectedIDs)->delete();
+        }
+
         session()->forget('checkout_cart_item_ids');
 
         return redirect()->route('order');
-    }
-
-    public function calculateTotalHarga()
-    {
-        return $this->products->sum(function ($product) {
-            return $product->price * $this->quantities[$product->id];
-        });
     }
 
     public function render()

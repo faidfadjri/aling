@@ -3,22 +3,26 @@
 namespace App\Livewire\Section;
 
 use App\Models\Order\Order;
+use App\Models\Order\OrderItem;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class OrderList extends Component
 {
     public $selectedstatus = '';
-    public $orders = [];
+    public $items  = [];
     public $search = '';
 
     public function mount()
     {
         $user = Auth::user();
         $addresses = $user->addresses;
-        $orders = Order::whereIn('address_id', $addresses->pluck('id'))->get();
-        $this->orders = $orders;
+        $items  = OrderItem::with(['order' => function ($query) use ($addresses) {
+            $query->whereIn('address_id', $addresses->pluck('id'));
+        }])->get();
+
+
+        $this->items  = $items;
     }
 
     public function selectStatus($status)
@@ -38,8 +42,6 @@ class OrderList extends Component
         if ($this->search) {
             $query->where('order_number', 'like', '%' . $this->search . '%');
         }
-
-        $this->orders = $query->latest()->get();
     }
 
     public function updatedSearch()

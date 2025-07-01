@@ -61,6 +61,12 @@ class OrderResource extends Resource
                 TextColumn::make('created_at')->dateTime(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()
+                    ->modalHeading('Detail Pesanan')
+                    ->modalContent(fn($record) => view('filament.orders.view-items', [
+                        'order' => $record,
+                        'items' => $record->items()->with('product')->get(),
+                    ])),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

@@ -38,18 +38,18 @@ class OrderController extends Controller
             }
         }
 
-        $productIDs = [];
-        if ($productIDs !== null) {
-            $productIDs = json_decode(request()->cookie('checkout_cart_item_ids'), true);
+        $cartSelectedIDs = [];
+        if ($cartSelectedIDs !== null) {
+            $cartSelectedIDs = json_decode(request()->cookie('checkout_cart_item_ids'), true);
         }
 
         return response()
             ->view('pages.client.order.checkout', [
-                'active'     => 'product',
-                'productID'  => $productID,
-                'fee'        => $adminfee,
-                'address'    => $address,
-                'productIDs' => $productIDs
+                'active'            => 'product',
+                'productID'         => $productID,
+                'fee'               => $adminfee,
+                'address'           => $address,
+                'cartSelectedIDs'   => $cartSelectedIDs
             ])
             ->cookie('last-visited-product', json_encode(['id' => $productID]), 60 * 24 * 30);
     }

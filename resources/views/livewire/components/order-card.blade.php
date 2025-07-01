@@ -1,9 +1,8 @@
 @php
-    $badgeColor = match ($order->status) {
-        'Dipesan' => 'bg-yellow-100 text-yellow-700',
-        'Diproses' => 'bg-red-100 text-red-700',
-        'Pengiriman' => 'bg-blue-100 text-blue-700',
-        'Tiba di Tujuan' => 'bg-green-100 text-green-700',
+    $badgeColor = match ($item->order->status) {
+        'pending' => 'bg-yellow-100 text-yellow-700',
+        'confirmed' => 'bg-blue-100 text-blue-700',
+        'delivered' => 'bg-green-100 text-green-700',
         default => 'bg-gray-100 text-gray-700',
     };
 @endphp
@@ -20,21 +19,21 @@
             </div>
 
             <div class="text-sm flex flex-col">
-                <span class="text-xs md:text-sm font-bold">{{ $order->order_number }}</span>
-                <span class="text-black/60">{{ $order->date }}</span>
+                <span class="text-xs md:text-sm font-bold">{{ $item->order->order_number ?? '-' }}</span>
+                <span class="text-black/60">{{ $item->order->created_at->format('d M Y H:i') }}</span>
             </div>
         </div>
         <span class="text-xs font-medium px-3 py-1 rounded-full {{ $badgeColor }}">
-            {{ $order->status }}
+            {{ ucfirst($item->order->status) }}
         </span>
     </div>
 
     <div class="flex items-center gap-4">
-        <img src="{{ $order->items[0]->product->image }}" alt="product" class="w-16 h-16 rounded-xl object-cover" />
+        <img src="{{ $item->product?->image ?? '/placeholder.jpg' }}" alt="product"
+            class="w-16 h-16 rounded-xl object-cover" />
         <div class="flex-1">
-            <div class="text-md font-semibold">{{ $order->product_name }}</div>
-            <div class="text-md text-black/60">Qty : {{ $order->qty }}</div>
-
+            <div class="text-md font-semibold">{{ $item->product?->name ?? 'Produk tidak tersedia' }}</div>
+            <div class="text-md text-black/60">Qty: {{ $item->quantity ?? 0 }}</div>
         </div>
     </div>
 
@@ -42,12 +41,14 @@
         <div>
             <div class="mt-2 text-sm text-gray-500">Total Belanja</div>
             <div class="text-base font-semibold text-gray-900">
-                Rp. {{ number_format($order->price, 0, ',', '.') }}
+                Rp. {{ number_format($item->order->total_price, 0, ',', '.') }}
             </div>
         </div>
-        <button wire:click="confirm"
-            class="bg-primary hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-            Konfirmasi Selesai
-        </button>
+        @if ($item->order->status !== 'delivered')
+            <button wire:click="confirm({{ $item->order->id }})"
+                class="bg-primary hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
+                Konfirmasi Selesai
+            </button>
+        @endif
     </div>
 </div>

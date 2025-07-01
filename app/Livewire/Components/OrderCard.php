@@ -6,11 +6,11 @@ use Livewire\Component;
 
 class OrderCard extends Component
 {
-    public object $order;
+    public object $item;
 
     public function confirm()
     {
-        $this->dispatch('orderConfirmed', order: $this->order);
+        $this->dispatch('orderConfirmed', order: $this->item);
     }
 
     public function render()

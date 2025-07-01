@@ -34,7 +34,7 @@
                 </div>
             </a>
             @if ($address)
-                <livewire:components.checkout-product :productID="$productID" :productIDs="$productIDs" :address="$address" />
+                <livewire:components.checkout-product :productID="$productID" :cartSelectedIDs="$cartSelectedIDs" :address="$address" />
             @endif
         </div>
     </div>
