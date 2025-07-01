@@ -90,7 +90,7 @@ class OutletResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultPaginationPageOption(25); // 🚀 batas default row per page
+            ->defaultPaginationPageOption(25);
     }
 
     public static function getEloquentQuery(): Builder
@@ -99,7 +99,7 @@ class OutletResource extends Resource
 
         return parent::getEloquentQuery()
             ->when($user->role !== 'master', fn($q) => $q->where('user_id', $user->id))
-            ->with('user'); // ✅ eager loading relasi user
+            ->with('user');
     }
 
     public static function getPages(): array
