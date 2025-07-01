@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $keyword = $request->input('search');
+
         return view('pages.client.order.order', [
-            'active' => 'order'
+            'active'  => 'order',
+            'keyword' => $keyword
         ]);
     }
 

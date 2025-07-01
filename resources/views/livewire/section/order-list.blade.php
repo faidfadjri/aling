@@ -58,8 +58,6 @@
                     <div class="h-9 bg-gray-200 rounded w-32 ml-auto"></div>
                 </div>
             @endfor
-
-
             @forelse ($items as $index => $item)
                 @livewire('components.order-card', ['item' => $item], key('order-' . $item->id))
             @empty

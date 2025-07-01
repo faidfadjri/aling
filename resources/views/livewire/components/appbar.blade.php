@@ -47,7 +47,9 @@
                             <div class="p-4">
                                 <div class="mb-10">
                                     @foreach ($results as $result)
-                                        <a href="{{ route('product', ['search' => $result->name]) }}"
+                                        <a href="@if ($searchOrder) {{ route('order', ['search' => $result->order_number]) }}
+                                            @else 
+                                            {{ route('product', ['search' => $result->name]) }} @endif"
                                             class="flex items-center space-x-2 text-gray-700 py-2 px-3 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,8 +57,13 @@
                                                     d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
                                             </svg>
 
-                                            <span
-                                                class="text-sm lg:text-md py-1 font-medium text-gray-800">{{ $result->name }}</span>
+                                            <span class="text-sm lg:text-md py-1 font-medium text-gray-800">
+                                                @if ($searchOrder)
+                                                    {{ $result->order_number }}
+                                                @else
+                                                    {{ $result->name }}
+                                                @endif
+                                            </span>
                                         </a>
                                     @endforeach
                                 </div>
