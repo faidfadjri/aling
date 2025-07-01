@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
+use App\Models\Outlet;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
 use Filament\Forms;
@@ -17,6 +18,8 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductResource extends Resource
 {
@@ -26,6 +29,11 @@ class ProductResource extends Resource
     protected static ?string $navigationLabel = 'Daftar Produk';
     protected static ?string $navigationGroup = 'Kelola Produk';
 
+    // ✅ Eager Load untuk menghindari N+1
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['category', 'outlet']);
+    }
 
     public static function form(Form $form): Form
     {
@@ -35,23 +43,66 @@ class ProductResource extends Resource
                     ->required()
                     ->maxLength(255),
 
+                // ✅ Async Outlet Select
+                Select::make('outlet_id')
+                    ->label('Outlet')
+                    ->required()
+                    ->searchable()
+                    ->getSearchResultsUsing(function (string $search) {
+                        $user = Auth::user();
+
+                        $query = Outlet::query()
+                            ->where('name', 'like', "%{$search}%");
+
+                        if ($user->role !== 'master') {
+                            $query->whereIn('id', $user->outlets->pluck('id'));
+                        }
+
+                        return $query->limit(15)->pluck('name', 'id');
+                    })
+                    ->getOptionLabelUsing(fn($value) => Outlet::find($value)?->name),
+
                 FileUpload::make('image')
-                    ->label('Product Image')
                     ->image()
                     ->directory('products')
                     ->imagePreviewHeight('200')
-                    ->maxSize(2048) // 2MB
-                    ->required(),
+                    ->maxSize(2048)
+                    ->required()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $path = storage_path("app/public/{$state}");
+                        if (file_exists($path)) {
+                            \Spatie\ImageOptimizer\OptimizerChainFactory::create()->optimize($path);
+                        }
+                    }),
 
+                TextInput::make('discount')
+                    ->label('Discount (%)')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->suffix('%')
+                    ->helperText('Enter discount percentage (0-100)')
+                    ->lazy(),
 
                 Forms\Components\RichEditor::make('description')
-                    ->required(),
+                    ->required()
+                    ->lazy(),
 
+                // ✅ Async Category Select
                 Select::make('category_id')
                     ->label('Category')
                     ->required()
-                    ->options(ProductCategory::all()->pluck('name', 'id')->toArray())
-                    ->searchable(),
+                    ->searchable()
+                    ->getSearchResultsUsing(
+                        fn(string $search) =>
+                        ProductCategory::where('name', 'like', "%{$search}%")
+                            ->limit(20)
+                            ->pluck('name', 'id')
+                    )
+                    ->getOptionLabelUsing(
+                        fn($value) =>
+                        ProductCategory::find($value)?->name
+                    ),
 
                 TextInput::make('price')
                     ->required()
@@ -70,18 +121,14 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultPaginationPageOption(25) // ✅ Pagination 25 per page
             ->columns([
                 TextColumn::make('name')->sortable()->searchable(),
                 ImageColumn::make('image')->label('Photo')->circular(),
                 TextColumn::make('category.name')->label('Category')->sortable(),
                 TextColumn::make('price')->money('idr', true),
-                IconColumn::make('status')
-                    ->label('Aktif')
-                    ->boolean(),
+                IconColumn::make('status')->label('Aktif')->boolean(),
                 TextColumn::make('created_at')->label('Created')->dateTime('d M Y'),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -93,12 +140,9 @@ class ProductResource extends Resource
             ]);
     }
 
-
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
