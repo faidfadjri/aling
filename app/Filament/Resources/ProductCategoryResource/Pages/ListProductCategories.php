@@ -16,4 +16,9 @@ class ListProductCategories extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    function getTitle(): string
+    {
+        return 'Daftar Kategori Produk';
+    }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name');
             $table->text('description');
+            $table->unsignedBigInteger('village_id');
             $table->timestamps();
         });
     }

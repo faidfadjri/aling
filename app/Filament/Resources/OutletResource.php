@@ -29,9 +29,14 @@ class OutletResource extends Resource
                 ->label('User')
                 ->relationship('user', 'name')
                 ->searchable()
-                // ->preload() // hapus preload jika user terlalu banyak
                 ->default(fn() => auth()->id())
                 ->disabled(fn() => auth()->user()->role !== 'master')
+                ->required(),
+
+            Select::make('outlet.village')
+                ->label('Desa/Kelurahan')
+                ->relationship('village', 'name')
+                ->searchable()
                 ->required(),
 
             Forms\Components\TextInput::make('name')
@@ -60,7 +65,12 @@ class OutletResource extends Resource
 
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Nama User')
-                    ->sortable(), // opsional: hapus searchable jika user terlalu banyak
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('products_count')
+                    ->label('Jumlah Produk')
+                    ->counts('products')
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
