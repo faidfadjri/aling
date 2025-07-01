@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->integer('quantity');
             $table->decimal('subtotal', 12, 2);
+            $table->boolean('review')->default(0);
             $table->timestamps();
         });
     }

@@ -48,5 +48,19 @@ class UserSeeder extends Seeder
                 'photo' => null
             ]
         );
+
+
+        User::firstOrCreate(
+            ['email' => 'faidfadjri@gmail.com'],
+            [
+                'name' => 'Faid Fadjri',
+                'username' => 'faidfadjri',
+                'password' => Hash::make('123'),
+                'hp' => '08123456789',
+                'role' => 'user',
+                'status' => 1,
+                'photo' => null
+            ]
+        );
     }
 }

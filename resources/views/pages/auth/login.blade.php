@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    <div class="min-h-screen flex flex-col lg:flex-row items-center justify-center px-6 lg:px-20 py-10 bg-gray-50">
+    <div class="min-h-screen flex flex-col lg:flex-row items-center justify-center px-1 lg:px-20 py-10 bg-gray-50">
         {{-- Sisi Kiri - Gambar dan Tagline --}}
         <div class="hidden lg:flex w-full lg:w-1/2 flex-col items-center justify-center px-4">
             <div class="mb-6">

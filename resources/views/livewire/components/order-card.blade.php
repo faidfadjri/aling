@@ -46,10 +46,13 @@
                 Rp. {{ number_format($item->order->total_price, 0, ',', '.') }}
             </div>
         </div>
-        @if ($item->order->status !== 'delivered')
-            <button wire:click="confirm({{ $item->order->id }})"
-                class="bg-primary hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg">
-                Konfirmasi Selesai
+        @if (!$item->review)
+            <button wire:click="review"
+                class="bg-yellow-200 hover:bg-yellow-700 hover:text-white duration-200 text-sm font-medium px-4 py-2 rounded-lg">
+                <span wire:loading.remove wire:target='review'>⭐ Berikan Rating</span>
+                <span wire:loading wire:target='review' class="flex items-center gap-2">
+                    <div class="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-yellow-800"></div>
+                </span>
             </button>
         @endif
     </div>

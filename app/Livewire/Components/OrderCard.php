@@ -8,9 +8,9 @@ class OrderCard extends Component
 {
     public object $item;
 
-    public function confirm()
+    public function review()
     {
-        $this->dispatch('orderConfirmed', order: $this->item);
+        $this->dispatch('review', $this->item->id);
     }
 
     public function render()
