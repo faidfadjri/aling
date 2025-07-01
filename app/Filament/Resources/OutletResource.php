@@ -39,6 +39,13 @@ class OutletResource extends Resource
                 ->searchable()
                 ->required(),
 
+            Forms\Components\TextInput::make('phone')
+                ->label('Nomor Telepon')
+                ->required()
+                ->tel()
+                ->prefix('+62')
+                ->maxLength(15),
+
             Forms\Components\TextInput::make('name')
                 ->label('Nama Outlet')
                 ->required()
