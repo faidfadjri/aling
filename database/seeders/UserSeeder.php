@@ -15,7 +15,20 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Administrator',
                 'username' => 'admin',
-                'password' => Hash::make('admin123'), // atau gunakan hash bawaanmu
+                'password' => Hash::make('admin123'),
+                'hp' => '08123456789',
+                'role' => 'master',
+                'status' => 1,
+                'photo' => null
+            ]
+        );
+
+        User::firstOrCreate(
+            ['email' => 'outlet@gmail.com'],
+            [
+                'name' => 'Outlet',
+                'username' => 'outlet',
+                'password' => Hash::make('outlet123'),
                 'hp' => '08123456789',
                 'role' => 'admin',
                 'status' => 1,
