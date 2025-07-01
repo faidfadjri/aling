@@ -21,9 +21,13 @@ class UserAddress extends Authenticatable
         'updated_at',
     ];
 
-
     public function village(): BelongsTo
     {
         return $this->belongsTo(Village::class, 'village_id', 'id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

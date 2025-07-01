@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected $with = ['outlets'];
     protected $guarded = [
         'id',
         'created_at',
@@ -35,6 +36,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function outlets()
+    {
+        return $this->hasMany(Outlet::class);
+    }
 
     // has many user address
     public function addresses()
