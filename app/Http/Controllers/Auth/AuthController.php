@@ -30,13 +30,30 @@ class AuthController extends Controller
             'hp'        => 'required|string|max:20',
             'password'  => 'required|string|min:6|confirmed',
             'photo'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ], [
+            'name.required'         => 'Nama wajib diisi.',
+            'name.max'              => 'Nama maksimal :max karakter.',
+            'username.required'     => 'Username wajib diisi.',
+            'username.unique'       => 'Username sudah digunakan.',
+            'username.max'          => 'Username maksimal :max karakter.',
+            'email.required'        => 'Email wajib diisi.',
+            'email.email'           => 'Format email tidak valid.',
+            'email.unique'          => 'Email sudah terdaftar.',
+            'hp.required'           => 'Nomor HP wajib diisi.',
+            'hp.max'                => 'Nomor HP maksimal :max karakter.',
+            'password.required'     => 'Kata sandi wajib diisi.',
+            'password.min'          => 'Kata sandi minimal :min karakter.',
+            'password.confirmed'    => 'Konfirmasi kata sandi tidak cocok.',
+            'photo.image'           => 'Foto harus berupa gambar.',
+            'photo.mimes'           => 'Format foto harus jpg, jpeg, png, atau webp.',
+            'photo.max'             => 'Ukuran foto maksimal 2MB.',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validasi gagal',
-                'errors' => $validator->errors(),
+                'message' => $validator->errors()->first(),
+                'errors'  => $validator->errors(),
             ], 422);
         }
 

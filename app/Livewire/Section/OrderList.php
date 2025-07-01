@@ -16,12 +16,11 @@ class OrderList extends Component
     public function mount()
     {
         $user = Auth::user();
-        $addresses = $user->addresses;
-        $items  = OrderItem::with(['order' => function ($query) use ($addresses) {
-            $query->whereIn('address_id', $addresses->pluck('id'));
-        }])->get();
+        $addressIds = $user->addresses->pluck('id');
 
-
+        $items = OrderItem::whereHas('order', function ($query) use ($addressIds) {
+            $query->whereIn('address_id', $addressIds);
+        })->get();
         $this->items  = $items;
     }
 

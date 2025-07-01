@@ -1,11 +1,13 @@
 @php
-    $badgeColor = match ($item->order->status) {
+    $status = $item->order->status ?? null;
+    $badgeColor = match ($status) {
         'pending' => 'bg-yellow-100 text-yellow-700',
         'confirmed' => 'bg-blue-100 text-blue-700',
         'delivered' => 'bg-green-100 text-green-700',
         default => 'bg-gray-100 text-gray-700',
     };
 @endphp
+
 
 <div class="bg-white rounded-xl p-4 shadow-sm">
     <div class="flex justify-between items-center mb-2">
