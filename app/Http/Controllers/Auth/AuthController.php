@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -22,7 +23,7 @@ class AuthController extends Controller
 
     public function registerStore(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name'      => 'required|string|max:255',
             'username'  => 'required|string|max:255|unique:users,username',
             'email'     => 'required|email|unique:users,email',
@@ -31,9 +32,16 @@ class AuthController extends Controller
             'photo'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
 
         try {
+            $validated = $validator->validated();
             $photoPath = null;
 
             if ($request->hasFile('photo')) {
@@ -49,13 +57,16 @@ class AuthController extends Controller
                 'photo' => $photoPath,
             ]);
 
-
-
-            Session::flash('success', 'Pendaftaran berhasil! Silakan login.');
-            return redirect()->route('login');
+            return response()->json([
+                'success' => true,
+                'message' => 'Pendaftaran berhasil!',
+                'redirect' => route('login'),
+            ]);
         } catch (\Exception $e) {
-            Session::flash('error', 'Pendaftaran gagal. Silakan coba lagi.');
-            return back()->withInput();
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat menyimpan data.',
+            ], 500);
         }
     }
 
