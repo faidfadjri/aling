@@ -24,12 +24,10 @@ class UserResource extends Resource
     protected static ?string $navigationLabel = 'Users';
     protected static ?string $navigationGroup = 'Kelola Pengguna';
 
-
     public static function canAccess(): bool
     {
         return auth()->user()?->role === 'master';
     }
-
 
     public static function form(Form $form): Form
     {
