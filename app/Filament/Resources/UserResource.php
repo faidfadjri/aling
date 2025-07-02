@@ -15,6 +15,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -26,7 +27,8 @@ class UserResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()?->role === 'master';
+        $role = auth()->user()?->role;
+        return  $role === 'master' && $role !== 'user';
     }
 
     public static function form(Form $form): Form
@@ -37,20 +39,26 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
 
+                TextInput::make('username')
+                    ->required()
+                    ->maxLength(255),
+
                 TextInput::make('email')
                     ->email()
                     ->required()
                     ->unique(ignoreRecord: true),
 
                 TextInput::make('password')
+                    ->password()
                     ->required(fn(string $context) => $context === 'create')
                     ->dehydrated(fn($state) => filled($state))
+                    ->mutateDehydratedStateUsing(fn($state) => Hash::make($state))
                     ->maxLength(255),
 
                 Select::make('role')
                     ->options([
-                        'admin' => 'Admin',
-                        'user' => 'User',
+                        'admin' => 'Penjual',
+                        'user' => 'Pembeli',
                     ])
                     ->required(),
 
