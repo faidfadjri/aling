@@ -66,12 +66,34 @@
 
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 
-    <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @livewireScripts
     @stack('scripts')
+
+    <script>
+        // Global init only once
+        if (!window.__appbarInitialized) {
+            window.__appbarInitialized = true;
+
+            window.__appbarClickHandler = function(e) {
+                const menu = document.getElementById('dropdown-menu');
+                const button = document.querySelector('#user-menu > button');
+                if (menu && button && !button.contains(e.target) && !menu.contains(e.target)) {
+                    menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+                }
+            };
+
+            // Pasang handler global
+            document.addEventListener('click', window.__appbarClickHandler);
+
+            // Livewire navigate event
+            Livewire.on('navigate', () => {
+                document.removeEventListener('click', window.__appbarClickHandler);
+                document.addEventListener('click', window.__appbarClickHandler);
+            });
+        }
+    </script>
 </body>
 
 </html>

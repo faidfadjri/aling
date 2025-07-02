@@ -112,7 +112,7 @@
                         </svg>
                         @if ($cartCount > 0)
                             <span
-                                class="absolute -top-1 -right-1 h-3 w-3 flex items-center justify-center rounded-full bg-orange-400 text-white text-xs font-bold ring-2 ring-white">
+                                class="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center rounded-full bg-blue-400 text-white text-xs font-bold ring-2 ring-white">
                                 {{ $cartCount }}
                             </span>
                         @endif
