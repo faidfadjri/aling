@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Section;
 
+use App\Models\Outlet;
 use App\Models\Product\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -10,9 +11,10 @@ class ProductList extends Component
 {
     use WithPagination;
 
-    public ?string $search = '';
-    public string $selectedCity = '';
-    public int $perPage = 12;
+    public ?string  $search = '';
+    public          $cities = [];
+    public string   $selectedCity = '';
+    public int      $perPage = 12;
 
     public function selectCity(string $city)
     {
@@ -33,6 +35,13 @@ class ProductList extends Component
         if ($this->search && $this->search != '') {
             $query->where('name', 'like', "%$this->search%");
         }
+
+        $this->cities = Outlet::with('village.district.regency')
+            ->get()
+            ->pluck('village.district.regency.name')
+            ->unique()
+            ->values()
+            ->toArray();
 
         return view('livewire.section.product-list', [
             'products' => $query->paginate($this->perPage),

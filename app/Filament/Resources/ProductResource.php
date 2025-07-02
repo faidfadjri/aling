@@ -29,10 +29,18 @@ class ProductResource extends Resource
     protected static ?string $navigationLabel = 'Daftar Produk';
     protected static ?string $navigationGroup = 'Kelola Produk';
 
-    // ✅ Eager Load untuk menghindari N+1
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(['category', 'outlet']);
+        $query = parent::getEloquentQuery()->with(['category', 'outlet']);
+
+        $user = Auth::user();
+
+        if ($user->role !== 'master') {
+            $outletIds = $user->outlets->pluck('id');
+            $query->whereIn('outlet_id', $outletIds);
+        }
+
+        return $query;
     }
 
     public static function form(Form $form): Form
@@ -43,7 +51,6 @@ class ProductResource extends Resource
                     ->required()
                     ->maxLength(255),
 
-                // ✅ Async Outlet Select
                 Select::make('outlet_id')
                     ->label('Outlet')
                     ->required()
@@ -88,7 +95,6 @@ class ProductResource extends Resource
                     ->required()
                     ->lazy(),
 
-                // ✅ Async Category Select
                 Select::make('category_id')
                     ->label('Category')
                     ->required()
@@ -121,7 +127,7 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultPaginationPageOption(25) // ✅ Pagination 25 per page
+            ->defaultPaginationPageOption(25)
             ->columns([
                 TextColumn::make('name')->sortable()->searchable(),
                 ImageColumn::make('image')->label('Photo')->circular(),

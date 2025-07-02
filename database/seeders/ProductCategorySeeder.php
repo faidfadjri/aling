@@ -15,11 +15,11 @@ class ProductCategorySeeder extends Seeder
     public function run(): void
     {
         ProductCategory::insert([
-            ['name' => 'Ayam Potong', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Ayam Kampung', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Bagian Ayam', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Telur Ayam', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Olahan Ayam', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Ayam Potong', 'user_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Ayam Kampung', 'user_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Bagian Ayam', 'user_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Telur Ayam', 'user_id' => 1, 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Olahan Ayam', 'user_id' => 1, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

@@ -33,10 +33,11 @@ class OutletResource extends Resource
                 ->disabled(fn() => auth()->user()->role !== 'master')
                 ->required(),
 
-            Select::make('outlet.village')
+            Select::make('village_id')
                 ->label('Desa/Kelurahan')
                 ->relationship('village', 'name')
                 ->searchable()
+                ->unique()
                 ->required(),
 
             Forms\Components\TextInput::make('phone')
