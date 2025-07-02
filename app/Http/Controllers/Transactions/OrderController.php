@@ -61,42 +61,4 @@ class OrderController extends Controller
     {
         return view('pages.client.order.cart');
     }
-
-    public function addToCart(Request $request)
-    {
-        $key       = 'productID';
-        if (!$request->has($key)) {
-            return redirect()->back()->with('error', 'Gagal menambahkan produk');
-        }
-
-        $productID = $request->input($key, null);
-
-
-        $user        = Auth::user();
-        $cart        = Cart::where('user_id', $user->id)->first();
-        if (!$cart) {
-            $cart = Cart::create([
-                'user_id' => $user->id
-            ]);
-        }
-        $existingCartItem = CartItem::where('cart_id', $cart->id)
-            ->where('product_id', $productID)
-            ->first();
-
-        if ($existingCartItem) {
-            $existingCartItem->quantity += 1;
-            $existingCartItem->save();
-        } else {
-            $cartItem = CartItem::create([
-                'cart_id'    => $cart->id,
-                'product_id' => $productID,
-                'quantity'   => 1
-            ]);
-            if (!$cartItem) {
-                return redirect()->back()->with('error', 'Gagal menambahkan produk');
-            }
-        }
-
-        return redirect()->back()->with('success', 'Berhasil menambahkan keranjang');
-    }
 }

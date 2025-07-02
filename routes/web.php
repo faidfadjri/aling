@@ -31,7 +31,6 @@ Route::middleware('auth')->prefix('order')->group(function () {
 
     Route::get('/', [OrderController::class, 'index'])->name('order');
     Route::get('cart', [OrderController::class, 'cart'])->name('order.cart');
-    Route::post('cart', [OrderController::class, 'addToCart'])->name('order.cart.save');
 });
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Appbar extends Component
@@ -52,6 +53,16 @@ class Appbar extends Component
         $this->isFocused = false;
         $this->search = '';
         $this->results = [];
+    }
+
+    #[On('add-to-cart')]
+    public function onProductAddtoCart($productID)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $cart = Cart::where("user_id", $user->id)->first();
+            $this->cartCount = $cart ? $cart->items->count() : 0;
+        }
     }
 
     public function doSearch()
