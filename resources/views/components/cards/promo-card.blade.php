@@ -1,6 +1,6 @@
-<div class="swiper-slide w-auto">
+<a href="{{ route('product.detail', $promo->id) }}" class="swiper-slide w-auto">
     <div
-        class="shadow-md rounded-lg p-4 bg-white hover:bg-gray-100 transition-colors cursor-pointer
+        class="shadow-md rounded-lg p-4 bg-white hover:bg-gray-200 hover:shadow-xl transition-colors cursor-pointer
     flex flex-col items-start justify-between w-[160px] sm:w-[200px] md:w-[220px] lg:w-[220px] h-70">
 
         <div class="flex items-center justify-center w-full relative">
@@ -25,4 +25,4 @@
             {{ $promo->outlet->name }}
         </div>
     </div>
-</div>
+</a>

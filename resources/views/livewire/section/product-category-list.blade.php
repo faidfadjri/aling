@@ -40,11 +40,7 @@
                 @foreach ($activeCategory->products->take(6) as $index => $product)
                     <div class="swiper-slide w-auto" wire:key="product-{{ $index }}">
                         @include('components.cards.product-category-card', [
-                            'productImage' => $product->image ?? 'https://via.placeholder.com/300x200',
-                            'productName' => $product->name,
-                            'productPrice' => 'Rp. ' . number_format($product->price, 0, ',', '.'),
-                            'productOutlet' => $product->outlet->name ?? 'Outlet Tidak Diketahui',
-                            'promoDisc' => $product->promo ?? null,
+                            'product' => $product,
                         ])
                     </div>
                 @endforeach

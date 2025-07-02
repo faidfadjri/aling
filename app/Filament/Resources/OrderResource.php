@@ -94,13 +94,13 @@ class OrderResource extends Resource
                     ->label('Order Status'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->modalHeading('Detail Pesanan')
-                    ->modalContent(fn($record) => view('filament.orders.view-items', [
-                        'order' => $record,
-                        'items' => $record->items()->with('product')->get(),
-                    ])),
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\ViewAction::make()
+                //     ->modalHeading('Detail Pesanan')
+                //     ->modalContent(fn($record) => view('filament.orders.view-items', [
+                //         'order' => $record,
+                //         'items' => $record->items()->with('product')->get(),
+                //     ])),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
