@@ -1,6 +1,6 @@
   <div class="p-4">
       <div class="flex mb-5 h-fit">
-          <a href="{{ route('profile.address.add') }}"
+          <a href="{{ route('profile.address.add') }}" wire:navigate
               class="w-full bg-blue-600 text-white text-sm font-semibold py-2 lg:py-3 rounded-md text-center">
               + Alamat Baru
           </a>

@@ -7,6 +7,5 @@
     @endphp
 
     <livewire:components.appbar :back="route('order.checkout', ['productID' => $productID])" />
-
     <livewire:section.user-address />
 @endsection

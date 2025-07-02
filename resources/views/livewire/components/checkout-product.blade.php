@@ -23,14 +23,12 @@
         </div>
     @endforeach
 
-    {{-- Catatan --}}
     <div class="bg-white p-4 rounded-xl shadow-sm">
         <label class="block font-semibold mb-2">CATATAN</label>
         <textarea class="w-full border border-gray-300 rounded-lg p-2 text-sm" rows="3" placeholder="Ketik disini"
             wire:model.defer="note"></textarea>
     </div>
 
-    {{-- Billing --}}
     <div class="bg-white p-4 rounded-xl shadow-sm space-y-2">
         <h3 class="font-semibold">BILLING</h3>
         <div class="flex justify-between text-sm">
@@ -47,7 +45,6 @@
         </div>
     </div>
 
-    {{-- Bottom Fixed Checkout --}}
     <div class="bg-white fixed bottom-0 left-0 right-0 shadow-md px-4 py-3 flex justify-between items-center">
         <span class="font-semibold text-primary">
             Rp. {{ number_format($totalTagihan, 0, ',', '.') }}
