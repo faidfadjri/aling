@@ -20,8 +20,11 @@ class OrderController extends Controller
         ]);
     }
 
-    public function checkout($productID = null)
+    public function checkout(Request $request)
     {
+        $productID = $request->input('productID', null);
+        $productID == "0" && $productID = null;
+
         $adminfee = 5000;
         if (!Auth::check()) {
             return redirect()->route('login');
