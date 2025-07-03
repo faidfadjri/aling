@@ -20,10 +20,13 @@ class OrderController extends Controller
         ]);
     }
 
-    public function checkout(Request $request)
+    public function checkout($productID = null)
     {
-        $productID = $request->input('productID', null);
-        $productID == "0" && $productID = null;
+        if (empty($productID) || $productID === "0") {
+            $inputID = request()->input('productID');
+
+            $productID = (is_numeric($inputID) && (int) $inputID > 0) ? (int) $inputID : null;
+        }
 
         $adminfee = 5000;
         if (!Auth::check()) {
