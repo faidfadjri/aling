@@ -91644,4 +91644,3 @@ INSERT INTO `reg_villages` VALUES
 ('9508322002', '950832', 'Trim'),
 ('9508322003', '950832', 'Benggem'),
 ('9508322004', '950832', 'Pasir Putih');
-
