@@ -1,0 +1,35 @@
+name: Aling E Commerce Deployment
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📂 Pulling files and updating Nginx config
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEMO_SSH_HOST }}
+          username: ${{ secrets.DEMO_SSH_USERNAME }}
+          key: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.DEMO_SSH_PORT }}
+          script: |
+            PROJECT_DIR=~/1.0.0
+
+            mkdir -p $PROJECT_DIR
+            cd $PROJECT_DIR
+
+            if [ -d ".git" ]; then
+              echo "Repository exists, pulling latest changes..."
+              git reset --hard origin/master
+              git pull origin master
+            else
+              echo "Repository does not exist, cloning..."
+              git clone git@github.com:faidfadjri/attendify.git .
+            fi
