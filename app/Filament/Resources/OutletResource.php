@@ -35,7 +35,18 @@ class OutletResource extends Resource
 
             Select::make('village_id')
                 ->label('Desa/Kelurahan')
-                ->relationship('village', 'name')
+                ->relationship(
+                    name: 'village',
+                    titleAttribute: 'name',
+                    modifyQueryUsing: fn ($query) => $query->with('district.regency')
+                )
+                ->getOptionLabelFromRecordUsing(function ($record) {
+                    $village = $record->name;
+                    $district = $record->district->name ?? '-';
+                    $regency = $record->district->regency->name ?? '-';
+            
+                    return "{$village} - {$district} - {$regency}";
+                })
                 ->searchable()
                 ->unique()
                 ->required(),
