@@ -1,7 +1,7 @@
 <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-md border-t border-gray-200 select-none lg:hidden z-100">
     <div class="flex justify-around items-center py-2">
 
-        <a href="/" wire:navigate
+        <a href="/"
             class="flex flex-col items-center {{ ($active ?? '') === 'home' ? 'text-primary' : 'text-gray-500 hover:text-sky-800' }}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">

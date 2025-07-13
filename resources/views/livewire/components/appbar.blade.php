@@ -79,7 +79,7 @@
                                     </div>
                                 </div>
 
-                                <div>
+                                {{-- <div>
                                     <h2 class="font-semibold text-gray-800 flex items-center gap-2 mb-3">
                                         <span>👍</span> Best Seller
                                     </h2>
@@ -88,7 +88,7 @@
                                             alt="Ayam Kampung" class="w-10 h-10 rounded-full object-cover" />
                                         <span class="text-sm font-medium text-gray-800">Ayam Kampung 10KG</span>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         @endif
                     </div>

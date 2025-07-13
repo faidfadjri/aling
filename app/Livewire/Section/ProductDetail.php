@@ -20,6 +20,7 @@ class ProductDetail extends Component
     public function addToCart($productID)
     {
         $user        = Auth::user();
+        if (!$user) return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu');
         $cart        = Cart::where('user_id', $user->id)->first();
         if (!$cart) {
             $cart = Cart::create([
