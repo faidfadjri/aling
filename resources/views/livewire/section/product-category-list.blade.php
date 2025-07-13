@@ -1,6 +1,6 @@
 <section class="px-4 py-6">
     <div class="flex items-center justify-between mb-4 w-full">
-        <div class="flex items-center w-full overflow-y-hidden overflow-x-auto space-x-6">
+        <div class="flex items-center w-full overflow-y-hidden overflow-x-auto gap-5 text-sm md:text-base">
             @foreach ($categories as $category)
                 <button wire:click="setActiveCategory({{ $category->id }})"
                     class="pb-2 whitespace-nowrap
@@ -11,7 +11,7 @@
                 </button>
             @endforeach
 
-            <a href="{{ route('product') }}" class="font-bold text-primary text-md">Lihat Semua</a>
+            <a href="{{ route('product') }}" class="font-medium text-primary text-sm md:text-base pb-2 ms-2">Lainya</a>
         </div>
     </div>
 
