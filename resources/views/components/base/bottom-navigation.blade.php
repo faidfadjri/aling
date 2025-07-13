@@ -33,8 +33,8 @@
             <span class="text-sm">Pesanan</span>
         </a>
 
-        <a href="#" wire:navigate
-            class="flex flex-col items-center {{ ($active ?? '') === 'account' ? 'text-primary' : 'text-gray-500 hover:text-sky-800' }}">
+        <a href="{{ route('profile') }}" wire:navigate
+            class="flex flex-col items-center {{ ($active ?? '') === 'profile' ? 'text-primary' : 'text-gray-500 hover:text-sky-800' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -109,6 +109,13 @@ class AuthController extends Controller
         ]);
     }
 
+    function profile()
+    {
+        $active = 'profile';
+        return view('pages.client.profile.profile', [
+            'active' => $active
+        ]);
+    }
 
     function logout()
     {

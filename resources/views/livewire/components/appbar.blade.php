@@ -149,7 +149,7 @@
 
                                 <div id="dropdown-menu"
                                     class="absolute rounded-md overflow-hidden right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-50 opacity-0 scale-95 pointer-events-none transition-all duration-200 ease-out">
-                                    <a href="#"
+                                    <a href="{{ route('profile') }}"
                                         class="block px-4 py-2 flex items-center gap-2 text-gray-700 hover:bg-gray-100">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-4">

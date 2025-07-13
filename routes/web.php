@@ -39,6 +39,8 @@ Route::post('/login', [AuthController::class, 'authorizeUser'])->name('login.sto
 Route::get('/daftar', [AuthController::class, 'register'])->name('register');
 Route::post('/pendaftaran', [AuthController::class, 'registerStore'])->name('register.store');
 
+Route::middleware('auth')->get('profile', [AuthController::class, 'profile'])->name('profile');
+
 Route::middleware('auth')->prefix('profile')->group(function () {
     Route::get('address', [ProfileController::class, 'address'])->name('profile.address');
     Route::get('add-address', [ProfileController::class, 'addAddress'])->name('profile.address.add');
