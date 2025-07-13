@@ -135,10 +135,18 @@
                             <div class="relative group" id="user-menu">
                                 <button type="button" class="flex items-center gap-2 focus:outline-none"
                                     onclick="toggleMenu()">
-                                    <span
-                                        class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-base">
-                                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                                    </span>
+                                    @if (Auth::user()->photo)
+                                        <span
+                                            class="flex items-center justify-center w-8 h-8 rounded-full overflow-hidden bg-blue-600 text-white font-bold text-base">
+                                            <img src="{{ env('APP_URL') . '/storage/' . Auth::user()->photo }}"
+                                                alt="avatar" class="w-8 h-8 object-cover rounded-full" />
+                                        </span>
+                                    @else
+                                        <span
+                                            class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-base">
+                                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                        </span>
+                                    @endif
                                     {{ \Illuminate\Support\Str::limit(Auth::user()->name, 10) }}
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-3">
