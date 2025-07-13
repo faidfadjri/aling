@@ -33,3 +33,6 @@ jobs:
               echo "Repository does not exist, cloning..."
               git clone git@github.com:faidfadjri/aling.git .
             fi
+            composer install
+            npm install
+            npm run build
