@@ -33,6 +33,16 @@ jobs:
               echo "Repository does not exist, cloning..."
               git clone git@github.com:faidfadjri/aling.git .
             fi
+
+            # Load NVM (biar bisa akses `nvm` command)
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          
+            # Gunakan Node.js versi 18
+            nvm install 18
+            nvm use 18
+            node -v
+            
             composer install
             npm install
             npm run build
