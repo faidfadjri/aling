@@ -1,7 +1,7 @@
 <div class="bg-[#F5FBFF] min-h-screen">
     <div class="px-4 pt-2 pb-28">
         <div class="relative flex gap-2 overflow-x-auto mb-4">
-            <div class="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory w-full pt-2 pb-3">
+            <div class="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory w-full pt-1 pb-4">
                 @foreach (['Semua', 'Pending', 'Diproses', 'Selesai', 'Reject'] as $index => $status)
                     <button wire:click="selectStatus('{{ $status }}')"
                         class="flex-shrink-0 px-4 py-2 text-sm rounded-full shadow-sm snap-start
