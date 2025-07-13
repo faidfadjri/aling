@@ -15,7 +15,7 @@
             </h2>
         </div>
 
-        <div class="w-full max-w-md bg-white rounded-xl shadow-sm p-6">
+        <div class="w-11/12 max-w-md bg-white rounded-xl shadow-sm p-6">
             <div class="flex flex-col items-center mb-6 text-center">
                 <img src="/assets/images/logo.webp" alt="Logo Aling" class="w-24 mb-4" />
                 <h3 class="text-2xl font-bold text-gray-900 mb-1">✨ Selamat Datang di Aling!</h3>
