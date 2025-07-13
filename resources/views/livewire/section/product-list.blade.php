@@ -1,6 +1,6 @@
 <div class="bg-blue-50 min-h-screen p-4">
     <div class="relative mb-4">
-        <div class="flex gap-2 overflow-x-auto w-full pr-10">
+        <div class="flex gap-2 overflow-x-auto w-full pr-10 py-5">
             <button wire:click="selectCity('')"
                 class="flex-shrink-0 px-4 py-2 text-sm rounded-full shadow-sm
             {{ $selectedCity === '' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-gray-100' }}">
