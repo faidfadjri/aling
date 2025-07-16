@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Transactions;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order\Cart;
-use App\Models\Order\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

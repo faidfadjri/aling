@@ -93,8 +93,8 @@ class OrderList extends Component
         $addressIds = $user->addresses->pluck('id');
 
         $query = OrderItem::query()
-            ->with(['order', 'product'])
-            ->whereHas('order', function ($q) use ($addressIds) {
+            ->with(['orderOutlet.order', 'product'])
+            ->whereHas('orderOutlet.order', function ($q) use ($addressIds) {
                 $q->whereIn('address_id', $addressIds);
 
                 if ($this->selectedstatus && $this->selectedstatus !== 'Semua') {

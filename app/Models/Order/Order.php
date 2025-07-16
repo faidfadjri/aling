@@ -10,12 +10,12 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
-    protected $guarded = ['id'];
+    protected $table    = 'orders';
+    protected $guarded  = ['id'];
 
-    public function items()
+    public function orderOutlets()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderOutlet::class, 'order_id');
     }
 
     public function address()

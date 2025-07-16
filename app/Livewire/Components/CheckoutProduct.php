@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Models\Order\CartItem;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -69,29 +70,54 @@ class CheckoutProduct extends Component
         });
     }
 
+    public function generateOrderNumber()
+    {
+        $datePrefix = Carbon::now()->format('Ymd');
+
+        $orderCountToday = Order::whereDate('created_at', Carbon::today())->count() + 1;
+        $increment       = str_pad($orderCountToday, 5, '0', STR_PAD_LEFT);
+
+        return "ORD-{$datePrefix}-{$increment}";
+    }
+
     public function proceedOrder()
     {
         $this->validate([
             'quantities' => 'required|array',
-            'note' => 'nullable|string|max:1000',
+            'note'       => 'nullable|string|max:1000',
         ]);
 
-        $totalHarga = $this->calculateTotalHarga();
+        $totalHarga   = $this->calculateTotalHarga();
         $totalTagihan = $totalHarga + $this->biayaAdmin;
 
         $order = Order::create([
-            'order_number' => 'ORD-' . strtoupper(Str::random(8)),
-            'address_id' => $this->address->id,
-            'total_price' => $totalTagihan,
-            'note' => $this->note,
+            'order_number' => $this->generateOrderNumber(),
+            'user_id'      => auth()->id(),
+            'address_id'   => $this->address->id,
+            'total_price'  => $totalTagihan,
+            'note'         => $this->note,
         ]);
 
-        foreach ($this->products as $product) {
-            $order->items()->create([
-                'product_id' => $product->id,
-                'quantity' => $this->quantities[$product->id],
-                'subtotal' => $product->price * $this->quantities[$product->id],
+        $groupedProducts = collect($this->products)->groupBy('outlet_id');
+
+        foreach ($groupedProducts as $outletId => $products) {
+            $outletSubtotal = $products->sum(function ($product) {
+                return $product->price * $this->quantities[$product->id];
+            });
+
+            $orderOutlet = $order->orderOutlets()->create([
+                'outlet_id' => $outletId,
+                'status'    => 'pending',
+                'subtotal'  => $outletSubtotal,
             ]);
+
+            foreach ($products as $product) {
+                $orderOutlet->items()->create([
+                    'product_id' => $product->id,
+                    'quantity'   => $this->quantities[$product->id],
+                    'subtotal'   => $product->price * $this->quantities[$product->id],
+                ]);
+            }
         }
 
         if ($this->mode === 'multiple') {
@@ -102,6 +128,7 @@ class CheckoutProduct extends Component
 
         return redirect()->route('order');
     }
+
 
     public function render()
     {

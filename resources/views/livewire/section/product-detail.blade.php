@@ -8,7 +8,6 @@
                </svg>
            </button>
        </div>
-
        <div class="flex-1 py-4 px-4 lg:px-6">
            <div class="flex items-center space-x-2">
                <span class="text-lg font-bold text-gray-800">{{ $product->name }}</span>
@@ -33,6 +32,12 @@
                </span>
            </p>
            <p class="text-sm lg:text-md text-black opacity-70 mt-2">{{ $product->description }}</p>
+           <hr class="my-4 opacity-20">
+           <div class="flex items-center space-x-2">
+               <img class="h-8 w-8 md:h-10 md:w-10 object-cover rounded-full" src="{{ $product->outlet->photo }}"
+                   alt="Outlet owner smiling in front of store counter with shelves of products in the background">
+               <h2 class="text-sm md:text-base font-medium">{{ $product->outlet->name }}</h2>
+           </div>
        </div>
 
        <div class="z-90 w-full mt-2 fixed lg:relative lg:flex-1 flex justify-center bottom-0">

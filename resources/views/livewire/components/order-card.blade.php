@@ -21,12 +21,12 @@
             </div>
 
             <div class="text-sm flex flex-col">
-                <span class="text-xs md:text-sm font-bold">{{ $item->order->order_number ?? '-' }}</span>
-                <span class="text-black/60">{{ $item->order->created_at->format('d M Y H:i') }}</span>
+                <span class="text-xs md:text-sm font-bold">{{ $item->orderOutlet->order->order_number ?? '-' }}</span>
+                <span class="text-black/60">{{ $item->orderOutlet->order->created_at->format('d M Y H:i') }}</span>
             </div>
         </div>
         <span class="text-xs font-medium px-3 py-1 rounded-full {{ $badgeColor }}">
-            {{ ucfirst($item->order->status) }}
+            {{ ucfirst($item->orderOutlet->order->status) }}
         </span>
     </div>
 
@@ -43,7 +43,7 @@
         <div>
             <div class="mt-2 text-sm text-gray-500">Total Belanja</div>
             <div class="text-base font-semibold text-gray-900">
-                Rp. {{ number_format($item->order->total_price, 0, ',', '.') }}
+                Rp. {{ number_format($item->orderOutlet->order->total_price, 0, ',', '.') }}
             </div>
         </div>
         @if (!$item->review)
