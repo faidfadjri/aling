@@ -9,10 +9,9 @@ return new class extends Migration {
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('order_number')->nullable();
-            $table->foreignId('address_id')->constrained('user_address')->onDelete('cascade');
-            $table->enum('status', ['pending', 'confirmed', 'delivered'])->default('pending');
-            $table->decimal('total_price', 12, 2)->default(0);
+            $table->foreignId('address_id')->nullable()->constrained('user_address')->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->decimal('total_price', 12, 2)->unsigned()->default(0);
             $table->text('note')->nullable();
             $table->timestamps();
         });
