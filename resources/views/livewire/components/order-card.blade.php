@@ -58,6 +58,7 @@
             </span>
         </button>
 
+
         @if (!$item->items()->where('review', true)->exists())
             <button wire:click="review" wire:key="review-{{ $item->id }}"
                 class="bg-primary text-white cursor-pointer duration-200 text-sm font-medium px-4 py-2 rounded-lg">
@@ -72,7 +73,8 @@
 
 @push('scripts')
     <script>
-        window.addEventListener('confirm-cancel', function() {
+        window.addEventListener('confirm-cancel', function(e) {
+            const id = e.detail[0].id;
             Swal.fire({
                 title: 'Yakin ingin membatalkan pesanan?',
                 text: "Tindakan ini tidak bisa dibatalkan!",
@@ -84,7 +86,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Livewire.dispatch('cancelConfirmed');
+                    Livewire.dispatch(`cancelConfirmed-${id}`);
                 }
             });
         });
