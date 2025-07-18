@@ -58,7 +58,7 @@
             </span>
         </button>
 
-        @if (!$item->where('status', false)->exists())
+        @if (!$item->items()->where('review', true)->exists())
             <button wire:click="review" wire:key="review-{{ $item->id }}"
                 class="bg-primary text-white cursor-pointer duration-200 text-sm font-medium px-4 py-2 rounded-lg">
                 <span wire:loading.remove wire:target='review'>Berikan Ulasan</span>
