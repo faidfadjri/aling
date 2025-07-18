@@ -126,7 +126,7 @@ class CheckoutProduct extends Component
 
         session()->forget('checkout_cart_item_ids');
 
-        // return redirect()->route('order');
+        return redirect()->route('order');
     }
 
 
