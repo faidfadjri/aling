@@ -77,7 +77,7 @@ class CheckoutProduct extends Component
         $orderCountToday = Order::whereDate('created_at', Carbon::today())->count() + 1;
         $increment       = str_pad($orderCountToday, 5, '0', STR_PAD_LEFT);
 
-        return "ORD-{$datePrefix}-{$increment}";
+        return "INV-{$datePrefix}-{$increment}";
     }
 
     public function proceedOrder()
@@ -126,7 +126,7 @@ class CheckoutProduct extends Component
 
         session()->forget('checkout_cart_item_ids');
 
-        return redirect()->route('order');
+        // return redirect()->route('order');
     }
 
 

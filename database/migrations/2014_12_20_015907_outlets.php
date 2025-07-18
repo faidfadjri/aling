@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('name');
             $table->text('description');
+            $table->text('coordinates');
             $table->unsignedBigInteger('village_id')->default(0);
             $table->bigInteger('phone')->nullable();
             $table->timestamps();

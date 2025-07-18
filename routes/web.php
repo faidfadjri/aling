@@ -28,6 +28,7 @@ Route::prefix('product')->group(function () {
 Route::middleware('auth')->prefix('order')->group(function () {
     Route::get('checkout', [OrderController::class, 'checkout'])->name('order.checkout');
     Route::get('checkout/{productID}', [OrderController::class, 'checkout'])->name('order.checkout.detail');
+    Route::post('review', [OrderController::class, 'submitReview'])->name('order.review.submit');
 
     Route::get('/', [OrderController::class, 'index'])->name('order');
     Route::get('cart', [OrderController::class, 'cart'])->name('order.cart');

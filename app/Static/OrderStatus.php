@@ -7,8 +7,9 @@ class OrderStatus
     const PENDING       = 'pending';
     const IN_PROGRESS   = 'diproses';
     const COMPLETED     = 'selesai';
+    const REQ_CANCEL    = 'pengajuan pembatalan';
     const CANCELLED     = 'dibatalkan';
-    const REJECTED     = 'ditolak';
+    const REJECTED      = 'ditolak';
 
     public static function all(): array
     {
@@ -16,6 +17,7 @@ class OrderStatus
             self::PENDING,
             self::IN_PROGRESS,
             self::COMPLETED,
+            self::REQ_CANCEL,
             self::CANCELLED,
             self::REJECTED,
         ];

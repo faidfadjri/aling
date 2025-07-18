@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Transactions;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\OrderOutlet;
+use App\Models\Product\Review;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -59,6 +64,42 @@ class OrderController extends Controller
                 'cartSelectedIDs'   => $cartSelectedIDs
             ])
             ->cookie('last-visited-product', json_encode(['id' => $productID]), 60 * 24 * 30);
+    }
+
+    public function submitReview(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $activeOrderOutletId = $request->input('activeOrderOutletId');
+            $rating              = $request->input('rating');
+            $description         = $request->input('description');
+            $name                = auth()->user()->name;
+
+            $orderOutlet = OrderOutlet::with('items.product')->find($activeOrderOutletId);
+            if (!$orderOutlet) {
+                throw new Exception("Order Outlet not found.");
+            }
+
+            foreach ($orderOutlet->items as $orderItem) {
+                Review::create([
+                    'product_id'  => $orderItem->product_id,
+                    'rating'      => $rating,
+                    'description' => $description,
+                    'name'        => $name,
+                ]);
+                $orderItem->update(['review' => true]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('order')
+                ->with('success', 'Ulasan berhasil ditambahkan.');
+        } catch (Exception $err) {
+            Log::critical($err);
+            DB::rollBack();
+            return redirect()->route('order')->with('error', 'Gagal menambahkan ulasan. Silakan coba lagi.')
+                ->withInput();
+        }
     }
 
     public function cart()

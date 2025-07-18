@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-2">
         <p class="text-sm font-medium text-gray-700 mb-2">Jenis alamat</p>
         <div class="flex space-x-2">
-            @foreach (['kantor', 'rumah', 'lainya'] as $option)
+            @foreach (['rumah', 'kantor', 'lainya'] as $option)
                 <button type="button"
                     class="px-5 py-2 text-sm rounded-full border transition cursor-pointer {{ $type === $option ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-800 border-gray-200' }}"
                     wire:click="$set('type', '{{ $option }}')">

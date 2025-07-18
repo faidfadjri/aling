@@ -1,28 +1,34 @@
-<div class="bg-[#F5FBFF] min-h-screen">
+<div class="bg-[#F5FBFF] min-h-screen" id="order-list">
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
     <div class="px-4 pt-2 pb-28">
-        <div class="relative flex gap-2 overflow-x-auto mb-4">
+        <div class="relative flex items-center gap-2 overflow-x-auto mb-4">
             <div class="flex gap-2 overflow-x-auto scrollbar-hide snap-x snap-mandatory w-full pt-1 pb-4">
-                @foreach (['Semua', 'Pending', 'Diproses', 'Selesai', 'Reject'] as $index => $status)
+                <button wire:click="selectStatus('Semua')"
+                    class="flex-shrink-0 px-4 py-2 text-sm rounded-full shadow-sm snap-start
+                        {{ $selectedstatus === 'Semua' ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-gray-100' }}"
+                    wire:key="order-status-0">
+                    Semua
+                </button>
+                @foreach ($orderStatuses as $index => $status)
                     <button wire:click="selectStatus('{{ $status }}')"
                         class="flex-shrink-0 px-4 py-2 text-sm rounded-full shadow-sm snap-start
                         {{ $selectedstatus === $status ? 'bg-blue-600 text-white' : 'bg-gray-50 text-gray-700 hover:bg-gray-100' }}"
-                        wire:key="order-{{ $index }}">
+                        wire:key="order-status-{{ $index }}">
                         {{ $status }}
                     </button>
                 @endforeach
             </div>
-            <style>
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-            </style>
             <button
-                class="sticky right-0 px-3 py-2 bg-white rounded-full shadow-md z-10 flex items-center justify-center">
+                class="sticky right-0 px-3 py-2 h-fit bg-white rounded-full shadow-md z-10 flex items-center justify-center">
                 <svg wire:loading wire:target='selectStatus' class="animate-spin h-4 w-4 text-blue-500"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
@@ -59,7 +65,7 @@
                 </div>
             @endfor
             @forelse ($items as $index => $item)
-                @livewire('components.order-card', ['item' => $item], key('order-' . $item->id))
+                @livewire('components.order-card', ['item' => $item], key('order-outlet-' . ($item->id ?? uniqid())))
             @empty
                 <div class="text-center text-sm text-gray-500 py-6">Tidak ada pesanan ditemukan.</div>
             @endforelse
@@ -67,76 +73,41 @@
             <div class="mt-2">
                 @include('components.base.pagination', ['pagination' => $items])
             </div>
+        </div>
 
+        <div id="ratingModal" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 hidden">
+            <form method="POST" action="{{ route('order.review.submit') }}"
+                class="w-full flex items-center justify-center">
+                @csrf
+                <div class="bg-white w-[75%] lg:w-96 p-6 rounded-lg shadow-xl relative">
 
-            @if ($showModal)
-                <div x-data="{ show: true }" x-init="$nextTick(() => show = true)" x-show="show"
-                    x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                    class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/40"
-                    aria-modal="true" role="dialog">
-                    <div x-show="show" @click.away="$wire.closeModal()"
-                        x-transition:enter="transition ease-out duration-300 transform"
-                        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                        x-transition:leave="transition ease-in duration-200 transform"
-                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                        class="w-full max-w-lg p-6 bg-white rounded-2xl shadow-2xl border border-gray-100">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-5">Beri Rating & Ulasan</h2>
+                    <h2 class="text-xl font-semibold mb-4 text-center">Berikan Ulasan</h2>
 
-                        <form wire:submit.prevent="saveReview" class="space-y-5">
-                            <!-- Rating -->
-                            <div>
-                                <label class="block mb-1 text-sm font-medium text-gray-600">Rating</label>
-                                <div class="flex gap-1">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <button type="button" wire:click="$set('rating', {{ $i }})"
-                                            class="transition transform hover:scale-110 focus:outline-none"
-                                            aria-label="Beri rating {{ $i }}">
-                                            <svg class="w-6 h-6 {{ $i <= $rating ? 'text-yellow-400' : 'text-gray-300' }}"
-                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                        </button>
-                                    @endfor
-                                </div>
-                                @error('rating')
-                                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
-                                @enderror
-                            </div>
+                    <div class="flex justify-center mb-4 space-x-1" id="stars">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <svg data-index="{{ $i }}"
+                                class="w-8 h-8 cursor-pointer text-gray-300 hover:text-yellow-400" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path d="M12 17.3l6.2 3.7-1.6-7 5.4-4.7-7.1-.6L12 2 9.1 8.7l-7.1.6 5.4 4.7-1.6 7z" />
+                            </svg>
+                        @endfor
+                    </div>
+                    <input type="hidden" id="activeOrderOutletId" name="activeOrderOutletId"
+                        class="p-2 border border-gray-300 rounded-md" placeholder="Order ID" required />
+                    <input type="hidden" id="rating" name="rating" class="p-2 border border-gray-300 rounded-md"
+                        placeholder="Rating" required />
+                    <textarea name="description" placeholder="Tulis ulasan Anda..." rows="4"
+                        class="w-full border border-gray-300 rounded-md p-3 mb-4 text-sm focus:outline-none focus:ring focus:border-blue-300 resize-none"
+                        required></textarea>
 
-                            <div>
-                                <label for="description" class="block mb-1 text-sm font-medium text-gray-600">Ulasan
-                                    Anda</label>
-                                <textarea wire:model="description" id="description" rows="4"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition placeholder:text-sm placeholder:text-gray-400"
-                                    placeholder="Ceritakan pengalaman Anda..."></textarea>
-                                @error('description')
-                                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div class="flex justify-end gap-3 pt-2">
-                                <button type="button" wire:click="closeModal"
-                                    class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-                                    Batal
-                                </button>
-                                <button type="submit"
-                                    class="px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-                                    <span wire:loading.remove wire:target='saveReview'>Kirim</span>
-                                    <span wire:loading wire:target='saveReview' class="flex items-center gap-2">
-                                        <div
-                                            class="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-yellow-800">
-                                        </div>
-                                    </span>
-                                </button>
-                            </div>
-                        </form>
+                    <div class="flex justify-end space-x-2">
+                        <button id="closeModal" type="button"
+                            class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Batal</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-900">Kirim</button>
                     </div>
                 </div>
-            @endif
+            </form>
         </div>
     </div>
 </div>
@@ -144,19 +115,54 @@
 
 @push('scripts')
     <script>
-        const menu = document.getElementById('dropdown-menu');
-        const button = document.querySelector('#user-menu > button');
+        document.addEventListener('DOMContentLoaded', function() {
+            const scope = document.getElementById('order-list');
+            if (!scope) return;
 
-        function toggleMenu() {
-            menu.classList.toggle('opacity-0');
-            menu.classList.toggle('scale-95');
-            menu.classList.toggle('pointer-events-none');
-        }
+            const modal = scope.querySelector('#ratingModal');
+            const closeModalBtn = scope.querySelector('#closeModal');
+            const stars = scope.querySelectorAll('#stars svg');
 
-        document.addEventListener('click', function(e) {
-            if (!button.contains(e.target) && !menu.contains(e.target)) {
-                menu.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-            }
+            let selectedRating = 0;
+            let activeOrderOutletId = null;
+
+            closeModalBtn?.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                Livewire.dispatch('closeModalFromJs');
+            });
+
+            modal?.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.add('hidden');
+            });
+
+            stars.forEach((star, index) => {
+                star.addEventListener('mouseenter', () => {
+                    stars.forEach((s, i) => s.classList.toggle('text-yellow-400', i <= index));
+                });
+
+                star.addEventListener('mouseleave', () => {
+                    stars.forEach((s, i) => s.classList.toggle('text-yellow-400', i <
+                        selectedRating));
+                });
+
+                star.addEventListener('click', () => {
+                    selectedRating = index + 1;
+                    stars.forEach((s, i) => s.classList.toggle('text-yellow-400', i <
+                        selectedRating));
+
+                    const input = modal.querySelector('input[name="rating"]');
+                    if (input) input.value = selectedRating;
+                });
+            });
+
+            window.addEventListener('review', function(event) {
+                activeOrderOutletId = event.detail;
+                modal.classList.remove('hidden');
+
+                const input = modal.querySelector('#activeOrderOutletId');
+                if (input) input.value = activeOrderOutletId;
+
+            });
         });
     </script>
 @endpush

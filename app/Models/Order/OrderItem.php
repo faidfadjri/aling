@@ -20,6 +20,6 @@ class OrderItem extends Model
 
     public function orderOutlet()
     {
-        return $this->belongsTo(OrderOutlet::class, 'order_outlet_id');
+        return $this->belongsTo(OrderOutlet::class, 'order_outlet_id', 'id');
     }
 }
