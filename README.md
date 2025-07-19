@@ -1,4 +1,4 @@
-![Aling Ayam Keliling Logo](https://raw.githubusercontent.com/username/aling-ayam-keliling/main/public/assets/images/logo.png)
+![Aling Ayam Keliling Logo](https://raw.githubusercontent.com/faidfadjri/aling-ayam-keliling/main/public/assets/images/logo.png)
 
 # Aling Ayam Keliling
 
@@ -71,6 +71,7 @@ npm run dev
 - Vite
 - Alpine.js
 - MySQL / MariaDB
+- Filament
 
 ---
 
@@ -90,4 +91,4 @@ npm run dev
 **Email:** faidfadjri@gmail.com
 ---
 
-Made with ❤️ by Aling88 Team
+Made with ❤️ by Faid Fadjri
