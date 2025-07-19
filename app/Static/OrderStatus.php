@@ -27,4 +27,17 @@ class OrderStatus
     {
         return in_array($status, self::all());
     }
+
+    public function getStatusColor(string $status): string
+    {
+        return match ($status) {
+            OrderStatus::PENDING       => 'gray',
+            OrderStatus::IN_PROGRESS   => 'blue',
+            OrderStatus::COMPLETED     => 'green',
+            OrderStatus::REQ_CANCEL    => 'yellow',
+            OrderStatus::CANCELLED     => 'red',
+            OrderStatus::REJECTED      => 'rose',
+            default                    => 'gray',
+        };
+    }
 }

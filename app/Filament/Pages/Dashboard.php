@@ -2,9 +2,10 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Order\Order;
+use App\Models\Order\OrderOutlet;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
+use App\Static\OrderStatus;
 use Filament\Pages\Page;
 
 class Dashboard extends Page
@@ -26,12 +27,12 @@ class Dashboard extends Page
 
     public function mount(): void
     {
-        $this->totalOrders = Order::count();
-        $this->pendingOrders = Order::where('status', 'pending')->count();
-        $this->confirmedOrders = Order::where('status', 'confirmed')->count();
-        $this->deliveredOrders = Order::where('status', 'delivered')->count();
+        $this->totalOrders      = OrderOutlet::count();
+        $this->pendingOrders    = OrderOutlet::where('status', OrderStatus::PENDING)->count();
+        $this->confirmedOrders  = OrderOutlet::where('status', OrderStatus::IN_PROGRESS)->count();
+        $this->deliveredOrders  = OrderOutlet::where('status', OrderStatus::COMPLETED)->count();
 
-        $this->totalProducts = Product::count();
-        $this->totalCategories = ProductCategory::count();
+        $this->totalProducts    = Product::count();
+        $this->totalCategories  = ProductCategory::count();
     }
 }
