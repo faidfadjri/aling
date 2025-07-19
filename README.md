@@ -32,13 +32,19 @@ cd aling-ayam-keliling
 cp .env.example .env
 ```
 
-### 3. Generate application key
+### 3. Install Composer Package
+
+```bash
+composer install
+```
+
+### 4. Generate application key
 
 ```bash
 php artisan key:generate
 ```
 
-### 4. Jalankan migrasi database
+### 5. Jalankan migrasi database
 
 Pastikan koneksi database sudah disesuaikan di file `.env`, lalu jalankan:
 
@@ -46,13 +52,13 @@ Pastikan koneksi database sudah disesuaikan di file `.env`, lalu jalankan:
 php artisan migrate
 ```
 
-### 5. Jalankan server Laravel
+### 6. Jalankan server Laravel
 
 ```bash
 php artisan serve
 ```
 
-### 6. Jalankan Vite (untuk assets frontend)
+### 7. Jalankan Vite (untuk assets frontend)
 
 Buka terminal baru:
 
@@ -96,7 +102,5 @@ npm run dev
 - 🔗 [Medium](https://medium.com/@faidfadjri) – `@faidfadjri`  
 - 💼 [LinkedIn](https://linkedin.com/in/faidfadjri) – `@faidfadjri`  
 - 🧰 [Portofolio](https://faidfadjri.github.io) – `faidfadjri.github.io`
-
---
 
 Made with ❤️ by Faid Fadjri
