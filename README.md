@@ -88,7 +88,15 @@ npm run dev
 
 ## 📞 Kontak
 
-**Email:** faidfadjri@gmail.com
----
+**Nama:** Faid Fadjri  
+**Email:** [faidfadjri@gmail.com](mailto:faidfadjri@gmail.com)
+
+### 🌐 Sosial & Portofolio
+
+- 🔗 [Medium](https://medium.com/@faidfadjri) – `@faidfadjri`  
+- 💼 [LinkedIn](https://linkedin.com/in/faidfadjri) – `@faidfadjri`  
+- 🧰 [Portofolio](https://faidfadjri.github.io) – `faidfadjri.github.io`
+
+--
 
 Made with ❤️ by Faid Fadjri
