@@ -1,4 +1,4 @@
-![Aling Ayam Keliling Logo](https://raw.githubusercontent.com/faidfadjri/aling-ayam-keliling/main/public/assets/images/logo.png)
+![Aling Ayam Keliling Logo](/public/assets/images/logo.png)
 
 # Aling Ayam Keliling
 
