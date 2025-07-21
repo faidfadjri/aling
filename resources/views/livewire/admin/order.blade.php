@@ -17,11 +17,11 @@
             <input wire:model.debounce.300ms="search" type="text" placeholder="Cari Invoice"
                 class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500" />
 
-            <select wire:model="status"
-                class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500">
+            <select wire:model.live="status"
+                class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500 capitalize">
                 <option value="">Semua Status</option>
                 @foreach ($statuses as $key => $label)
-                    <option value="{{ $key }}">{{ $label }}</option>
+                    <option value="{{ $label }}">{{ $label }}</option>
                 @endforeach
             </select>
 
@@ -43,6 +43,7 @@
         <div>
             <select wire:model="perPage"
                 class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <option value="5">5 Baris</option>
                 <option value="10">10 Baris</option>
                 <option value="25">25 Baris</option>
                 <option value="50">50 Baris</option>
@@ -52,7 +53,17 @@
     </div>
 
     {{-- Table --}}
-    <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
+    <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm relative">
+        <div wire:target="search,status,outlet,startDate,endDate,perPage" wire:loading>
+            <div style="width: 100%;display: flex;align-items: center;justify-content: center;gap: 5px">
+                <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="2"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <p>Sedang Memuat Data...</p>
+            </div>
+        </div>
         <table class="w-full whitespace-nowrap text-sm text-left">
             <thead class="bg-gray-100 text-gray-700">
                 <tr>
@@ -108,26 +119,31 @@
     {{-- Detail Modal --}}
     @if ($showModal && $selectedOrder)
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div class="bg-white rounded-xl shadow-lg max-w-2xl w-full p-6 space-y-4">
-                <div class="flex items-center justify-between border-b pb-3">
+            <div class="bg-white rounded-xl shadow-lg max-w-2xl w-full p-6">
+                <div class="flex items-center justify-between border-b mb-5" style="padding-bottom: 10px">
                     <h2 class="text-lg font-semibold">Detail Pesanan</h2>
                     <button wire:click="$set('showModal', false)"
-                        class="text-gray-500 hover:text-red-500">&times;</button>
+                        class="text-gray-500 hover:text-red-500 bg-gray-500 h-5 w-5 rounded-full">&times;</button>
                 </div>
 
                 <div>
-                    <p><strong>Invoice:</strong> {{ $selectedOrder->order->invoice_number ?? '-' }}</p>
-                    <p><strong>Pelanggan:</strong> {{ $selectedOrder->order->customer->name ?? '-' }}</p>
+                    <p><strong>Invoice:</strong> {{ $selectedOrder->order->order_number ?? '-' }}</p>
+                    <p><strong>Pelanggan:</strong> {{ $selectedOrder->order->user->name ?? '-' }}</p>
                     <p><strong>Status:</strong>
                         {{ $statuses[$selectedOrder->status] ?? ($selectedOrder->status ?? '-') }}</p>
                 </div>
 
                 <div>
-                    <h3 class="font-medium mb-2">Daftar Produk:</h3>
+                    <h3 class="font-medium mb-2">
+                        <strong>
+                            Daftar Produk:
+                        </strong>
+                    </h3>
                     <ul class="space-y-1">
                         @forelse ($selectedOrder->items as $item)
                             <li>
-                                {{ $item->product->name ?? '-' }} - {{ $item->quantity ?? 0 }}x @currency($item->price ?? 0)
+                                {{ $item->product->name ?? '-' }} - {{ $item->quantity ?? 0 }} x
+                                {{ 'Rp. ' . number_format($item->subtotal ?? 0, 0, ',' . '.') }}
                             </li>
                         @empty
                             <li class="text-gray-500">Tidak ada produk.</li>
@@ -135,19 +151,61 @@
                     </ul>
                 </div>
 
-                <div class="text-right">
-                    <strong>Total:</strong> @currency($selectedOrder->items->sum(fn($i) => ($i->price ?? 0) * ($i->quantity ?? 0)))
+                <div class="text-right mb-4">
+                    <strong>Total:</strong>
+                    {{ 'Rp. ' . number_format($selectedOrder->subtotal ?? 0, 0, ',' . '.') }}
                 </div>
 
-                <div class="flex justify-end space-x-2 pt-4 border-t">
-                    @foreach ($statuses as $key => $label)
-                        @if ($key !== $selectedOrder->status)
-                            <button wire:click="updateStatus({{ $selectedOrder->id }}, '{{ $key }}')"
-                                class="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
-                                Tandai sebagai {{ $label }}
-                            </button>
+                <div class="flex items-center justify-between pt-4 border-t">
+                    <x-filament::button wire:click="$set('showModal', false)" color="gray">
+                        Tutup
+                    </x-filament::button>
+                    <div class="flex justify-end gap-2">
+                        @php
+                            $status = $selectedOrder->status;
+                        @endphp
+
+                        @php
+                            $status = $selectedOrder->status;
+                        @endphp
+
+                        @if (!in_array($status, $completeStatus))
+                            @if ($status === 'pending')
+                                <x-filament::button wire:click="updateStatus({{ $selectedOrder->id }}, 'ditolak')"
+                                    color="warning">
+                                    Tolak Pesanan
+                                </x-filament::button>
+
+                                <x-filament::button wire:click="updateStatus({{ $selectedOrder->id }}, 'diproses')"
+                                    color="info">
+                                    Proses Pesanan
+                                </x-filament::button>
+                            @endif
+
+                            @if ($status === 'pengajuan pembatalan')
+                                <x-filament::button wire:click="updateStatus({{ $selectedOrder->id }}, 'diproses')"
+                                    color="info">
+                                    Proses Pesanan
+                                </x-filament::button>
+
+                                <x-filament::button wire:click="updateStatus({{ $selectedOrder->id }}, 'dibatalkan')"
+                                    color="warning">
+                                    Batalkan Pesanan
+                                </x-filament::button>
+                            @endif
+
+                            @if (in_array($status, ['pending', 'diproses']))
+                                <x-filament::button wire:click="updateStatus({{ $selectedOrder->id }}, 'dibatalkan')"
+                                    color="warning">
+                                    Batalkan Pesanan
+                                </x-filament::button>
+                                <x-filament::button wire:click="updateStatus({{ $selectedOrder->id }}, 'selesai')"
+                                    color="success">
+                                    Selesaikan Pesanan
+                                </x-filament::button>
+                            @endif
                         @endif
-                    @endforeach
+                    </div>
                 </div>
             </div>
         </div>

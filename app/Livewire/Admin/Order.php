@@ -8,6 +8,8 @@ use App\Static\OrderStatus;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use NumberFormatter;
 
 class Order extends Component
 {
@@ -48,17 +50,29 @@ class Order extends Component
     public function render()
     {
         $orders = OrderOutlet::with(['order.user', 'outlet'])
-            ->when($this->search, fn($q) => $q->whereHas('order', fn($q) => $q->where('invoice_number', 'like', "%{$this->search}%")))
-            ->when($this->status, fn($q) => $q->where('status', $this->status))
-            ->when($this->outlet, fn($q) => $q->where('outlet_id', $this->outlet))
-            ->when($this->startDate && $this->endDate, fn($q) => $q->whereBetween(DB::raw('DATE(created_at)'), [$this->startDate, $this->endDate]))
+            ->when($this->search, function ($query) {
+                $query->whereHas('order', function ($q) {
+                    $q->where('order_number', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->when($this->status, function ($query) {
+                $query->where('status', $this->status);
+            })
+            ->when($this->outlet, function ($query) {
+                $query->where('outlet_id', $this->outlet);
+            })
+            ->when($this->startDate && $this->endDate, function ($query) {
+                $query->whereDate('created_at', '>=', $this->startDate)
+                    ->whereDate('created_at', '<=', $this->endDate);
+            })
             ->orderByDesc('created_at')
             ->paginate($this->perPage);
 
         return view('livewire.admin.order', [
-            'orderOutlets'  => $orders,
-            'outlets'       => Outlet::all(),
-            'statuses'      => OrderStatus::all()
+            'orderOutlets'   => $orders,
+            'outlets'        => Outlet::all(),
+            'statuses'       => OrderStatus::all(),
+            'completeStatus' => OrderStatus::completeStatus()
         ]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Static;
 
+use Filament\Widgets\StatsOverviewWidget\Stat;
+
 class OrderStatus
 {
     const PENDING       = 'pending';
@@ -20,6 +22,15 @@ class OrderStatus
             self::REQ_CANCEL,
             self::CANCELLED,
             self::REJECTED,
+        ];
+    }
+
+    public static function completeStatus(): array
+    {
+        return [
+            self::CANCELLED,
+            self::REJECTED,
+            self::COMPLETED
         ];
     }
 
