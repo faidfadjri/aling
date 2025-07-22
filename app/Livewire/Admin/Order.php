@@ -7,9 +7,6 @@ use App\Models\Outlet;
 use App\Static\OrderStatus;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use NumberFormatter;
 
 class Order extends Component
 {
@@ -19,16 +16,15 @@ class Order extends Component
     public $status = '';
     public $outlet = '';
     public $perPage = 10;
-    public $startDate;
-    public $endDate;
+    public $date;
     public $selectedOrder;
     public $showModal = false;
 
-    protected $queryString = ['search', 'status', 'outlet', 'startDate', 'endDate', 'perPage'];
+    protected $queryString = ['search', 'status', 'outlet', 'date', 'perPage'];
 
     public function updating($property)
     {
-        if (in_array($property, ['search', 'status', 'outlet', 'startDate', 'endDate', 'perPage'])) {
+        if (in_array($property, ['search', 'status', 'outlet', 'date', 'perPage'])) {
             $this->resetPage();
         }
     }
@@ -46,13 +42,44 @@ class Order extends Component
         $order->save();
         $this->showModal = false;
     }
+    public function deleteOrder($id)
+    {
+        $orderOutlet = OrderOutlet::find($id);
+
+        if (!$orderOutlet) {
+            return response()->json([
+                'message' => 'Order tidak ditemukan.'
+            ], 404);
+        }
+
+        $deleted = $orderOutlet->delete();
+
+        $this->showModal = false;
+        $this->reset();
+        $this->resetPage();
+
+        if ($deleted) {
+            return response()->json([
+                'message' => 'Order berhasil dihapus.'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Gagal menghapus order.'
+            ], 500);
+        }
+    }
+
 
     public function render()
     {
         $orders = OrderOutlet::with(['order.user', 'outlet'])
             ->when($this->search, function ($query) {
-                $query->whereHas('order', function ($q) {
-                    $q->where('order_number', 'like', '%' . $this->search . '%');
+                $query->where(function ($query) {
+                    $query->whereHas('order', function ($q) {
+                        $q->where('order_number', 'like', '%' . $this->search . '%');
+                    })->orWhereHas('order.user', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%');
+                    });
                 });
             })
             ->when($this->status, function ($query) {
@@ -61,9 +88,8 @@ class Order extends Component
             ->when($this->outlet, function ($query) {
                 $query->where('outlet_id', $this->outlet);
             })
-            ->when($this->startDate && $this->endDate, function ($query) {
-                $query->whereDate('created_at', '>=', $this->startDate)
-                    ->whereDate('created_at', '<=', $this->endDate);
+            ->when($this->date, function ($query) {
+                $query->whereDate('created_at', $this->date);
             })
             ->orderByDesc('created_at')
             ->paginate($this->perPage);

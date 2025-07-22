@@ -1,4 +1,4 @@
-<div class="p-6 space-y-6">
+<div class="space-y-6">
 
     @php
         $colors = [
@@ -11,38 +11,35 @@
         ];
     @endphp
 
-    {{-- Filter Bar --}}
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div class="flex flex-wrap gap-2">
-            <input wire:model.debounce.300ms="search" type="text" placeholder="Cari Invoice"
-                class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500" />
+    <div class="overflow-x-auto rounded-lg shadow-sm relative">
 
-            <select wire:model.live="status"
-                class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500 capitalize">
-                <option value="">Semua Status</option>
-                @foreach ($statuses as $key => $label)
-                    <option value="{{ $label }}">{{ $label }}</option>
-                @endforeach
-            </select>
+        <x-filament::input wire:model.live="search" type="search" placeholder="Cari Invoice / Pelanggan"
+            style="background: white; border: 1px solid rgb(200, 200, 200);border-radius: 0.5em; margin-bottom: 1em" />
 
-            <select wire:model="outlet"
-                class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500">
-                <option value="">Semua Outlet</option>
-                @foreach ($outlets as $o)
-                    <option value="{{ $o->id }}">{{ $o->name }}</option>
-                @endforeach
-            </select>
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <select wire:model.live="status"
+                    class="text-sm border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500 capitalize">
+                    <option value="">Semua Status</option>
+                    @foreach ($statuses as $key => $label)
+                        <option value="{{ $label }}">{{ $label }}</option>
+                    @endforeach
+                </select>
 
-            <input wire:model="startDate" type="date"
-                class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500" />
+                <select wire:model.live="outlet"
+                    class="text-sm border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500">
+                    <option value="" selected>Semua Outlet</option>
+                    @foreach ($outlets as $o)
+                        <option value="{{ $o->id }}">{{ $o->name }}</option>
+                    @endforeach
+                </select>
 
-            <input wire:model="endDate" type="date"
-                class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500" />
-        </div>
+                <input wire:model.live="date" type="date"
+                    class="text-sm border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500" />
 
-        <div>
-            <select wire:model="perPage"
-                class="border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500">
+            </div>
+            <select wire:model.live="perPage"
+                class="border-gray-300 rounded-lg  text-sm shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500">
                 <option value="5">5 Baris</option>
                 <option value="10">10 Baris</option>
                 <option value="25">25 Baris</option>
@@ -50,20 +47,22 @@
                 <option value="100">100 Baris</option>
             </select>
         </div>
-    </div>
 
-    {{-- Table --}}
-    <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm relative">
-        <div wire:target="search,status,outlet,startDate,endDate,perPage" wire:loading>
-            <div style="width: 100%;display: flex;align-items: center;justify-content: center;gap: 5px">
-                <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="2"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-                </svg>
-                <p>Sedang Memuat Data...</p>
+        <div class="flex items-center justify-between" style="margin-bottom: 1em">
+
+
+            <div wire:target="search,status,outlet,startDate,endDate,perPage" wire:loading>
+                <div style="width: 100%;display: flex;align-items: center;justify-content: center;gap: 5px">
+                    <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="2"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                    <p>Sedang Memuat Data...</p>
+                </div>
             </div>
         </div>
+
         <table class="w-full whitespace-nowrap text-sm text-left">
             <thead class="bg-gray-100 text-gray-700">
                 <tr>
@@ -194,7 +193,7 @@
                                 </x-filament::button>
                             @endif
 
-                            @if (in_array($status, ['pending', 'diproses']))
+                            @if (in_array($status, ['diproses']))
                                 <x-filament::button wire:click="updateStatus({{ $selectedOrder->id }}, 'dibatalkan')"
                                     color="warning">
                                     Batalkan Pesanan
@@ -204,6 +203,13 @@
                                     Selesaikan Pesanan
                                 </x-filament::button>
                             @endif
+                        @else
+                            <x-filament::button x-data
+                                x-on:click="if (confirm('Apakah kamu yakin ingin menghapus order ini?')) { $wire.deleteOrder({{ $selectedOrder->id }}) }"
+                                color="danger">
+                                Hapus Order
+                            </x-filament::button>
+
                         @endif
                     </div>
                 </div>
