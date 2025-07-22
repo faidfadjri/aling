@@ -25,6 +25,14 @@ class ProductCategoryResource extends Resource
     protected static ?string $navigationLabel = 'Kategori Produk';
     protected static ?string $navigationGroup = 'Kelola Produk';
 
+
+    public static function canAccess(): bool
+    {
+        $role = auth()->user()?->role;
+        return  $role === 'master' && $role !== 'user';
+    }
+
+
     public static function form(Form $form): Form
     {
         $user = Auth::user();

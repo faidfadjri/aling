@@ -22,6 +22,12 @@ class OutletResource extends Resource
     protected static ?string $navigationLabel = 'Outlet';
     protected static ?string $navigationGroup = 'Kelola Pengguna';
 
+    public static function canAccess(): bool
+    {
+        $role = auth()->user()?->role;
+        return  $role === 'master' && $role !== 'user';
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -38,13 +44,13 @@ class OutletResource extends Resource
                 ->relationship(
                     name: 'village',
                     titleAttribute: 'name',
-                    modifyQueryUsing: fn ($query) => $query->with('district.regency')
+                    modifyQueryUsing: fn($query) => $query->with('district.regency')
                 )
                 ->getOptionLabelFromRecordUsing(function ($record) {
                     $village = $record->name;
                     $district = $record->district->name ?? '-';
                     $regency = $record->district->regency->name ?? '-';
-            
+
                     return "{$village} - {$district} - {$regency}";
                 })
                 ->searchable()
