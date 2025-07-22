@@ -35,6 +35,7 @@ class ProductList extends Component
         if ($this->search && $this->search != '') {
             $query->where('name', 'like', "%$this->search%");
         }
+        $query->where('status', true);
 
         $this->cities = Outlet::with('village.district.regency')
             ->get()
