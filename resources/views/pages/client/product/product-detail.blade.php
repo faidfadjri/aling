@@ -15,9 +15,9 @@
         @endif
         @livewire('section.product-detail', ['product' => $product])
 
-
         <div class="px-5 mt-4">
-            <h3 class="font-semibold text-lg mb-2">Ulasan Pembeli</h3>
+            <h3 class="font-semibold text-lg">Ulasan Pembeli</h3>
+            <hr class="opacity-20 my-4">
             <div id="review-container" class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory px-1">
                 @if ($product->reviews->count() > 1)
                     <div class="swiper review-container px-4">
