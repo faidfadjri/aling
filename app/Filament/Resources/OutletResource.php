@@ -101,7 +101,8 @@ class OutletResource extends Resource
 
             TextInput::make('coordinates')
                 ->label('Koordinat Lokasi')
-                ->required(),
+                ->required()
+                ->default(fn($record) => $record?->coordinates),
 
             FileUpload::make('photo')
                 ->label('Foto Outlet')

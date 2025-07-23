@@ -59,7 +59,7 @@
                       {{ $product->orders->count() ?? 0 }} terjual
                   </span>
               </p>
-              <p class="text-sm lg:text-md text-black opacity-70 mt-2">{{ $product->description }}</p>
+              <p class="text-sm lg:text-md text-black opacity-70 mt-2">{!! $product->description !!}</p>
               <hr class="my-4 opacity-20">
               <div class="flex items-center space-x-2">
                   <img class="h-8 w-8 md:h-10 md:w-10 object-cover rounded-full"
