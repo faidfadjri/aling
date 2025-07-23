@@ -25,7 +25,7 @@
               Hubungi Admin
           </a>
       </div>
-      <div class="mx-auto px-5 rounded-lg flex flex-col lg:flex-row items-center shadow-sm overflow-hidden lg:mt-10">
+      <div class="mx-auto px-5 rounded-lg flex flex-col lg:flex-row items-start shadow-sm overflow-hidden lg:mt-10">
           <div class="mt-5 lg:mt-0 relative flex-1 w-full lg:w-1/2">
               <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                   class="w-full h-60 lg:h-80 object-cover rounded-lg">
