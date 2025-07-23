@@ -59,7 +59,6 @@ class OutletResource extends Resource
                     return "{$village} - {$district} - {$regency}";
                 })
                 ->searchable()
-                ->unique()
                 ->required(),
 
             TextInput::make('phone')

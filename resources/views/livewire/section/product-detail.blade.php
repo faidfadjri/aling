@@ -27,7 +27,7 @@
       </div>
       <div class="mx-auto px-5 rounded-lg flex flex-col lg:flex-row items-center shadow-sm overflow-hidden lg:mt-10">
           <div class="mt-5 lg:mt-0 relative flex-1 w-full lg:w-1/2">
-              <img src="{{ $product->image }}" alt="{{ $product->name }}"
+              <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                   class="w-full h-60 lg:h-80 object-cover rounded-lg">
               <button class="absolute top-2 right-2 text-blue-500">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current" viewBox="0 0 24 24">
@@ -62,7 +62,8 @@
               <p class="text-sm lg:text-md text-black opacity-70 mt-2">{{ $product->description }}</p>
               <hr class="my-4 opacity-20">
               <div class="flex items-center space-x-2">
-                  <img class="h-8 w-8 md:h-10 md:w-10 object-cover rounded-full" src="{{ $product->outlet->photo }}"
+                  <img class="h-8 w-8 md:h-10 md:w-10 object-cover rounded-full"
+                      src="{{ $product->outlet->photo ? asset('storage/' . $product->outlet->photo) : '/assets/images/placeholder.webp' }}"
                       alt="Outlet owner smiling in front of store counter with shelves of products in the background">
                   <h2 class="text-sm md:text-base font-medium">{{ $product->outlet->name }}</h2>
               </div>

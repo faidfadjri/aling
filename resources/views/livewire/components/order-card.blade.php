@@ -31,8 +31,8 @@
 
     <div class="flex flex-col items-start md:flex-row md:items-center md:justify-between">
         <div class="flex items-center gap-4 relative">
-            <img src="{{ $item->items[0]->product?->image ?? '/placeholder.jpg' }}" alt="product"
-                class="w-16 h-16 rounded-full object-cover z-20" />
+            <img src="{{ $item->items[0]->product?->image ? asset('storage/' . $item->items[0]->product?->image) : '/assets/images/placeholder.webp' }}"
+                alt="product" class="w-16 h-16 rounded-full object-cover z-20" />
             <div class="flex-1">
                 <div class="text-md font-semibold">{{ $item->items[0]->product?->name ?? 'Produk tidak tersedia' }}
                 </div>

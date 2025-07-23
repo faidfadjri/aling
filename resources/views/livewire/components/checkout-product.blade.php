@@ -1,7 +1,8 @@
 <div class="space-y-2 pb-28 bg-[#F5FBFF]">
     @foreach ($products as $product)
         <div class="bg-white p-4 rounded-xl shadow-sm flex gap-4">
-            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-20 h-20 object-cover rounded-lg">
+            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                class="w-20 h-20 object-cover rounded-lg">
             <div class="flex-1">
                 <h4 class="font-semibold">{{ $product->name }}</h4>
                 <p class="text-primary font-semibold mt-1">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
