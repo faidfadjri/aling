@@ -27,7 +27,7 @@ class ProductList extends Component
         $query = Product::query();
 
         if ($this->selectedCity) {
-            $query->whereHas('outlet', function ($q) {
+            $query->whereHas('outlet.village.district.regency', function ($q) {
                 $q->where('name', $this->selectedCity);
             });
         }
