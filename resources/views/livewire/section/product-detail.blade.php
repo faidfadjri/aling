@@ -36,7 +36,7 @@
                   </svg>
               </button>
           </div>
-          <div class="flex-1 py-4 px-4 lg:px-6">
+          <div class="w-full flex-1 py-4 px-4 lg:px-6">
               <div class="flex items-center space-x-2">
                   <span class="text-lg font-bold text-gray-800">{{ $product->name }}</span>
               </div>
