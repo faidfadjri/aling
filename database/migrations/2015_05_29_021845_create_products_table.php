@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignId('outlet_id')->constrained('outlets')->onDelete('cascade');
             $table->integer('stock')->unsigned()->default(0)->comment('min: 0');
             $table->decimal('price', 10, 2);
-            $table->integer('discount')->default(0)->comment('discount in %');
+            $table->integer('discount')->nullable()->default(0)->comment('discount in %');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

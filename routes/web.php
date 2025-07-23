@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Transactions\OrderController;
 use App\Http\Controllers\Transactions\ProductController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class, 'index'])->name('homepage');
-
 Route::prefix('product')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('product');
     Route::get('/detail/{productID}', [ProductController::class, 'detail'])->name('product.detail');

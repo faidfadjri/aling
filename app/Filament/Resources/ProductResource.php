@@ -79,7 +79,7 @@ class ProductResource extends Resource
                     ->image()
                     ->directory('products')
                     ->imagePreviewHeight('200')
-                    ->maxSize(2048)
+                    ->maxSize(2048)->disk('public')
                     ->required()
                     ->afterStateUpdated(function ($state, callable $set) {
                         $path = storage_path("app/public/{$state}");

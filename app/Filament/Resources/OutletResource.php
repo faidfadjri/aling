@@ -5,14 +5,19 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OutletResource\Pages;
 use App\Models\Outlet;
 use Filament\Facades\Filament;
-use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+
 
 class OutletResource extends Resource
 {
@@ -57,14 +62,14 @@ class OutletResource extends Resource
                 ->unique()
                 ->required(),
 
-            Forms\Components\TextInput::make('phone')
+            TextInput::make('phone')
                 ->label('Nomor Telepon')
                 ->required()
                 ->tel()
                 ->prefix('+62')
                 ->maxLength(15),
 
-            Forms\Components\TextInput::make('name')
+            TextInput::make('name')
                 ->label('Nama Outlet')
                 ->required()
                 ->maxLength(255),
@@ -72,6 +77,33 @@ class OutletResource extends Resource
             RichEditor::make('description')
                 ->label('Deskripsi')
                 ->required(),
+
+            TextInput::make('coordinates')
+                ->label('Koordinat Lokasi')
+                ->required(),
+
+            FileUpload::make('photo')
+                ->label('Foto Outlet')
+                ->image()
+                ->directory('outlet-photos')
+                ->maxSize(2048) // maksimal 2MB sebelum dikompres
+                ->getUploadedFileNameForStorageUsing(function ($file) {
+                    return (string) Str::uuid() . '.' . $file->getClientOriginalExtension();
+                })
+                ->afterStateUpdated(function ($state, callable $set) {
+                    if ($state && Storage::disk('public')->exists($state)) {
+                        $path = Storage::disk('public')->path($state);
+
+                        $image = Image::make($path)
+                            ->resize(800, null, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })
+                            ->encode(null, 75);
+
+                        file_put_contents($path, $image);
+                    }
+                }),
         ]);
     }
 
