@@ -23,6 +23,13 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($closestOutlet as $outlet)
                     <div class="bg-white border border-blue-100 rounded-2xl shadow-md hover:shadow-lg transition p-5">
+
+                        <div class="mb-5 shadow-sm mb-5 bg-body-tertiary rounded" style="height: 160px; width: 100%;">
+                            <img src="{{ $outlet->photo ? asset('storage/' . $outlet->photo) : '/assets/images/logo.png' }}"
+                                alt="foto outlet" class="h-full w-full"
+                                style="object-fit: {{ $outlet->photo ? 'cover' : 'contain' }};border-radius: 0.5em">
+                        </div>
+
                         <div class="flex items-start gap-4">
                             <div class="p-3 bg-blue-100 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none"

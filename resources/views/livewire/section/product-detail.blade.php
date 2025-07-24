@@ -1,29 +1,23 @@
-  @php
-      function formatWaNumber($number)
-      {
-          $number = preg_replace('/\D/', '', $number);
-
-          if (substr($number, 0, 1) === '0') {
-              $number = '62' . substr($number, 1);
-          }
-
-          if (substr($number, 0, 2) !== '62') {
-              $number = '62' . $number;
-          }
-
-          return $number;
-      }
-  @endphp
-
-
   <div>
       <div class="w-full bg-sky-700 flex items-center justify-between px-5 py-2">
           <p class="text-white font-semibold">Pesanan partai besar?</p>
 
-          <a href="https://wa.me/{{ formatWaNumber($product->outlet->user->hp) }}" target="_blank"
+          @php
+              $rawNumber = $product->outlet->user->hp;
+              $waNumber = preg_replace('/[^0-9]/', '', $rawNumber); // Hapus karakter non-angka
+
+              if (Str::startsWith($waNumber, '0')) {
+                  $waNumber = '62' . substr($waNumber, 1);
+              } elseif (Str::startsWith($waNumber, '+')) {
+                  $waNumber = substr($waNumber, 1); // Hapus "+"
+              }
+          @endphp
+
+          <a href="https://wa.me/{{ $waNumber }}" target="_blank"
               class="font-semibold bg-white text-sky-800 px-3 py-1 rounded-sm text-sm hover:bg-transparent hover:text-white border border-white hover:shadow duration-200">
               Hubungi Admin
           </a>
+
       </div>
       <div class="mx-auto px-5 rounded-lg flex flex-col lg:flex-row items-start shadow-sm overflow-hidden lg:mt-10">
           <div class="mt-5 lg:mt-0 relative flex-1 w-full lg:w-1/2">
