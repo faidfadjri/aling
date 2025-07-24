@@ -1,4 +1,4 @@
-<div class="sticky top-0 z-50 bg-white shadow-md">
+<div class="sticky top-0 z-50 bg-white shadow-md" style="z-index: 9999">
     <div class="bg-[#F5FBFF] px-4 py-2 lg:p-4 flex items-center sticky top-0 z-50">
         <div class="flex items-center justify-between w-full gap-2 lg:gap-3">
             @if ((isset($back) && $back) || (isset($title) && $title))
