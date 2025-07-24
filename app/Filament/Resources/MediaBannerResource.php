@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -30,11 +31,8 @@ class MediaBannerResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->nullable(),
+                Hidden::make('user_id')
+                    ->default(auth()->id()),
 
                 TextInput::make('title')->maxLength(255),
                 Textarea::make('description')->maxLength(1000),

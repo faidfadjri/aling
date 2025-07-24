@@ -9,6 +9,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 
 class MediaStoryResource extends Resource
@@ -42,11 +43,13 @@ class MediaStoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->sortable(),
-                Tables\Columns\TextColumn::make('content')
-                    ->limit(50)
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('is_expired')
+                ImageColumn::make('content')->disk('public')->height(60)->square()->label('Konten'),
+
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Is Active')
+                    ->getStateUsing(fn($record) => ! $record->is_expired)
                     ->boolean(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
