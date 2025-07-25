@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('photo')->nullable();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('coordinates');
             $table->unsignedBigInteger('village_id')->default(0);
             $table->bigInteger('phone')->nullable();

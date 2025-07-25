@@ -4,8 +4,9 @@
     flex flex-col items-start justify-between w-[160px] sm:w-[200px] md:w-[220px] lg:w-[220px] h-70">
 
         <div class="flex items-center justify-center w-full relative">
-            <img src="{{ $promo->image }}" alt="{{ $promo->name }}"
+            <img src="{{ asset('storage/' . $promo->image) }}" alt="{{ $promo->name }}"
                 class="w-full h-24 md:h-28 lg:w-full lg:h-35 object-cover mb-1 rounded-sm" />
+
             <div
                 class="text-xs lg:text-sm bg-red font-semibold text-white px-2 py-1 rounded w-fit absolute right-1 top-1">
                 {{ $promo->discount }}%

@@ -7,12 +7,22 @@ use App\Models\Order\Order;
 use App\Models\Outlet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    protected static function booted()
+    {
+        static::deleting(function ($product) {
+            if ($product->image && Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+        });
+    }
 
     public function category()
     {

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OutletResource\Pages;
 use App\Models\Outlet;
+use App\Models\Region\Village;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
@@ -46,21 +47,41 @@ class OutletResource extends Resource
 
             Select::make('village_id')
                 ->label('Desa/Kelurahan')
-                ->relationship(
-                    name: 'village',
-                    titleAttribute: 'name',
-                    modifyQueryUsing: fn($query) => $query->with('district.regency')
-                )
-                ->getOptionLabelFromRecordUsing(function ($record) {
-                    $village = $record->name;
-                    $district = $record->district->name ?? '-';
-                    $regency = $record->district->regency->name ?? '-';
-
-                    return "{$village} - {$district} - {$regency}";
-                })
                 ->searchable()
-                ->unique()
+                ->getSearchResultsUsing(function (string $search) {
+                    return Village::query()
+                        ->with('district.regency')
+                        ->where('name', 'like', "%{$search}%")
+                        ->orWhereHas(
+                            'district',
+                            fn($q) =>
+                            $q->where('name', 'like', "%{$search}%")
+                                ->orWhereHas(
+                                    'regency',
+                                    fn($qr) =>
+                                    $qr->where('name', 'like', "%{$search}%")
+                                )
+                        )
+                        ->limit(50)
+                        ->get()
+                        ->mapWithKeys(function ($village) {
+                            $villageName = $village->name;
+                            $districtName = $village->district->name ?? '-';
+                            $regencyName = $village->district->regency->name ?? '-';
+                            return [$village->id => "{$villageName} - {$districtName} - {$regencyName}"];
+                        })
+                        ->toArray();
+                })
+                ->getOptionLabelUsing(function ($value) {
+                    $village = Village::with('district.regency')->find($value);
+                    if (!$village) return $value;
+                    $villageName = $village->name;
+                    $districtName = $village->district->name ?? '-';
+                    $regencyName = $village->district->regency->name ?? '-';
+                    return "{$villageName} - {$districtName} - {$regencyName}";
+                })
                 ->required(),
+
 
             TextInput::make('phone')
                 ->label('Nomor Telepon')
@@ -80,7 +101,8 @@ class OutletResource extends Resource
 
             TextInput::make('coordinates')
                 ->label('Koordinat Lokasi')
-                ->required(),
+                ->required()
+                ->default(fn($record) => $record?->coordinates),
 
             FileUpload::make('photo')
                 ->label('Foto Outlet')
@@ -116,13 +138,22 @@ class OutletResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('description')
-                    ->label('Deskripsi')
-                    ->limit(50),
+                Tables\Columns\TextColumn::make('location')
+                    ->label('Lokasi')
+                    ->getStateUsing(function ($record) {
+                        $village = $record->village->name ?? '-';
+                        $district = $record->village->district->name ?? '-';
+                        $regency = $record->village->district->regency->name ?? '-';
 
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('Nama User')
-                    ->sortable(),
+                        return "{$regency}, {$district}, {$village}";
+                    })
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('phone')
+                    ->label('Telepon')
+                    ->getStateUsing(fn($record) => '+62' . ltrim($record->phone, '0'))
+                    ->copyable()
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('products_count')
                     ->label('Jumlah Produk')

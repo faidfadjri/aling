@@ -1,33 +1,27 @@
-  @php
-      function formatWaNumber($number)
-      {
-          $number = preg_replace('/\D/', '', $number);
-
-          if (substr($number, 0, 1) === '0') {
-              $number = '62' . substr($number, 1);
-          }
-
-          if (substr($number, 0, 2) !== '62') {
-              $number = '62' . $number;
-          }
-
-          return $number;
-      }
-  @endphp
-
-
   <div>
       <div class="w-full bg-sky-700 flex items-center justify-between px-5 py-2">
           <p class="text-white font-semibold">Pesanan partai besar?</p>
 
-          <a href="https://wa.me/{{ formatWaNumber($product->outlet->user->hp) }}" target="_blank"
+          @php
+              $rawNumber = $product->outlet->user->hp;
+              $waNumber = preg_replace('/[^0-9]/', '', $rawNumber); // Hapus karakter non-angka
+
+              if (Str::startsWith($waNumber, '0')) {
+                  $waNumber = '62' . substr($waNumber, 1);
+              } elseif (Str::startsWith($waNumber, '+')) {
+                  $waNumber = substr($waNumber, 1); // Hapus "+"
+              }
+          @endphp
+
+          <a href="https://wa.me/{{ $waNumber }}" target="_blank"
               class="font-semibold bg-white text-sky-800 px-3 py-1 rounded-sm text-sm hover:bg-transparent hover:text-white border border-white hover:shadow duration-200">
               Hubungi Admin
           </a>
+
       </div>
-      <div class="mx-auto px-5 rounded-lg flex flex-col lg:flex-row items-center shadow-sm overflow-hidden lg:mt-10">
+      <div class="mx-auto px-5 rounded-lg flex flex-col lg:flex-row items-start shadow-sm overflow-hidden lg:mt-10">
           <div class="mt-5 lg:mt-0 relative flex-1 w-full lg:w-1/2">
-              <img src="{{ $product->image }}" alt="{{ $product->name }}"
+              <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                   class="w-full h-60 lg:h-80 object-cover rounded-lg">
               <button class="absolute top-2 right-2 text-blue-500">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 fill-current" viewBox="0 0 24 24">
@@ -36,7 +30,7 @@
                   </svg>
               </button>
           </div>
-          <div class="flex-1 py-4 px-4 lg:px-6">
+          <div class="w-full flex-1 py-4 px-4 lg:px-6">
               <div class="flex items-center space-x-2">
                   <span class="text-lg font-bold text-gray-800">{{ $product->name }}</span>
               </div>
@@ -59,10 +53,11 @@
                       {{ $product->orders->count() ?? 0 }} terjual
                   </span>
               </p>
-              <p class="text-sm lg:text-md text-black opacity-70 mt-2">{{ $product->description }}</p>
+              <p class="text-sm lg:text-md text-black opacity-70 mt-2">{!! $product->description !!}</p>
               <hr class="my-4 opacity-20">
               <div class="flex items-center space-x-2">
-                  <img class="h-8 w-8 md:h-10 md:w-10 object-cover rounded-full" src="{{ $product->outlet->photo }}"
+                  <img class="h-8 w-8 md:h-10 md:w-10 object-cover rounded-full"
+                      src="{{ $product->outlet->photo ? asset('storage/' . $product->outlet->photo) : '/assets/images/placeholder.webp' }}"
                       alt="Outlet owner smiling in front of store counter with shelves of products in the background">
                   <h2 class="text-sm md:text-base font-medium">{{ $product->outlet->name }}</h2>
               </div>

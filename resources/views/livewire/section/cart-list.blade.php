@@ -15,8 +15,8 @@
                         </div>
 
                         <div class="flex items-center">
-                            <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}"
-                                class="w-16 h-16 rounded object-cover mr-4">
+                            <img src="{{ $item->product->image ? asset('storage/' . $item->product->image) : '/assets/images/placeholder.webp' }}"
+                                alt="{{ $item->product->name }}" class="w-16 h-16 rounded object-cover mr-4">
 
                             <div class="flex-1">
                                 <p class="text-sm text-gray-700">
