@@ -2,7 +2,12 @@
 
 @section('content')
     <livewire:components.appbar />
-    <section class="relative w-full px-0 lg:px-16">
+
+    <section class="relative w-full px-0 pt-5 lg:px-16">
+        @livewire('section.stories')
+    </section>
+
+    <section class="relative w-full px-0 pt-5 lg:px-16">
         <div id="banner-carousel" class="relative">
             <div class="flex transition-transform duration-700 ease-in-out" style="transform: translateX(0%);">
                 <div class="w-full px-4">
