@@ -11,13 +11,14 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class MediaStoryResource extends Resource
 {
     protected static ?string $model = Story::class;
 
-    protected static ?string $navigationIcon  = 'heroicon-o-photo';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationIcon = 'heroicon-o-photo';
+    protected static ?string $navigationGroup = 'Kelola Konten';
 
     public static function form(Form $form): Form
     {
@@ -33,8 +34,13 @@ class MediaStoryResource extends Resource
                 ->preserveFilenames()
                 ->imagePreviewHeight('250')
                 ->downloadable()
-                ->openable(),
-
+                ->openable()
+                ->deleteUploadedFileUsing(function (string $file) {
+                    // Custom handler untuk menghapus file
+                    if (Storage::disk('public')->exists($file)) {
+                        Storage::disk('public')->delete($file);
+                    }
+                }),
         ]);
     }
 
@@ -43,11 +49,15 @@ class MediaStoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->sortable(),
-                ImageColumn::make('content')->disk('public')->height(60)->square()->label('Konten'),
+                ImageColumn::make('content')
+                    ->disk('public')
+                    ->height(60)
+                    ->square()
+                    ->label('Konten'),
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Is Active')
-                    ->getStateUsing(fn($record) => ! $record->is_expired)
+                    ->getStateUsing(fn($record) => !$record->is_expired)
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')
@@ -68,7 +78,15 @@ class MediaStoryResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->before(function ($records) {
+                            // Hapus semua file sebelum bulk delete
+                            foreach ($records as $record) {
+                                if ($record->content && Storage::disk('public')->exists($record->content)) {
+                                    Storage::disk('public')->delete($record->content);
+                                }
+                            }
+                        }),
                 ]),
             ]);
     }

@@ -18,14 +18,15 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Support\Facades\Storage;
 
 class MediaBannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
 
     protected static ?string $navigationLabel = 'Banner';
-    protected static ?string $navigationIcon = 'heroicon-o-photo';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationIcon  = 'heroicon-o-photo';
+    protected static ?string $navigationGroup = 'Kelola Konten';
 
     public static function form(Form $form): Form
     {
@@ -38,19 +39,61 @@ class MediaBannerResource extends Resource
                 Textarea::make('description')->maxLength(1000),
 
                 FileUpload::make('content')
+                    ->label('Banner Image')
+                    ->helperText('Upload gambar banner dengan resolusi minimal 1000x400 pixel untuk kualitas terbaik.')
                     ->disk('public')
                     ->directory('media-banners')
                     ->required()
                     ->preserveFilenames()
                     ->visibility('public')
-                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set) {
-                        if ($state) {
-                            $path = storage_path("app/public/{$state}");
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(5120) // 5MB
+                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set, \Filament\Forms\Get $get, $record) {
+                        // Handle jika $state adalah array, ambil elemen pertama
+                        $fileName = is_array($state) ? ($state[0] ?? null) : $state;
+
+                        // Hapus file lama jika ada record (update mode) dan file berubah
+                        if ($record && $record->content && $record->content !== $fileName) {
+                            if (Storage::disk('public')->exists($record->content)) {
+                                Storage::disk('public')->delete($record->content);
+                            }
+                        }
+
+                        if ($fileName) {
+                            $path = storage_path("app/public/{$fileName}");
                             if (file_exists($path)) {
                                 $mime = mime_content_type($path);
                                 $set('mime_type', $mime);
+
+                                // Get image dimensions
+                                $imageInfo = getimagesize($path);
+                                if ($imageInfo) {
+                                    $width = $imageInfo[0];
+                                    $height = $imageInfo[1];
+                                    $set('image_width', $width);
+                                    $set('image_height', $height);
+                                    $set('image_resolution', "{$width}x{$height}");
+                                }
                             }
                         }
+                    })
+                    ->hint(function ($state) {
+                        // Handle jika $state adalah array, ambil elemen pertama
+                        $fileName = is_array($state) ? ($state[0] ?? null) : $state;
+
+                        if ($fileName) {
+                            $path = storage_path("app/public/{$fileName}");
+                            if (file_exists($path)) {
+                                $imageInfo = getimagesize($path);
+                                if ($imageInfo) {
+                                    $width = $imageInfo[0];
+                                    $height = $imageInfo[1];
+                                    $fileSize = number_format(filesize($path) / 1024, 2);
+                                    return "Resolusi: {$width}x{$height} px | Ukuran: {$fileSize} KB";
+                                }
+                            }
+                        }
+                        return null;
                     }),
 
                 Toggle::make('is_active')->default(true),
@@ -76,6 +119,10 @@ class MediaBannerResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+            ])->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ])
             ->defaultSort('created_at', 'desc');
     }

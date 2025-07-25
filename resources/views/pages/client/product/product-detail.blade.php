@@ -17,7 +17,7 @@
 
         <div class="px-5 mt-8">
             <h3 class="font-semibold text-lg text-gray-800 mb-4">
-                Outlet di {{ $product->outlet->village->district->regency->name }}
+                Outlet di {{ $product?->outlet?->village?->district?->regency?->name }}
             </h3>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

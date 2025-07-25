@@ -22,7 +22,7 @@ class ProductController extends Controller
     public function detail($productID)
     {
         $product        = Product::find($productID);
-        $city           = $product->outlet->village->district->regency->name;
+        $city           = $product?->outlet?->village?->district?->regency?->name;
 
         $closestOutlet  = Outlet::whereHas("village.district.regency", function ($query) use ($city) {
             $query->where("name", $city);
