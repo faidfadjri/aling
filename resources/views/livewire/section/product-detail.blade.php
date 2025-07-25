@@ -68,7 +68,7 @@
               </div>
           </div>
 
-          <div class="z-90 w-full mt-2 fixed lg:relative lg:flex-1 flex justify-center bottom-0">
+          <div class="z-90 w-full mt-2 fixed lg:relative lg:flex-1 flex justify-center bottom-0 left-0">
               <div
                   class="w-full lg:w-11/12 bg-white lg:rounded-lg shadow-sm border-gray-200 p-5 flex lg:flex-col lg:items-center gap-2">
                   <button
