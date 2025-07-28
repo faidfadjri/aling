@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\Order\OrderOutlet;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
+use App\Repositories\Product\ProductRepositoryImpl;
 use App\Static\OrderStatus;
 use Filament\Pages\Page;
 
@@ -32,7 +33,9 @@ class Dashboard extends Page
         $this->confirmedOrders  = OrderOutlet::where('status', OrderStatus::IN_PROGRESS)->count();
         $this->deliveredOrders  = OrderOutlet::where('status', OrderStatus::COMPLETED)->count();
 
-        $this->totalProducts    = Product::count();
+        $productRepository      = new ProductRepositoryImpl();
+
+        $this->totalProducts    = $productRepository->getCount();
         $this->totalCategories  = ProductCategory::count();
     }
 }

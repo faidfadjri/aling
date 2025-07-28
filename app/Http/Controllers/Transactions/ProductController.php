@@ -5,11 +5,20 @@ namespace App\Http\Controllers\Transactions;
 use App\Http\Controllers\Controller;
 use App\Models\Outlet;
 use App\Models\Product\Product;
+use App\Repositories\Product\ProductRepository;
+use App\Repositories\Product\ProductRepositoryImpl;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    function index(Request $request)
+    protected ProductRepository $productRepository;
+
+    public function __construct(ProductRepositoryImpl $productRepositoryImpl)
+    {
+        $this->productRepository = $productRepositoryImpl;
+    }
+
+    public function index(Request $request)
     {
         $keyword = $request->input('search');
 
@@ -21,7 +30,7 @@ class ProductController extends Controller
 
     public function detail($productID)
     {
-        $product        = Product::find($productID);
+        $product        = $this->productRepository->get($productID);
         $city           = $product?->outlet?->village?->district?->regency?->name;
 
         $closestOutlet  = Outlet::whereHas("village.district.regency", function ($query) use ($city) {

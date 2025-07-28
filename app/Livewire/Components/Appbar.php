@@ -4,11 +4,11 @@ namespace App\Livewire\Components;
 
 use App\Models\Order\Cart;
 use App\Models\Order\Order;
-use App\Models\Product\Product;
+use App\Repositories\Product\ProductRepository;
+use App\Repositories\Product\ProductRepositoryImpl;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -28,6 +28,7 @@ class Appbar extends Component
     public function mount()
     {
         $user = Auth::user();
+
         if ($user) {
             $cart = Cart::where("user_id", $user->id)->first();
             $cartCount = $cart ? $cart->items->count() : 0;
@@ -67,6 +68,10 @@ class Appbar extends Component
 
     public function doSearch()
     {
+
+
+        $productRepository = new ProductRepositoryImpl();
+
         if (!empty($this->search)) {
 
             $keyword = $this->search;
@@ -75,7 +80,7 @@ class Appbar extends Component
             if ($this->searchOrder) {
                 $result  = Order::where("order_number", "like", "%$keyword%")->limit(6)->get();
             } else {
-                $result  = Product::where("name", "like", "%$keyword%")->limit(6)->get();
+                $result  = $productRepository->searchByName($this->keyword);
             }
 
             $this->results = $result;
