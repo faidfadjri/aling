@@ -6,6 +6,7 @@ use App\Models\Order\CartItem;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
 use App\Repositories\Cart\CartRepositoryImpl;
+use App\Repositories\Order\OrderRepositoryImpl;
 use App\Repositories\Product\ProductRepositoryImpl;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -74,7 +75,7 @@ class CheckoutProduct extends Component
     {
         $datePrefix = Carbon::now()->format('Ymd');
 
-        $orderCountToday = Order::whereDate('created_at', Carbon::today())->count() + 1;
+        $orderCountToday = OrderRepositoryImpl::getCountByDate() + 1;
         $increment       = str_pad($orderCountToday, 5, '0', STR_PAD_LEFT);
 
         return "INV-{$datePrefix}-{$increment}";
@@ -90,7 +91,7 @@ class CheckoutProduct extends Component
         $totalHarga   = $this->calculateTotalHarga();
         $totalTagihan = $totalHarga + $this->biayaAdmin;
 
-        $order = Order::create([
+        $order = OrderRepositoryImpl::save([
             'order_number' => $this->generateOrderNumber(),
             'user_id'      => auth()->id(),
             'address_id'   => $this->address->id,

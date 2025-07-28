@@ -6,6 +6,7 @@ use App\Models\Order\Cart;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
 use App\Repositories\Cart\CartRepositoryImpl;
+use App\Repositories\Order\OrderRepositoryImpl;
 use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryImpl;
 use Illuminate\Database\Eloquent\Collection;
@@ -76,7 +77,7 @@ class Appbar extends Component
 
             $result = [];
             if ($this->searchOrder) {
-                $result  = Order::where("order_number", "like", "%$keyword%")->limit(6)->get();
+                $result  = OrderRepositoryImpl::searchByInvoice($keyword);
             } else {
                 $result  = ProductRepositoryImpl::searchByName($keyword);
             }
