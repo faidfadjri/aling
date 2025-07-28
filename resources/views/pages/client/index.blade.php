@@ -13,20 +13,13 @@
                 <div class="w-full px-4">
                     <div class="swiper mySwiper">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <img src="/assets/images/banner/banner-1.webp" alt="banner"
-                                    class="rounded-xl object-cover w-full h-40 md:h-64" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/assets/images/banner/banner-2.webp" alt="banner"
-                                    class="rounded-xl object-cover w-full h-40 md:h-64" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="/assets/images/banner/banner-3.webp" alt="banner"
-                                    class="rounded-xl object-cover w-full h-40 md:h-64" />
-                            </div>
+                            @foreach ($banners as $banner)
+                                <div class="swiper-slide">
+                                    <img src="{{ asset('storage/' . $banner->content) }}" alt="{{ $banner->title }}"
+                                        class="rounded-xl object-cover w-full h-40 md:h-64" />
+                                </div>
+                            @endforeach
                         </div>
-
                         <div class="swiper-pagination mt-4"></div>
                     </div>
                 </div>
