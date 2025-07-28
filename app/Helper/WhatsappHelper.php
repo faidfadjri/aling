@@ -1,7 +1,10 @@
 <?php
 
-if (!function_exists('formatWaLink')) {
-    function formatWaLink($phone)
+namespace App\Helper;
+
+class WhatsappHelper
+{
+    public static function formatWaLink($phone)
     {
         $phone = preg_replace('/\D+/', '', $phone);
 

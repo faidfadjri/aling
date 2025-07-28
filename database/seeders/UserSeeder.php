@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Faid Fadjri',
                 'username' => 'faidfadjri',
-                'password' => Hash::make('123'),
+                'password' => Hash::make('password'),
                 'hp' => '08123456789',
                 'role' => 'user',
                 'status' => 1,
