@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Models\Order\CartItem;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
+use App\Repositories\Cart\CartRepositoryImpl;
 use App\Repositories\Product\ProductRepositoryImpl;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -36,9 +37,7 @@ class CheckoutProduct extends Component
         } else {
             $this->mode = 'multiple';
 
-            $cartItems = CartItem::with('product')
-                ->whereIn('id', $cartSelectedIDs)
-                ->get();
+            $cartItems  = CartRepositoryImpl::getItemWithIds($this->cartSelectedIDs);
 
             $validCartItems = $cartItems->filter(function ($item) {
                 return $item->product !== null;
@@ -122,7 +121,7 @@ class CheckoutProduct extends Component
         }
 
         if ($this->mode === 'multiple') {
-            CartItem::whereIn('id', $this->cartSelectedIDs)->delete();
+            CartRepositoryImpl::deleteItemWithIds($this->cartSelectedIDs);
         }
 
         session()->forget('checkout_cart_item_ids');

@@ -5,6 +5,7 @@ namespace App\Livewire\Section;
 use App\Models\Order\Cart;
 use App\Models\Order\CartItem;
 use App\Models\Product\Product;
+use App\Repositories\Cart\CartRepositoryImpl;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
@@ -17,12 +18,12 @@ class CartList extends Component
 
     public function mount()
     {
-        $this->cart = Cart::with('items.product.outlet')->where('user_id', Auth::id())->first();
+        $this->cart = CartRepositoryImpl::getByUserId(Auth::id());
     }
 
     public function increase($itemId)
     {
-        $item = CartItem::find($itemId);
+        $item = CartRepositoryImpl::getItem($itemId);
         if ($item) {
             $item->quantity++;
             $item->save();
@@ -32,7 +33,7 @@ class CartList extends Component
 
     public function decrease($itemId)
     {
-        $item = CartItem::find($itemId);
+        $item = CartRepositoryImpl::getItem($itemId);
         if ($item && $item->quantity > 1) {
             $item->quantity--;
             $item->save();
@@ -51,14 +52,14 @@ class CartList extends Component
 
     public function deleteSelected()
     {
-        CartItem::whereIn('id', $this->selectedItems)->delete();
+        CartRepositoryImpl::deleteItemWithIds($this->selectedItems);
         $this->selectedItems = [];
         $this->refreshCart();
     }
 
     public function orderSelected()
     {
-        $items = CartItem::whereIn('id', $this->selectedItems)->pluck('id')->toArray();
+        $items = CartRepositoryImpl::getItemWithIds($this->selectedItems)->pluck('id')->toArray();
 
         Cookie::queue(Cookie::forget('checkout_cart_item_ids'));
         Cookie::queue(Cookie::make('checkout_cart_item_ids', json_encode($items), 60));
@@ -67,7 +68,7 @@ class CartList extends Component
 
     private function refreshCart()
     {
-        $this->cart = Cart::with('items.product.outlet')->where('user_id', Auth::id())->first();
+        $this->cart = CartRepositoryImpl::getByUserId(Auth::id());
         $this->dispatch('refresh');
     }
 

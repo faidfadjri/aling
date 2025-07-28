@@ -4,6 +4,7 @@ namespace App\Livewire\Section;
 
 use App\Models\Order\Cart;
 use App\Models\Order\CartItem;
+use App\Repositories\Cart\CartRepositoryImpl;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -21,22 +22,20 @@ class ProductDetail extends Component
     {
         $user        = Auth::user();
         if (!$user) return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu');
-        $cart        = Cart::where('user_id', $user->id)->first();
+        $cart        = CartRepositoryImpl::getByUserId($user->id);
         if (!$cart) {
-            $cart = Cart::create([
+            $cart = CartRepositoryImpl::save([
                 'user_id' => $user->id
             ]);
         }
 
-        $existingCartItem = CartItem::where('cart_id', $cart->id)
-            ->where('product_id', $productID)
-            ->first();
+        $existingCartItem = CartRepositoryImpl::getValidatedItem($cart->id, $productID);
 
         if ($existingCartItem) {
             $existingCartItem->quantity += 1;
             $existingCartItem->save();
         } else {
-            $cartItem = CartItem::create([
+            $cartItem = CartRepositoryImpl::saveItem([
                 'cart_id'    => $cart->id,
                 'product_id' => $productID,
                 'quantity'   => 1

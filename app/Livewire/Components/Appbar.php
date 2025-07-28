@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Models\Order\Cart;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
+use App\Repositories\Cart\CartRepositoryImpl;
 use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryImpl;
 use Illuminate\Database\Eloquent\Collection;
@@ -31,7 +32,7 @@ class Appbar extends Component
     {
         $user = Auth::user();
         if ($user) {
-            $cart = Cart::where("user_id", $user->id)->first();
+            $cart = CartRepositoryImpl::getByUserId($user->id);
             $cartCount = $cart ? $cart->items->count() : 0;
             $this->cartCount = $cartCount;
         }
@@ -62,7 +63,7 @@ class Appbar extends Component
     {
         $user = Auth::user();
         if ($user) {
-            $cart = Cart::where("user_id", $user->id)->first();
+            $cart = CartRepositoryImpl::getByUserId($user->id);
             $this->cartCount = $cart ? $cart->items->count() : 0;
         }
     }
