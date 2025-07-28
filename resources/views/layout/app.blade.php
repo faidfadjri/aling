@@ -14,7 +14,7 @@
     <meta property="og:title" content="Aling - Jual Ayam Potong Keliling | Ayam Segar, Halal & Terpercaya">
     <meta property="og:description"
         content="Pesan ayam potong keliling segar, halal, dan terpercaya dari Aling. Cocok untuk kebutuhan rumah tangga, restoran, dan usaha.">
-    <meta property="og:image" content="/images/logo.webp">
+    <meta property="og:image" content="/images/logo.png">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
 
@@ -23,11 +23,11 @@
     <meta name="twitter:title" content="Aling - Jual Ayam Potong Keliling | Ayam Segar, Halal & Terpercaya">
     <meta name="twitter:description"
         content="Pesan ayam potong keliling segar, halal, dan terpercaya dari Aling. Cocok untuk kebutuhan rumah tangga, restoran, dan usaha.">
-    <meta name="twitter:image" content="/images/logo.webp">
+    <meta name="twitter:image" content="/images/logo.png">
 
     <!-- Favicons -->
-    <link href="/assets/images/logo.webp" rel="ico">
-    <link href="/assets/images/logo.webp" rel="apple-touch-icon">
+    <link href="/assets/images/logo.png" rel="ico">
+    <link href="/assets/images/logo.png" rel="apple-touch-icon">
 
     <link rel="manifest" href="/manifest.webmanifest">
     <meta name="theme-color" content="#ffffff">
