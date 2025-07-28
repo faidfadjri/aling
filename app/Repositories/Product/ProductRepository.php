@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 interface ProductRepository
 {
     function getCount(): ?int;
-    function searchByName(?string $keyword = '', ?int $limit = 6);
+    static function searchByName(?string $keyword = '', ?int $limit = 6);
     function get(int $productID): array|Product|null;
     function getDiscountedProducts(int $limit = 10): array|Collection|null;
 }

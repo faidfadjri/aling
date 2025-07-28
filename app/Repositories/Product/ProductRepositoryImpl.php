@@ -19,9 +19,9 @@ class ProductRepositoryImpl implements ProductRepository
         return $this->model->count();
     }
 
-    public function searchByName(?string $keyword = '', ?int $limit = 6)
+    static function searchByName(?string $keyword = '', ?int $limit = 6)
     {
-        return $this->model->where("name", "like", "%$keyword%")->limit($limit)->get();
+        return Product::where("name", "like", "%$keyword%")->limit($limit)->get();
     }
 
     public function get(int $productID): ?Product
