@@ -3,6 +3,8 @@
 namespace App\Livewire\Section;
 
 use App\Models\Media\Story;
+use App\Repositories\Stories\StoryRepository;
+use App\Repositories\Stories\StoryRepositoryImpl;
 use Livewire\Component;
 
 class Stories extends Component
@@ -18,15 +20,7 @@ class Stories extends Component
 
     public function loadStories()
     {
-        $this->stories = Story::with('user')
-            ->active()
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->filter(function ($story) {
-                return !$story->checkExpired();
-            })
-            ->values()
-            ->toArray();
+        $this->stories = StoryRepositoryImpl::getActiveStories();
     }
 
     public function openStory($index)
