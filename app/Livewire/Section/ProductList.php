@@ -4,6 +4,7 @@ namespace App\Livewire\Section;
 
 use App\Models\Outlet;
 use App\Models\Product\Product;
+use App\Repositories\Product\ProductRepositoryImpl;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -24,18 +25,7 @@ class ProductList extends Component
 
     public function render()
     {
-        $query = Product::query();
-
-        if ($this->selectedCity) {
-            $query->whereHas('outlet.village.district.regency', function ($q) {
-                $q->where('name', $this->selectedCity);
-            });
-        }
-
-        if ($this->search && $this->search != '') {
-            $query->where('name', 'like', "%$this->search%");
-        }
-        $query->where('status', true);
+        $products = ProductRepositoryImpl::getPagination($this->search, $this->selectedCity, $this->perPage);
 
         $this->cities = Outlet::with('village.district.regency')
             ->get()
@@ -45,7 +35,7 @@ class ProductList extends Component
             ->toArray();
 
         return view('livewire.section.product-list', [
-            'products' => $query->paginate($this->perPage),
+            'products' => $products,
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Livewire\Components;
 use App\Models\Order\CartItem;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
+use App\Repositories\Product\ProductRepositoryImpl;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -29,7 +30,7 @@ class CheckoutProduct extends Component
         if ($productID) {
             $this->mode = 'single';
             $this->productID = $productID;
-            $product = Product::findOrFail($productID);
+            $product = ProductRepositoryImpl::get($productID);
             $this->products = collect([$product]);
             $this->quantities[$product->id] = 1;
         } else {
