@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Components;
 
+use App\Helper\OrderHelper;
 use App\Models\Order\CartItem;
 use App\Models\Order\Order;
 use App\Models\Product\Product;
@@ -71,16 +72,6 @@ class CheckoutProduct extends Component
         });
     }
 
-    public function generateOrderNumber()
-    {
-        $datePrefix = Carbon::now()->format('Ymd');
-
-        $orderCountToday = OrderRepositoryImpl::getCountByDate() + 1;
-        $increment       = str_pad($orderCountToday, 5, '0', STR_PAD_LEFT);
-
-        return "INV-{$datePrefix}-{$increment}";
-    }
-
     public function proceedOrder()
     {
         $this->validate([
@@ -92,7 +83,7 @@ class CheckoutProduct extends Component
         $totalTagihan = $totalHarga + $this->biayaAdmin;
 
         $order = OrderRepositoryImpl::save([
-            'order_number' => $this->generateOrderNumber(),
+            'order_number' => OrderHelper::generateOrderNumber(),
             'user_id'      => auth()->id(),
             'address_id'   => $this->address->id,
             'total_price'  => $totalTagihan,
