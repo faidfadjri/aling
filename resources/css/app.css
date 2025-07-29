@@ -5,7 +5,7 @@ body::before {
     position: fixed;
     top: 50%;
     left: 50%;
-    font-size: 15rem;
+    font-size: 10rem;
     font-weight: bold;
     color: rgba(255, 0, 0, 0.08); /* lebih soft */
     z-index: 9999;
