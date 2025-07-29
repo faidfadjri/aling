@@ -1,5 +1,19 @@
 @import "tailwindcss";
 
+body::before {
+    content: "DEMO";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    font-size: 15rem;
+    font-weight: bold;
+    color: rgba(255, 0, 0, 0.08); /* lebih soft */
+    z-index: 9999;
+    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    white-space: nowrap;
+}
+
 div.fi-ta-content {
     @apply h-screen;
 }
